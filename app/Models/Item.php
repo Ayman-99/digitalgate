@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Item extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'value',
+        'activated'
+    ];
+
+    public function items(){
+        return $this->belongsTo('App\Models\Product');
+    }
 }
