@@ -1,65 +1,94 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{asset('css/bootstrap-reboot.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-grid.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/magnific-popup.css')}}">
+    <link rel="stylesheet" href="{{asset('css/nouislider.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/jquery.mCustomScrollbar.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/paymentfont.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/main.css')}}">
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="{{asset('icon/favicon-32x32.png')}}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{asset('icon/favicon-32x32.png')}}">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Digital Gate">
+    <title>TEMP</title>
+</head>
+<body>
+<div class="sign section--full-bg" data-bg="{{asset("img/bg2.jpg")}}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- authorization form -->
+                    <form method="POST" action="{{ route('password.update') }}" class="sign__form">
                         @csrf
-
+                        <a class="sign__logo" style="color:#007bff">
+                            {{ __('Reset Password') }}
+                        </a>
                         <input type="hidden" name="token" value="{{ $token }}">
+                        <div class="sign__group">
+                            <label for="email"
+                                   class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
+                            <input id="email" type="email" class="sign__input @error('email') is-invalid @enderror"
+                                   name="email" value="{{ $email ?? old('email') }}" style="color:#fff" required autocomplete="email"
+                                   autofocus>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
-                            </div>
+                            @enderror
                         </div>
+                        <div class="sign__group">
+                            <label for="password"
+                                   class="col-md-4 col-form-label text-md-right" style="color:#fff">{{ __('Password') }}</label>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <input id="password" type="password"
+                                   class="sign__input @error('password') is-invalid @enderror" name="password"
+                                   required autocomplete="new-password" >
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                            @error('password')
+                            <span class="invalid-feedback" role="alert" style="color:red">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
-                            </div>
+                            @enderror
+                        </div>
+                        <div class="sign__group">
+                            <label for="password-confirm"
+                                   class="col-md-4 col-form-label text-md-right" style="color:#fff">{{ __('Confirm') }}</label>
+
+                            <input id="password-confirm" type="password" class="sign__input"
+                                   name="password_confirmation" required autocomplete="new-password">
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
+                        <button type="submit" class="sign__btn">
+                            {{ __('Reset Password') }}
+                        </button>
                     </form>
+                    <!-- end authorization form -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection
+
+<!-- JS -->
+<script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('js/owl.carousel.min.js')}}"></script>
+<script src="{{asset('js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('js/wNumb.js')}}"></script>
+<script src="{{asset('js/nouislider.min.js')}}"></script>
+<script src="{{asset('js/jquery.mousewheel.min.js')}}"></script>
+<script src="{{asset('js/jquery.mCustomScrollbar.min.js')}}"></script>
+<script src="{{asset('js/main.js')}}"></script>
+</body>
+</html>

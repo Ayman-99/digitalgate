@@ -1,73 +1,91 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{asset('css/bootstrap-reboot.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-grid.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/magnific-popup.css')}}">
+    <link rel="stylesheet" href="{{asset('css/nouislider.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/jquery.mCustomScrollbar.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/paymentfont.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/main.css')}}">
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="{{asset('icon/favicon-32x32.png')}}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{asset('icon/favicon-32x32.png')}}">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Digital Gate">
+    <title>TEMP</title>
+</head>
+<body>
+<div class="sign section--full-bg" data-bg="{{asset("img/bg2.jpg")}}">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="sign__content">
+                    <!-- authorization form -->
+                    <form method="POST" action="{{ route('login') }}" class="sign__form">
                         @csrf
+                        <a class="sign__logo" style="color:#007bff">
+                            {{ __('Login') }}
+                        </a>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                        <div class="sign__group">
+                            <label for="email" class="col-md-4 col-form-label text-md-right"
+                                   style="color:#fff">{{ __('E-mail') }}</label>
+                            <input id="email" type="email"
+                                   class="sign__input @error('email') is-invalid @enderror" name="email"
+                                   value="{{ old('email') }}" required autocomplete="email">
+                            @error('email')
+                            <span class="invalid-feedback" role="alert" style="color:red;">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
-                            </div>
+                            @enderror
                         </div>
+                        <div class="sign__group">
+                            <label for="password" class="col-md-4 col-form-label text-md-right"
+                                   style="color:#fff">{{ __('Password') }}</label>
+                            <input id="password" type="password"
+                                   class="sign__input @error('password') is-invalid @enderror" name="password"
+                                   required autocomplete="new-password">
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                            @error('password')
+                            <span class="invalid-feedback" role="alert" style="color:red;">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                @enderror
-                            </div>
+                            @enderror
                         </div>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <button class="sign__btn" type="submit">{{ __('Login') }}</button>
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        <span class="sign__text">Don't have account? <a href="{{route("register")}}">Sign up!</a></span>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
+                        @if (Route::has('password.request'))
+                            <a class="sign__text" href="{{ route('password.request') }}">
+                                {{ __('Forgot Your Password?') }}
+                            </a>
+                        @endif
                     </form>
+                    <!-- end authorization form -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection
+
+<!-- JS -->
+<script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
+<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('js/owl.carousel.min.js')}}"></script>
+<script src="{{asset('js/jquery.magnific-popup.min.js')}}"></script>
+<script src="{{asset('js/wNumb.js')}}"></script>
+<script src="{{asset('js/nouislider.min.js')}}"></script>
+<script src="{{asset('js/jquery.mousewheel.min.js')}}"></script>
+<script src="{{asset('js/jquery.mCustomScrollbar.min.js')}}"></script>
+<script src="{{asset('js/main.js')}}"></script>
+</body>
+</html>

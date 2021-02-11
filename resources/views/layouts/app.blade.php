@@ -7,6 +7,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('css/bootstrap-reboot.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-grid.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/magnific-popup.css')}}">
     <link rel="stylesheet" href="{{asset('css/nouislider.min.css')}}">
@@ -106,6 +108,7 @@
 <!-- end footer -->
 
 <!-- JS -->
+
 <script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('js/owl.carousel.min.js')}}"></script>
@@ -115,5 +118,7 @@
 <script src="{{asset('js/jquery.mousewheel.min.js')}}"></script>
 <script src="{{asset('js/jquery.mCustomScrollbar.min.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
+<script src="{{asset('js/bootstrap.js')}}"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
 </body>
 </html>
