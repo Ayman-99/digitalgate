@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- page title -->
-    <section class="section section--first section--last section--head" data-bg="img/bg.jpg">
+    <section class="section section--first section--last section--head" data-bg="{{asset("img/bg.jpg")}}">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -12,7 +12,7 @@
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
-                        <ul class="breadcrumb">
+                        <ul class="breadcrumb" style="background:transparent;">
                             <li class="breadcrumb__item"><a href="index.html">Home</a></li>
                             <li class="breadcrumb__item breadcrumb__item--active">Profile</li>
                         </ul>
@@ -32,11 +32,12 @@
                     <div class="profile">
                         <ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">My purchases</a>
+                                <a class="nav-link active" style="background: transparent;border: none;color: #fff;" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">My purchases</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab" aria-controls="tab-2" aria-selected="false">Settings</a>
+                                <a class="nav-link" data-toggle="tab"  style="background: transparent;border: none;color: #fff;" href="#tab-2" role="tab" aria-controls="tab-2"
+                                   aria-selected="false">Settings</a>
                             </li>
                         </ul>
 
@@ -80,7 +81,17 @@
                                         <td>Aug 22, 2020</td>
                                         <td><span class="profile__price">$49.00</span></td>
                                         <td><span class="profile__status">Not confirmed</span></td>
-                                        <td><button class="profile__delete" type="button"><svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><line x1='368' y1='368' x2='144' y2='144' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/><line x1='368' y1='144' x2='144' y2='368' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/></svg></button></td>
+                                        <td>
+                                            <button class="profile__delete" type="button">
+                                                <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
+                                                     viewBox='0 0 512 512'>
+                                                    <line x1='368' y1='368' x2='144' y2='144'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                                                    <line x1='368' y1='144' x2='144' y2='368'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                                                </svg>
+                                            </button>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><a href="#">8126</a></td>
@@ -93,8 +104,19 @@
                                         <td>PC</td>
                                         <td>July 22, 2020</td>
                                         <td><span class="profile__price">$59.00</span></td>
-                                        <td><span class="profile__status profile__status--confirmed">Confirmed</span></td>
-                                        <td><button class="profile__delete" type="button"><svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><line x1='368' y1='368' x2='144' y2='144' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/><line x1='368' y1='144' x2='144' y2='368' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/></svg></button></td>
+                                        <td><span class="profile__status profile__status--confirmed">Confirmed</span>
+                                        </td>
+                                        <td>
+                                            <button class="profile__delete" type="button">
+                                                <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
+                                                     viewBox='0 0 512 512'>
+                                                    <line x1='368' y1='368' x2='144' y2='144'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                                                    <line x1='368' y1='144' x2='144' y2='368'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                                                </svg>
+                                            </button>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td><a href="#">7314</a></td>
@@ -108,7 +130,17 @@
                                         <td>June 12, 2019</td>
                                         <td><span class="profile__price">$38.99</span></td>
                                         <td><span class="profile__status profile__status--cenceled">Canceled</span></td>
-                                        <td><button class="profile__delete" type="button"><svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><line x1='368' y1='368' x2='144' y2='144' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/><line x1='368' y1='144' x2='144' y2='368' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/></svg></button></td>
+                                        <td>
+                                            <button class="profile__delete" type="button">
+                                                <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
+                                                     viewBox='0 0 512 512'>
+                                                    <line x1='368' y1='368' x2='144' y2='144'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                                                    <line x1='368' y1='144' x2='144' y2='368'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                                                </svg>
+                                            </button>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -125,7 +157,13 @@
                                 <ul class="paginator__wrap">
                                     <li class="paginator__item paginator__item--prev">
                                         <a href="#">
-                                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><polyline points='244 400 100 256 244 112' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/><line x1='120' y1='256' x2='412' y2='256' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/></svg>
+                                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
+                                                 viewBox='0 0 512 512'>
+                                                <polyline points='244 400 100 256 244 112'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/>
+                                                <line x1='120' y1='256' x2='412' y2='256'
+                                                      style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/>
+                                            </svg>
                                         </a>
                                     </li>
                                     <li class="paginator__item paginator__item--active"><a href="#">1</a></li>
@@ -133,7 +171,13 @@
                                     <li class="paginator__item"><a href="#">3</a></li>
                                     <li class="paginator__item paginator__item--next">
                                         <a href="#">
-                                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><polyline points='268 112 412 256 268 400' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/><line x1='392' y1='256' x2='100' y2='256' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/></svg>
+                                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
+                                                 viewBox='0 0 512 512'>
+                                                <polyline points='268 112 412 256 268 400'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/>
+                                                <line x1='392' y1='256' x2='100' y2='256'
+                                                      style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px'/>
+                                            </svg>
                                         </a>
                                     </li>
                                 </ul>
@@ -147,37 +191,42 @@
                     <div class="row">
                         <!-- details form -->
                         <div class="col-12 col-lg-6">
-                            <form action="#" class="form">
+                            <form action="{{route('front.profile.update')}}" method='POST' class="form">
+                                @csrf
                                 <div class="row">
                                     <div class="col-12">
                                         <h4 class="form__title">Profile details</h4>
                                     </div>
-
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                         <label class="form__label" for="username">Username</label>
-                                        <input id="username" type="text" name="username" class="form__input" placeholder="User 123">
+                                        <input id="username" type="text" name="username" class="form__input"
+                                               value="{{$user->name}}">
                                     </div>
 
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                         <label class="form__label" for="email">Email</label>
-                                        <input id="email" type="text" name="email" class="form__input" placeholder="email@email.com">
+                                        <input id="email" type="text" name="email" class="form__input"
+                                               value="{{$user->email}}">
                                     </div>
 
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <label class="form__label" for="firstname">First Name</label>
-                                        <input id="firstname" type="text" name="firstname" class="form__input" placeholder="John">
+                                        <label class="form__label" for="firstname">Confirm Password</label>
+                                        <input id="firstname" type="password" name="firstname" class="form__input">
                                     </div>
-
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <label class="form__label" for="lastname">Last Name</label>
-                                        <input id="lastname" type="text" name="lastname" class="form__input" placeholder="Doe">
-                                    </div>
-
                                     <div class="col-12">
-                                        <button class="form__btn" type="button">Save</button>
+                                        <button class="form__btn" type="submit">Update</button>
                                     </div>
                                 </div>
                             </form>
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    @foreach ($errors->all() as $error)
+                                        <strong>* </strong> {{ $error }}.<br>
+                                    @endforeach
+                                </div>
+                            @endif
+
                         </div>
                         <!-- end details form -->
 

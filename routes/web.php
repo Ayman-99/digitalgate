@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,16 +26,15 @@ Route::middleware('web')->group(function () {
     Route::group(['prefix' => 'shop'], function () {
         Route::get('/', 'ShopController@index')->name('shop.home');
     });
-    Route::group(['prefix' => 'profile'], function () {
-        Route::middleware(['auth', 'verified'])->group(function () {
-            Route::get('/checkout', 'CheckoutController@index')->middleware('password.confirm')->name('front.checkout');
-            Route::group(['prefix' => 'customer'], function () {
-                Route::get('/', 'ProfileController@customerIndex')->name('profile.customer.home');
-            });
-        });
-        Route::middleware(['auth', 'verified','admin'])->group(function () {
-            Route::group(['prefix' => 'admin'], function () {
-                Route::get('/', 'ProfileController@customerIndex')->name('profile.admin.home');
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::group(['prefix' => 'profile'], function () {
+            Route::group(['prefix' => '{name}', 'middleware'=>'user.profile'], function () {
+                Route::get('/', 'ProfileController@index')->name('front.profile.home');
+                Route::post('/update', 'ProfileController@update')->name('front.profile.update');
+                Route::group(['prefix' => 'admin','middleware'=>'admin'], function () {
+                    //   Route::get('/', );
+                });
+                //->middleware('password.confirm')
             });
         });
     });
