@@ -28,8 +28,6 @@
             <div class="col-12">
                 <div class="sign__content">
                     <!-- authorization form -->
-                    We have emailed your password reset link!
-
                     <form method="POST" action="{{ route('password.email') }}" class="sign__form">
                         @csrf
                         <a class="sign__logo" style="color:#007bff">

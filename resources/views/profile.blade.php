@@ -32,16 +32,14 @@
                     <div class="profile">
                         <ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" style="background: transparent;border: none;color: #fff;" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="true">My purchases</a>
+                                <a class="nav-link active" data-toggle="tab"  style="background: transparent;border: none;color: #fff;" href="#tab-2" role="tab" aria-controls="tab-2"
+                                   aria-selected="true">Settings</a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab"  style="background: transparent;border: none;color: #fff;" href="#tab-2" role="tab" aria-controls="tab-2"
-                                   aria-selected="false">Settings</a>
+                                <a class="nav-link" style="background: transparent;border: none;color: #fff;" data-toggle="tab" href="#tab-1" role="tab" aria-controls="tab-1" aria-selected="false">My purchases</a>
                             </li>
                         </ul>
-
-                        <button class="profile__logout" type="button">Logout</button>
+                        <a class="profile__logout" href="{{route('logout')}}">Logout</a>
                     </div>
                 </div>
             </div>
@@ -50,7 +48,7 @@
         <div class="container">
             <!-- content tabs -->
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+                <div class="tab-pane fade" id="tab-1" role="tabpanel">
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive table-responsive--border">
@@ -187,77 +185,84 @@
                     </div>
                 </div>
 
-                <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                <div class="tab-pane fade show active" id="tab-2" role="tabpanel">
                     <div class="row">
                         <!-- details form -->
                         <div class="col-12 col-lg-6">
-                            <form action="{{route('front.profile.update')}}" method='POST' class="form">
-                                @csrf
+                            {!! Form::open(['route'=>['front.profile.update', Auth::user()->name], 'method'=>'put']) !!}=
                                 <div class="row">
                                     <div class="col-12">
                                         <h4 class="form__title">Profile details</h4>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <label class="form__label" for="username">Username</label>
-                                        <input id="username" type="text" name="username" class="form__input"
-                                               value="{{$user->name}}">
+                                        {!! Form::label('name', 'Username', ['class' => 'form__label']) !!}
+                                        {!! Form::text('name', Auth::user()->name, ['class'=>"form__input", 'required']) !!}
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                        {!! Form::label('email', 'Email', ['class' => 'form__label']) !!}
+                                        {!! Form::email('email', Auth::user()->email, ['class'=>"form__input", 'required']) !!}
                                     </div>
 
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <label class="form__label" for="email">Email</label>
-                                        <input id="email" type="text" name="email" class="form__input"
-                                               value="{{$user->email}}">
-                                    </div>
-
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <label class="form__label" for="firstname">Confirm Password</label>
-                                        <input id="firstname" type="password" name="firstname" class="form__input">
+                                        {!! Form::label('confPass', 'Confirm Password', ['class' => 'form__label']) !!}
+                                        {!! Form::password('confPass', ['class'=>"form__input", 'required']) !!}
                                     </div>
                                     <div class="col-12">
                                         <button class="form__btn" type="submit">Update</button>
                                     </div>
                                 </div>
-                            </form>
-                            @if (count($errors) > 0)
+                            <br>
+                            {!! Form::close() !!}
+                            @if (count($errors) > 0 && Session::has('updateDataFlag'))
                                 <div class="alert alert-danger alert-dismissible">
                                     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                     @foreach ($errors->all() as $error)
                                         <strong>* </strong> {{ $error }}.<br>
                                     @endforeach
                                 </div>
+                            @elseif(Session::has('messageUpdateData'))
+                                <div class="alert alert-success alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong></strong> {{ Session::get('messageUpdateData') }}.<br>
+                                </div>
                             @endif
-
                         </div>
                         <!-- end details form -->
 
                         <!-- password form -->
                         <div class="col-12 col-lg-6">
-                            <form action="#" class="form">
+                            {!! Form::open(['route'=> ['front.profile.updatePassword', 'name'=>Auth::user()->name], 'method'=>'PUT']) !!}
                                 <div class="row">
                                     <div class="col-12">
                                         <h4 class="form__title">Change password</h4>
                                     </div>
-
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <label class="form__label" for="oldpass">Old Password</label>
-                                        <input id="oldpass" type="password" name="oldpass" class="form__input">
+                                        {!! Form::label('oldpass','Old Password', ['class'=>'form__label']) !!}
+                                        {!! Form::password('oldpass',['class'=>'form__input', 'required'=>'']) !!}
                                     </div>
-
                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <label class="form__label" for="newpass">New Password</label>
-                                        <input id="newpass" type="password" name="newpass" class="form__input">
+                                        {!! Form::label('newpass','New Password', ['class'=>'form__label']) !!}
+                                        {!! Form::password('newpass',['class'=>'form__input', 'required'=>'']) !!}
                                     </div>
-
-                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                        <label class="form__label" for="confirmpass">Confirm New Password</label>
-                                        <input id="confirmpass" type="password" name="confirmpass" class="form__input">
-                                    </div>
-
                                     <div class="col-12">
-                                        <button class="form__btn" type="button">Change</button>
+                                        <button class="form__btn" type="submit">Change</button>
                                     </div>
                                 </div>
-                            </form>
+                            {!! Form::close() !!}
+                            <br>
+                            @if (count($errors) > 0 && Session::has('updatePasswordFlag'))
+                                <div class="alert alert-danger alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    @foreach ($errors->all() as $error)
+                                        <strong>* </strong> {{ $error }}.<br>
+                                    @endforeach
+                                </div>
+                            @elseif(Session::has('messageUpdatePassword'))
+                                <div class="alert alert-success alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    {{ Session::get('messageUpdatePassword') }}.<br>
+                                </div>
+                            @endif
                         </div>
                         <!-- end password form -->
                     </div>

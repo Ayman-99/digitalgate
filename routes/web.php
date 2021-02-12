@@ -18,19 +18,19 @@ Route::get('logout', 'Auth\LoginController@logout', function () {
     return \Illuminate\Support\Facades\URL::previous();
 });
 Auth::routes(['verify' => true]);
-
 Route::middleware('web')->group(function () {
     Route::get('/', 'HomeController@index')->name('front.home');
     Route::view('/product', "product");
     Route::get('/contact', 'HomeController@contact')->name('front.contact');
-    Route::group(['prefix' => 'shop'], function () {
+    Route::group(['prefix' => 'shop'], function () { // localhost.com/shop/
         Route::get('/', 'ShopController@index')->name('shop.home');
     });
     Route::middleware(['auth', 'verified'])->group(function () {
-        Route::group(['prefix' => 'profile'], function () {
+        Route::group(['prefix' => 'profile'], function () { // /profile/Ayman/update
             Route::group(['prefix' => '{name}', 'middleware'=>'user.profile'], function () {
                 Route::get('/', 'ProfileController@index')->name('front.profile.home');
-                Route::post('/update', 'ProfileController@update')->name('front.profile.update');
+                Route::put('/update', 'ProfileController@update')->name('front.profile.update');
+                Route::put('/updatePassword', 'ProfileController@updatePassword')->name('front.profile.updatePassword');
                 Route::group(['prefix' => 'admin','middleware'=>'admin'], function () {
                     //   Route::get('/', );
                 });

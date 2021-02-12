@@ -47,6 +47,9 @@ $(document).ready(function () {
 		window.onscroll=function(){};
 	}
 
+	/*
+	   Custom
+	 */
 	/*==============================
 	Header
 	==============================*/

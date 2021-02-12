@@ -101,6 +101,7 @@
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{\Illuminate\Support\Facades\Auth::user()->name}}</a>
                                         <div class="dropdown-menu" aria-labelledby="dropdown">
+                                            <a class="dropdown-item" href="{{route("front.profile.home",['name'=>Auth::user()->name])}}">Profile</a>
                                             <a class="dropdown-item" href="{{route("logout")}}">Logout</a>
                                         </div>
                                     </li>
