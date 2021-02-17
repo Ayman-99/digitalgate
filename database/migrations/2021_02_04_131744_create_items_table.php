@@ -15,10 +15,12 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->integer("product_id")->unsigned();
+            $table->integer("product_id")->unsigned()->nullable();
+            $table->integer("order_id")->unsigned()->nullable();
             $table->text("value");
             $table->boolean("activated");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

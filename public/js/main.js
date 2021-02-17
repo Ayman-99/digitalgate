@@ -46,10 +46,16 @@ $(document).ready(function () {
 	function enableScrolling(){
 		window.onscroll=function(){};
 	}
-
+    $('.js-example-basic-single').select2();
 	/*
 	   Custom
 	 */
+    $("#tableSearch").keyup(function(){
+        var value = $(this).val().toLowerCase();
+        $("#profileTables tbody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
 	/*==============================
 	Header
 	==============================*/

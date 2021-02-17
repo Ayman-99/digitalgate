@@ -4,23 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
         'transaction',
-        'total'
+        'total',
+        'status'
     ];
 
-    public function products()
+    public function items()
     {
-        return $this->belongsToMany('App\Models\Product');
+        return $this->hasMany('App\Models\Item');
     }
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->withPivot('qty');
+        return $this->belongsTo('App\Models\User');
     }
 }

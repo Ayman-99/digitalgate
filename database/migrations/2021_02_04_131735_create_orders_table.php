@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string("transaction");
             $table->float("total",8,2, true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

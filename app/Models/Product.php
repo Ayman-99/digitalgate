@@ -10,6 +10,8 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'category_id',
         'sku',
         'name',
         'description',
@@ -26,9 +28,5 @@ class Product extends Model
     }
     public function items(){
         return $this->hasMany('App\Models\Item');
-    }
-    public function orders()
-    {
-        return $this->belongsToMany('App\Models\Order')->withPivot('qty');
     }
 }

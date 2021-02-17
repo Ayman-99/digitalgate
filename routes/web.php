@@ -27,19 +27,26 @@ Route::middleware('web')->group(function () {
     });
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::group(['prefix' => 'profile'], function () { // /profile/Ayman/update
+            Route::group(['prefix' => 'admin','middleware'=>['admin','password.confirm']], function () {
+                Route::get('/', 'ProfileController@adminIndex')->name('front.profile.admin');
+                Route::post('/item/', 'ProfileController@itemAdd')->name('front.admin.addItem');
+                Route::delete('/item/', 'ProfileController@itemDelete')->name('front.admin.deleteItem');
+                Route::post('/product/', 'ProfileController@productAdd')->name('front.admin.addProduct');
+                Route::post('/product/', 'ProfileController@productDelete')->name('front.admin.deleteProduct');
+            });
             Route::group(['prefix' => '{name}', 'middleware'=>'user.profile'], function () {
                 Route::get('/', 'ProfileController@index')->name('front.profile.home');
+                Route::post('/', 'ProfileController@getOrder')->name('front.profile.order');
                 Route::put('/update', 'ProfileController@update')->name('front.profile.update');
                 Route::put('/updatePassword', 'ProfileController@updatePassword')->name('front.profile.updatePassword');
-                Route::group(['prefix' => 'admin','middleware'=>'admin'], function () {
-                    //   Route::get('/', );
-                });
-                //->middleware('password.confirm')
             });
         });
     });
 });
 
+Route::get("/cart", function(){
+    return session();
+});
 /*Route::get("/product/create", function () {
     $order = new App\Models\Order(['user_id'=>1,'transaction'=>'eeee', 'total'=>75.5]);
     $order->save();

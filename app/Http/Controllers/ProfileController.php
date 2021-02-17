@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Item;
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +20,66 @@ class ProfileController extends Base
 
     public function index(Request $request, $name)
     {
-        return view('profile');
+        $orders = Order::where('user_id', Auth::id())->paginate(20);
+        return view('profile', compact('orders'));
+    }
+
+    public function getOrder(Request $request, $name)
+    {
+        $order = Order::where('id', $request->order_id)->with('items')->with('user')->get();
+        $user = $order[0]->user;
+        $items = $order[0]->items;
+        $arrs = array();
+        foreach ($items as $item) {
+            $productName = $item->product->name;
+            $productCost = $item->product->sale;
+            $row = new class() {
+                public $productName;
+                public $productItems = array();
+                public $productCost;
+                public $productTotal = 0;
+            };
+            $row->productName = $productName;
+            $row->productCost = $productCost;
+            array_push($arrs, $row);
+        }
+        $arrs = array_unique($arrs, SORT_REGULAR);
+        foreach ($items as $item) {
+            $productName = $item->product->name;
+            foreach ($arrs as $row) {
+                if ($row->productName === $productName) {
+                    array_push($row->productItems, $item->value);
+                    $row->productTotal += $row->productCost;
+                }
+            }
+        }
+        $discount = 0;
+        $body = "";
+        $totalAll = 0;
+        foreach($arrs as $row){
+            $temp = "";
+            $total = 0;
+            $temp .= "<ul>";
+            foreach($row->productItems as $item){
+                $total += $row->productCost;
+                $temp .= "<li>" . $item . "</li>";
+            }
+            $temp .= "</ul>";
+            $body .= "<tr>";
+            $body .= "<td class='left strong'>$row->productName</td>";
+            $body .= "<td class='left'>$temp</td>";
+            $body .= "<td class='right'>$$row->productCost</td>";
+            $body .= "<td class='right'>$$total</td>";
+            $body .= "</tr>";
+            $totalAll += $total;
+        }
+        return response(array(
+            'success' => true,
+            'body' => $body,
+            'subTotal' => "$" . $totalAll,
+            'discount' => "$" . $discount,
+            'total' => "$" . ($totalAll - $discount)
+        ), 200, []);
     }
 
     public function update(Request $request, $name)
@@ -41,10 +103,11 @@ class ProfileController extends Base
         $user->name = $this->validation_input($request->input('name'));
         $user->email = $this->validation_input($request->input('email'));
         $user->save();
-        return redirect()->route('front.profile.home', ['name'=>$user->name]);
+        return redirect()->route('front.profile.home', ['name' => $user->name, 'tab' => 'settings']);
     }
 
-    public function updatePassword(Request $request, $name){
+    public function updatePassword(Request $request, $name)
+    {
         $validated = $request->validate([
             'oldpass' => ['bail', 'required', 'string', 'min:3', 'max:15', function ($attribute, $value, $fail) {
                 if (!Hash::check($value, Auth::user()->getAuthPassword())) {
@@ -58,6 +121,20 @@ class ProfileController extends Base
         $user = Auth::user();
         $user->password = Hash::make($request->input('newpass'));
         $user->save();
-        return redirect()->route('front.profile.home', ['name'=> $user->name]);
+        return redirect()->route('front.profile.home', ['name' => $user->name, 'tab' => 'settings']);
     }
+    // Admin
+    public function adminIndex(Request $request)
+    {
+        $users = User::orderBy("id")->paginate(20);
+        $orders = Order::orderBy("created_at")->with('items')->paginate(20);
+        $items = Item::orderBy("id")->with('product')->with('order')->paginate(20);
+        $products = Product::orderBy("id")->with('items')->paginate(20);
+        return view('admin', compact('users','orders','items','products'));
+    }
+
+    public function addItem(Request $request){
+
+    }
+
 }
