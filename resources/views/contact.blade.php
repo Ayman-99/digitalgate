@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- page title -->
-    <section class="section section--first section--last section--head" data-bg="img/bg.jpg">
+    <section class="section section--first section--last section--head" data-bg="{{asset('img/bg.jpg')}}">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -35,15 +35,20 @@
                             <h2 class="section__title">Contact form</h2>
                         </div>
                         <!-- end section title -->
-
                         <div class="col-12">
-                            <form action="#" class="form form--contacts">
-                                <input type="text" class="form__input" placeholder="Name">
-                                <input type="text" class="form__input" placeholder="Email">
-                                <input type="text" class="form__input" placeholder="Subject">
-                                <textarea name="text" class="form__textarea" placeholder="Type your message..."></textarea>
-                                <button type="button" class="form__btn">Send</button>
-                            </form>
+                            {{Form::open(['route'=>'front.contact.send', 'class'=>'form form--contacts'])}}
+                                <input name="contactName" type="text" class="form__input" placeholder="Name" required>
+                                <input name="contactEmail" type="email" class="form__input" placeholder="Email" required>
+                                <input name="contactSubject" type="text" class="form__input" placeholder="Subject" required>
+                                <textarea name="contactText" class="form__textarea" placeholder="Type your message..." required></textarea>
+                                <button type="submit" class="form__btn">Send</button>
+                            {{Form::close()}}
+
+                            @if(session()->has('success'))
+                                <div class="alert alert-success" role="alert">
+                                    {{session()->get('success')}}
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

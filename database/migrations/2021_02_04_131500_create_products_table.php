@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->string("image");
             $table->integer("rate")->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -15,56 +15,26 @@
                         </a>
                         <ul class="header__nav">
                             <li class="header__nav-item">
-                                <a class="header__nav-link" href="">Home</a>
+                                <a class="header__nav-link" href="{{route('front.home')}}">Home</a>
                             </li>
                             <li class="header__nav-item">
                                 <a class="header__nav-link" href="#" role="button" id="dropdownMenu1"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catalog</a>
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
 
                                 <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a href="">Catalog</a></li>
+                                    @foreach(\Illuminate\Support\Facades\Cache::get('categories') as $category)
+                                        <li><a href="{{route('shop.category', ['category'=>$category->name])}}">{{$category->name}}</a></li>
+                                    @endforeach
                                 </ul>
                             </li>
                             <li class="header__nav-item">
-                                <a class="header__nav-link" href="#" role="button" id="dropdownMenu2"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">News</a>
-
-                                <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu2">
-                                    <li><a href="">News</a></li>
-                                    <li><a href="">Article</a></li>
-                                    <li><a href="">Interview</a></li>
-                                </ul>
+                                <a class="header__nav-link" href="{{route('shop.home')}}">Shop</a>
                             </li>
                             <li class="header__nav-item">
-                                <a class="header__nav-link" href="">Help Center</a>
+                                <a class="header__nav-link" href="{{route('front.contact')}}">Contact us</a>
                             </li>
                             <li class="header__nav-item">
-                                <a class="header__nav-link" href="#" role="button" id="dropdownMenu3"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
-                                         viewBox='0 0 512 512'>
-                                        <circle cx='256' cy='256' r='32'
-                                                style='fill:none; stroke-miterlimit:10;stroke-width:32px'/>
-                                        <circle cx='416' cy='256' r='32'
-                                                style='fill:none;stroke-miterlimit:10;stroke-width:32px'/>
-                                        <circle cx='96' cy='256' r='32'
-                                                style='fill:none;stroke-miterlimit:10;stroke-width:32px'/>
-                                    </svg>
-                                </a>
-
-                                <ul class="dropdown-menu header__nav-menu header__nav-menu--scroll"
-                                    aria-labelledby="dropdownMenu3">
-                                    <li><a href="">Checkout</a></li>
-                                    <li><a href="">Favorites</a></li>
-                                    <li><a href="">About</a></li>
-                                    <li><a href="">Profile</a></li>
-                                    <li><a href="">Sign in</a></li>
-                                    <li><a href="">Sign up</a></li>
-                                    <li><a href="">Forgot password</a></li>
-                                    <li><a href="">Privacy policy</a></li>
-                                    <li><a href="">Contacts</a></li>
-                                    <li><a href="">404 Page</a></li>
-                                </ul>
+                                <a class="header__nav-link" href="">Privacy Policy</a>
                             </li>
                         </ul>
 
@@ -107,7 +77,7 @@
                                                href="{{route("front.profile.home",['name'=>Auth::user()->name,'tab'=>"settings"])}}">Profile</a>
                                             @if(Auth::user()->role == "Admin")
                                                 <a class="dropdown-item"
-                                                   href="{{route("front.profile.admin",['tab'=>'users'])}}">Admin</a>
+                                                   href="{{route("front.admin.viewUsers")}}">Admin</a>
                                             @endif
                                             <a class="dropdown-item" href="{{route("logout")}}">Logout</a>
                                         </div>

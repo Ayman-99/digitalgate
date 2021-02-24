@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Category;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Product;
@@ -123,18 +124,4 @@ class ProfileController extends Base
         $user->save();
         return redirect()->route('front.profile.home', ['name' => $user->name, 'tab' => 'settings']);
     }
-    // Admin
-    public function adminIndex(Request $request)
-    {
-        $users = User::orderBy("id")->paginate(20);
-        $orders = Order::orderBy("created_at")->with('items')->paginate(20);
-        $items = Item::orderBy("id")->with('product')->with('order')->paginate(20);
-        $products = Product::orderBy("id")->with('items')->paginate(20);
-        return view('admin', compact('users','orders','items','products'));
-    }
-
-    public function addItem(Request $request){
-
-    }
-
 }

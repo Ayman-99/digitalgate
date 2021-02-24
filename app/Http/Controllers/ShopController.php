@@ -10,4 +10,8 @@ class ShopController extends Controller
     {
         return view('catalog');
     }
+
+    public function category($category){
+        return view('category');
+    }
 }

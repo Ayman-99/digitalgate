@@ -22,17 +22,33 @@ Route::middleware('web')->group(function () {
     Route::get('/', 'HomeController@index')->name('front.home');
     Route::view('/product', "product");
     Route::get('/contact', 'HomeController@contact')->name('front.contact');
+    Route::post('/contact', 'HomeController@sendContactMessage')->name('front.contact.send');
     Route::group(['prefix' => 'shop'], function () { // localhost.com/shop/
         Route::get('/', 'ShopController@index')->name('shop.home');
+        Route::get('/{category}', 'ShopController@category')->name('shop.category');
     });
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::group(['prefix' => 'profile'], function () { // /profile/Ayman/update
             Route::group(['prefix' => 'admin','middleware'=>['admin','password.confirm']], function () {
-                Route::get('/', 'ProfileController@adminIndex')->name('front.profile.admin');
-                Route::post('/item/', 'ProfileController@itemAdd')->name('front.admin.addItem');
-                Route::delete('/item/', 'ProfileController@itemDelete')->name('front.admin.deleteItem');
-                Route::post('/product/', 'ProfileController@productAdd')->name('front.admin.addProduct');
-                Route::post('/product/', 'ProfileController@productDelete')->name('front.admin.deleteProduct');
+                Route::get('/users/', 'AdminController@viewUsers')->name('front.admin.viewUsers');
+                Route::get('/orders/', 'AdminController@viewOrders')->name('front.admin.viewOrders');
+                Route::get('/items/', 'AdminController@viewItem')->name('front.admin.viewItems');
+                Route::get('/products/', 'AdminController@viewProduct')->name('front.admin.viewProducts');
+                Route::get('/categories/', 'AdminController@viewCategories')->name('front.admin.viewCategory');
+
+                Route::put('/items/', 'AdminController@updateItem')->name('front.admin.updateItem');
+                Route::put('/products/', 'AdminController@updateProduct')->name('front.admin.updateProduct');
+                Route::put('/categories/', 'AdminController@updateCategory')->name('front.admin.updateCategory');
+
+                Route::post('/items/', 'AdminController@addItem')->name('front.admin.addItem');
+                Route::post('/products/', 'AdminController@addProduct')->name('front.admin.addProduct');
+                Route::post('/categories/', 'AdminController@addCategories')->name('front.admin.addCategory');
+
+                Route::get('/items/{id}', 'AdminController@deleteItem')->name('front.admin.deleteItem');
+                Route::get('/products/{id}', 'AdminController@deleteProduct')->name('front.admin.deleteProduct');
+                Route::get('/categories/{id}', 'AdminController@deleteCategory')->name('front.admin.deleteCategory');
+
+                Route::get('/cache/clear', 'AdminController@clearCache')->name('front.admin.clearCache');
             });
             Route::group(['prefix' => '{name}', 'middleware'=>'user.profile'], function () {
                 Route::get('/', 'ProfileController@index')->name('front.profile.home');
@@ -44,9 +60,6 @@ Route::middleware('web')->group(function () {
     });
 });
 
-Route::get("/cart", function(){
-    return session();
-});
 /*Route::get("/product/create", function () {
     $order = new App\Models\Order(['user_id'=>1,'transaction'=>'eeee', 'total'=>75.5]);
     $order->save();

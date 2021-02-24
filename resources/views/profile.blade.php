@@ -268,4 +268,32 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('#invoice').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var recipient = button.data('whatever')
+            var modal = $(this)
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: "{{Auth::check() ? route("front.profile.order",['name'=>Auth::user()->name]) : ""}}",
+                type: "POST",
+                async: !1,
+                cache: !0,
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "order_id": recipient
+                },
+                success: function (t) {
+                    modal.find('.table-striped tbody').html(t.body)
+                    modal.find('#invSubTotal').text(t.subTotal)
+                    modal.find('#invDiscount').text(t.discount)
+                    modal.find('#invTotal').text(t.total)
+                },
+                error: function (t, e, s) {
+                    console.log("error " + t.status);
+                },
+            });
+        })
+    </script>
 @endsection

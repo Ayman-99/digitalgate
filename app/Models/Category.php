@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
+    public $timestamps = false;
+
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'name'

@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="{{asset('css/paymentfont.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{asset('js/bootstrap.js')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="{{asset('icon/favicon-32x32.png')}}" sizes="32x32">
     <link rel="apple-touch-icon" href="{{asset('icon/favicon-32x32.png')}}">
@@ -111,45 +116,12 @@
 
 <!-- JS -->
 
-<script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
-<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('js/jquery.magnific-popup.min.js')}}"></script>
 <script src="{{asset('js/wNumb.js')}}"></script>
 <script src="{{asset('js/nouislider.min.js')}}"></script>
 <script src="{{asset('js/jquery.mousewheel.min.js')}}"></script>
 <script src="{{asset('js/jquery.mCustomScrollbar.min.js')}}"></script>
-<script src="{{asset('js/main.js')}}"></script>
-<script src="{{asset('js/bootstrap.js')}}"></script>
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
-<script src="{{asset('js/notify.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
-    $('#invoice').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var recipient = button.data('whatever')
-        var modal = $(this)
-        $.ajax({
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: "{{Auth::check() ? route("front.profile.order",['name'=>Auth::user()->name]) : ""}}",
-            type: "POST",
-            async: !1,
-            cache: !0,
-            data: {
-                "_token": "{{ csrf_token() }}",
-                "order_id": recipient
-            },
-            success: function (t) {
-                modal.find('.table-striped tbody').html(t.body)
-                modal.find('#invSubTotal').text(t.subTotal)
-                modal.find('#invDiscount').text(t.discount)
-                modal.find('#invTotal').text(t.total)
-            },
-            error: function (t, e, s) {
-                console.log("error " + t.status);
-            },
-        });
-    })
-</script>
 </body>
 </html>
