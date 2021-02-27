@@ -20,7 +20,7 @@
     <script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
-    <script src="{{asset('js/bootstrap.js')}}"></script>
+    <!-- <script src="{{asset('js/bootstrap.js')}}"></script> -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="{{asset('icon/favicon-32x32.png')}}" sizes="32x32">

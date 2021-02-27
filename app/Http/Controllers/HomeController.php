@@ -19,11 +19,6 @@ class HomeController extends Controller
     public function __construct()
     {
         //cache()->flush();
-        if(!Cache::has('categories')){
-            Cache::rememberForever('categories', function () {
-                return Category::all();
-            });
-        }
         if(!Cache::has('topGames')){
             Cache::remember('topGames',7200, function () {
                 return Product::where('rate','>=','4')->with('category')->take(6)->get();

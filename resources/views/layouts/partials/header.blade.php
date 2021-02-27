@@ -18,16 +18,6 @@
                                 <a class="header__nav-link" href="{{route('front.home')}}">Home</a>
                             </li>
                             <li class="header__nav-item">
-                                <a class="header__nav-link" href="#" role="button" id="dropdownMenu1"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
-
-                                <ul class="dropdown-menu header__nav-menu" aria-labelledby="dropdownMenu1">
-                                    @foreach(\Illuminate\Support\Facades\Cache::get('categories') as $category)
-                                        <li><a href="{{route('shop.category', ['category'=>$category->name])}}">{{$category->name}}</a></li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                            <li class="header__nav-item">
                                 <a class="header__nav-link" href="{{route('shop.home')}}">Shop</a>
                             </li>
                             <li class="header__nav-item">

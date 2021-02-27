@@ -41,15 +41,25 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link"
-                                   style="background: transparent;border: none;color: #fff;"  href="{{route('front.admin.viewItems')}}">Items</a>
+                                   style="background: transparent;border: none;color: #fff;"  href="{{route('front.admin.items')}}">Items</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link"
-                                   style="background: transparent;border: none;color: #fff;"  href="{{route('front.admin.viewProducts')}}">Products</a>
+                                   style="background: transparent;border: none;color: #fff;"  href="{{route('front.admin.products')}}">Products</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link"
-                                   style="background: transparent;border: none;color: #fff;"  href="{{route('front.admin.viewCategory')}}">Categories</a>
+                                   style="background: transparent;border: none;color: #fff;"  href="{{route('front.admin.categories')}}">Categories</a>
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Recycle Bin
+                                </button>
+                                <div id="recyclebindrop" class="dropdown-menu" style="background-color: #1b222e;">
+                                    <a class="dropdown-item" href="{{route('front.admin.restoreProducts')}}">Restore Prdoucts</a>
+                                    <a class="dropdown-item" href="{{route('front.admin.restoreCategories')}}">Restore Categories</a>
+                                    <a class="dropdown-item" href="{{route('front.admin.restoreItems')}}">Restore Items</a>
+                                </div>
                             </li>
                         </ul>
                         <a class="profile__logout" href="{{route('logout')}}">Logout</a>
@@ -63,30 +73,12 @@
         </div>
         <script>
             @if(session()->has('successMessage'))
-            Swal.fire(
-                'Performed successfully!',
-                '{{session()->get('successMessage')}}',
-                'success'
-            )
+            Swal.fire({
+                title: 'Performed successfully!',
+                html: '{{session()->get('successMessage')}}',
+                icon: 'success'
+            })
             @endif
         </script>
-        <script>
-            function deleteObject(path){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = path;
-                    }
-                })
-            }
-        </script>
     </section>
-
 @endsection

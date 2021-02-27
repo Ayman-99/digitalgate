@@ -32,21 +32,13 @@ Route::middleware('web')->group(function () {
             Route::group(['prefix' => 'admin','middleware'=>['admin','password.confirm']], function () {
                 Route::get('/users/', 'AdminController@viewUsers')->name('front.admin.viewUsers');
                 Route::get('/orders/', 'AdminController@viewOrders')->name('front.admin.viewOrders');
-                Route::get('/items/', 'AdminController@viewItem')->name('front.admin.viewItems');
-                Route::get('/products/', 'AdminController@viewProduct')->name('front.admin.viewProducts');
-                Route::get('/categories/', 'AdminController@viewCategories')->name('front.admin.viewCategory');
+                Route::any('/items/{id?}', 'AdminController@viewItem')->name('front.admin.items');
+                Route::any('/products/{id?}', 'AdminController@viewProduct')->name('front.admin.products');
+                Route::any('/categories/{id?}', 'AdminController@viewCategories')->name('front.admin.categories');
 
-                Route::put('/items/', 'AdminController@updateItem')->name('front.admin.updateItem');
-                Route::put('/products/', 'AdminController@updateProduct')->name('front.admin.updateProduct');
-                Route::put('/categories/', 'AdminController@updateCategory')->name('front.admin.updateCategory');
-
-                Route::post('/items/', 'AdminController@addItem')->name('front.admin.addItem');
-                Route::post('/products/', 'AdminController@addProduct')->name('front.admin.addProduct');
-                Route::post('/categories/', 'AdminController@addCategories')->name('front.admin.addCategory');
-
-                Route::get('/items/{id}', 'AdminController@deleteItem')->name('front.admin.deleteItem');
-                Route::get('/products/{id}', 'AdminController@deleteProduct')->name('front.admin.deleteProduct');
-                Route::get('/categories/{id}', 'AdminController@deleteCategory')->name('front.admin.deleteCategory');
+                Route::any('/items/restore', 'AdminController@restoreItems')->name('front.admin.restoreItems');
+                Route::any('/products/restore', 'AdminController@restoreProducts')->name('front.admin.restoreProducts');
+                Route::any('/categories/restore', 'AdminController@restoreCategories')->name('front.admin.restoreCategories');
 
                 Route::get('/cache/clear', 'AdminController@clearCache')->name('front.admin.clearCache');
             });

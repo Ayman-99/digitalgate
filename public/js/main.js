@@ -56,6 +56,61 @@ $(document).ready(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
+
+    $(".unlockDeletingProducts").on('click', function(e) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Do you want to enable deleting?',
+            html: "<p style='color:red'>All associated items with the deleted object will be deleted as far as they are not used</p>",
+            showCancelButton: true,
+            confirmButtonText: 'Yes, continue!',
+            cancelButtonText: 'No, cancel!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('.deletingProductsSubmitForm').removeAttr('disabled');
+                sessionStorage.setItem("enableDeletingProducts", "Yes");
+            }
+        })
+    });
+    $(".unlockDeletingItems").on('click', function(e) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Do you want to enable deleting?',
+            html: "<p style='color:red'>All associated items with the deleted object will be deleted as far as they are not used</p>",
+            showCancelButton: true,
+            confirmButtonText: 'Yes, continue!',
+            cancelButtonText: 'No, cancel!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('.deletingItemsSubmitForm').removeAttr('disabled');
+                sessionStorage.setItem("enableDeletingItems", "Yes");
+            }
+        })
+    });
+    $(".unlockRestoring").on('click', function(e) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Do you want to enable restoring?',
+            html: "<p style='color:red'>All associated items with the restored object will be restored</p>",
+            showCancelButton: true,
+            confirmButtonText: 'Yes, continue!',
+            cancelButtonText: 'No, cancel!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('.restoreSubmitForm').removeAttr('disabled');
+                sessionStorage.setItem("enableRestoring", "Yes");
+            }
+        })
+    });
+    if (sessionStorage.getItem("enableDeletingProducts") != null) {
+        $('.deletingProductsSubmitForm').removeAttr('disabled');
+    }
+    if (sessionStorage.getItem("enableDeletingItems") != null) {
+        $('.deletingItemsSubmitForm').removeAttr('disabled');
+    }
+    if (sessionStorage.getItem("enableRestoring") != null) {
+        $('.restoreSubmitForm').removeAttr('disabled');
+    }
 	/*==============================
 	Header
 	==============================*/

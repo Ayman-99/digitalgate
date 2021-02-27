@@ -19,19 +19,33 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($categories as $category)
+                    @if($categories !== null && count($categories) > 0)
+                        @foreach($categories as $category)
+                            <tr>
+                                <td>{{$category->id}}</td>
+                                <td>{{$category->name}}</td>
+                                <td>{{count($category->products)}}</td>
+                                <td style="width:10%">
+                                    <button type="button" class="btn btn-info update" data-toggle="modal"
+                                            data-target="#modalUpdateObject" data-id="{{$category->id}}"
+                                            data-whatever="{{$category->name}}">Update
+                                    </button>
+                                </td>
+                                <td style="width:10%">
+                                    {!! Form::open(['route'=>'front.admin.categories', 'method'=>'delete']) !!}
+                                    <input type="hidden" name="id" value="{{$category->id}}">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    {!! Form::close() !!}
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td>{{$category->id}}</td>
-                            <td>{{$category->name}}</td>
-                            <td>{{count($category->products)}}</td>
-                            <td style="width:10%">
-                                <button type="button" class="btn btn-info update" data-toggle="modal"
-                                        data-target="#modalUpdateObject" data-id="{{$category->id}}" data-whatever="{{$category->name}}">Update
-                                </button>
+                            <td>
+                                <h3>No Data</h3>
                             </td>
-                            <td style="width:10%"><a onclick='deleteObject("{{route('front.admin.deleteCategory', ['id'=>$category->id])}}")' class="btn btn-danger">Delete</a></td>
                         </tr>
-                    @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
@@ -57,7 +71,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['route' => ['front.admin.addCategory']]) !!}
+                    {!! Form::open(['route' => ['front.admin.categories']]) !!}
                     <div class="form-group">
                         <label for="name">Category Name:</label>
                         <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name"
@@ -87,7 +101,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {!! Form::open(['route' => ['front.admin.updateCategory']]) !!}
+                    {!! Form::open(['route' => ['front.admin.categories']]) !!}
                     <div class="form-group">
                         <label for="name">Category Name:</label>
                         <input name="_method" type="hidden" value="PUT">
