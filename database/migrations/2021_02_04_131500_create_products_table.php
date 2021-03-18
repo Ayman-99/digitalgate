@@ -27,6 +27,19 @@ class CreateProductsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        DB::table('products')->insert(
+            array(
+                'user_id' => 0,
+                'category_id' => 0,
+                'sku' => 'empty',
+                'name' => 'Default product',
+                'description' => 'default',
+                'price' => 15,
+                'sale' => 3,
+                'image' => " ",
+                'rate' => 0
+            )
+        );
     }
 
     /**

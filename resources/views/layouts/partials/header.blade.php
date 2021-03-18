@@ -122,7 +122,7 @@
                                 <span>Favorites</span>
                             </a>
 
-                            <a href="checkout.html" class="header__link">
+                            <a href="{{route('front.checkout')}}" class="header__link">
                                 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
                                     <circle cx='176' cy='416' r='16'
                                             style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
@@ -133,7 +133,7 @@
                                     <path d='M160,288H409.44a8,8,0,0,0,7.85-6.43l28.8-144a8,8,0,0,0-7.85-9.57H128'
                                           style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
                                 </svg>
-                                <span>$00.00</span>
+                                <span>$<span id="userBalance" style="display:inline;">{{Cart::instance('shopping')->subtotal()}}</span></span>
                             </a>
                         </div>
                     </div>

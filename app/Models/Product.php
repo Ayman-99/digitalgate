@@ -10,6 +10,10 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
     protected $fillable = [
         'user_id',
         'category_id',
@@ -30,5 +34,14 @@ class Product extends Model
     }
     public function items(){
         return $this->hasMany('App\Models\Item');
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] =  str_replace(' ', '-', $value);
+    }
+    public function getNameAttribute($value)
+    {
+        return str_replace('-', ' ', $value);
     }
 }

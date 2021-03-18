@@ -35,37 +35,35 @@
                             <table class="cart__table">
                                 <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Product</th>
-                                    <th>Title</th>
-                                    <th>Platform</th>
                                     <th>Price</th>
+                                    <th>Quantity</th>
                                     <th></th>
                                 </tr>
                                 </thead>
-
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="cart__img">
-                                            <img src="img/cards/8.jpg" alt="">
-                                        </div>
-                                    </td>
-                                    <td>Baldur's Gate: Enhanced Edition</td>
-                                    <td>PC</td>
-                                    <td><span class="cart__price">$19.99</span></td>
-                                    <td><button class="cart__delete" type="button"><svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><line x1='368' y1='368' x2='144' y2='144' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/><line x1='368' y1='144' x2='144' y2='368' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/></svg></button></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="cart__img">
-                                            <img src="img/cards/3.jpg" alt="">
-                                        </div>
-                                    </td>
-                                    <td>Dandara: Trials of Fear Edition</td>
-                                    <td>Playstation</td>
-                                    <td><span class="cart__price">$7.99</span></td>
-                                    <td><button class="cart__delete" type="button"><svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><line x1='368' y1='368' x2='144' y2='144' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/><line x1='368' y1='144' x2='144' y2='368' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/></svg></button></td>
-                                </tr>
+                                {{$counter = 1}}
+                                @foreach(Cart::instance('shopping')->content() as $row)
+                                    <tr>
+                                        <td>#{{$counter}}</td>
+                                        <td>{{$row->model->name}}</td>
+                                        <td><span class="cart__price">${{$row->price}}</span></td>
+                                        <td>{{$row->qty}}</td>
+                                        <td>
+                                            <button class="cart__delete removeFromCart" type="button" data-product="{{$row->model->id}}" data-token="{{csrf_token()}}">
+                                                <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
+                                                     viewBox='0 0 512 512'>
+                                                    <line x1='368' y1='368' x2='144' y2='144'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                                                    <line x1='368' y1='144' x2='144' y2='368'
+                                                          style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {{$counter++}}
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -73,12 +71,10 @@
                         <div class="cart__info">
                             <div class="cart__total">
                                 <p>Total:</p>
-                                <span>$27.98</span>
+                                <span>${{Cart::instance('shopping')->subtotal()}}</span>
                             </div>
 
                             <div class="cart__systems">
-                                <i class="pf pf-visa"></i>
-                                <i class="pf pf-mastercard"></i>
                                 <i class="pf pf-paypal"></i>
                             </div>
                         </div>
@@ -89,9 +85,8 @@
                 <div class="col-12 col-lg-4">
                     <!-- checkout -->
                     <form action="#" class="form form--checkout">
-                        <input type="text" class="form__input" placeholder="John Doe">
-                        <input type="text" class="form__input" placeholder="gg@template.buy">
-                        <input type="text" class="form__input" placeholder="+1 (234) 567 - 89 - 00">
+                        <input type="text" class="form__input" value="{{Auth::user()->name}}" readonly>
+                        <input type="text" class="form__input" value="{{Auth::user()->email}}" readonly>
                         <button type="button" class="form__btn">Complete</button>
                     </form>
                     <!-- end checkout -->

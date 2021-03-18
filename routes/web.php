@@ -1,5 +1,6 @@
 <?php
 
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -25,16 +26,18 @@ Route::middleware('web')->group(function () {
     Route::post('/contact', 'HomeController@sendContactMessage')->name('front.contact.send');
     Route::group(['prefix' => 'shop'], function () { // localhost.com/shop/
         Route::get('/', 'ShopController@index')->name('shop.home');
-        Route::get('/{category}', 'ShopController@category')->name('shop.category');
+        Route::match(array('post', 'delete'),'/cart/', "ShopController@cart");
+        Route::get('/{product}', 'ShopController@product')->name('shop.product');
     });
     Route::middleware(['auth', 'verified'])->group(function () {
+        Route::get('/checkout/', 'CheckoutController@index')->name('front.checkout');
         Route::group(['prefix' => 'profile'], function () { // /profile/Ayman/update
             Route::group(['prefix' => 'admin','middleware'=>['admin','password.confirm']], function () {
                 Route::get('/users/', 'AdminController@viewUsers')->name('front.admin.viewUsers');
                 Route::get('/orders/', 'AdminController@viewOrders')->name('front.admin.viewOrders');
-                Route::any('/items/{id?}', 'AdminController@viewItem')->name('front.admin.items');
-                Route::any('/products/{id?}', 'AdminController@viewProduct')->name('front.admin.products');
-                Route::any('/categories/{id?}', 'AdminController@viewCategories')->name('front.admin.categories');
+                Route::any('/items/', 'AdminController@viewItem')->name('front.admin.items');
+                Route::any('/products/', 'AdminController@viewProduct')->name('front.admin.products');
+                Route::any('/categories/', 'AdminController@viewCategories')->name('front.admin.categories');
 
                 Route::any('/items/restore', 'AdminController@restoreItems')->name('front.admin.restoreItems');
                 Route::any('/products/restore', 'AdminController@restoreProducts')->name('front.admin.restoreProducts');

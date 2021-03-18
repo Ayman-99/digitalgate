@@ -18,6 +18,12 @@ class CreateCategoriesTable extends Migration
             $table->string("name");
             $table->softDeletes();
         });
+        DB::table('categories')->insert(
+            array(
+                'id' => 0,
+                'name' => 'uncategorized'
+            )
+        );
     }
 
     /**

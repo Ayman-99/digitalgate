@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="card__actions">
-                            <button class="card__buy" type="button">Buy now</button>
+                            <button class="card__buy addToCart" type="button" data-product="{{$product->id}}" data-token="{{csrf_token()}}">Buy now</button>
 
                             <button class="card__favorite" type="button">
                                 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
@@ -203,7 +203,7 @@
                     </div>
 
                     <div class="card__actions">
-                        <button class="card__buy" type="button">Buy</button>
+                        <button class="card__buy addToCart" type="button" data-product="{{$product->id}}" data-token="{{csrf_token()}}">Buy</button>
 
                         <button class="card__favorite" type="button">
                             <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>

@@ -56,7 +56,99 @@ $(document).ready(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
-
+    $('.removeFromCart').click(function(e){
+        var data = $(this).data('product');
+        var token = $(this).data('token');
+        var button = $(this);
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: root() + "/shop/cart/",
+            type: "DELETE",
+            async: !1,
+            cache: !0,
+            data: {
+                "_token": token,
+                "p_id": data
+            },
+            success: function (t, e, s) {
+                if(t.status == "errorInCart"){
+                    $.notify({
+                        // options
+                        message: t.message,
+                    },{
+                        // settings
+                        type: "info",
+                        delay: 500,
+                        timer: 400
+                    });
+                } else {
+                    button.closest('tr').remove();
+                    var total = parseFloat($('#userBalance').text());
+                    total = total - parseFloat(t.p_price);
+                    $('#userBalance').text(total.toFixed(2));
+                    $.notify({
+                        // options
+                        message: t.message,
+                    },{
+                        // settings
+                        type: "success",
+                        delay: 500,
+                        timer: 400
+                    });
+                }
+            },
+            error: function (t, e, s) {
+                alert(t.responseText);
+                console.log("error " + t.status);
+            },
+        });
+    });
+    $('.addToCart').click(function(e){
+        var data = $(this).data('product');
+        var token = $(this).data('token');
+        var button = $(this);
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: root() + "/shop/cart/",
+            type: "POST",
+            async: !1,
+            cache: !0,
+            data: {
+                "_token": token,
+                "p_id": data
+            },
+            success: function (t, e, s) {
+               if(t.status == "errorInCart"){
+                   $.notify({
+                       // options
+                       message: t.message,
+                   },{
+                       // settings
+                       type: "info",
+                       delay: 500,
+                       timer: 400
+                   });
+               } else {
+                   var total = parseFloat($('#userBalance').text());
+                   total = total + parseFloat(t.p_price);
+                   $('#userBalance').text(total.toFixed(2));
+                   $.notify({
+                       // options
+                       message: t.message,
+                   },{
+                       // settings
+                       type: "success",
+                       delay: 500,
+                       timer: 400
+                   });
+               }
+            },
+            error: function (t, e, s) {
+                alert(t.responseText);
+                console.log("error " + t.status);
+            },
+        });
+    });
     $(".unlockDeletingProducts").on('click', function(e) {
         Swal.fire({
             icon: 'warning',
@@ -110,6 +202,26 @@ $(document).ready(function () {
     }
     if (sessionStorage.getItem("enableRestoring") != null) {
         $('.restoreSubmitForm').removeAttr('disabled');
+    }
+
+    function root() {
+        var scripts = document.getElementsByTagName( 'script' ),
+            script = scripts[scripts.length - 1],
+            path = script.getAttribute( 'src' ).split( '/' ),
+            pathname = location.pathname.split( '/' ),
+            notSame = false,
+            same = 0;
+
+        for ( var i in path ) {
+            if ( !notSame ) {
+                if ( path[i] == pathname[i] ) {
+                    same++;
+                } else {
+                    notSame = true;
+                }
+            }
+        }
+        return location.origin + pathname.slice( 0, same ).join( '/' );
     }
 	/*==============================
 	Header
@@ -392,12 +504,12 @@ $(document).ready(function () {
 			var firstSlider = document.getElementById('filter__range');
 			noUiSlider.create(firstSlider, {
 				range: {
-					'min': 9,
-					'max': 99
+					'min': 1,
+					'max': 100
 				},
 				step: 1,
 				connect: true,
-				start: [18, 56],
+				start: [5, 20],
 				format: wNumb({
 					decimals: 0,
 					prefix: '$'
@@ -409,6 +521,8 @@ $(document).ready(function () {
 			];
 			firstSlider.noUiSlider.on('update', function( values, handle ) {
 				firstValues[handle].innerHTML = values[handle];
+				$('#minPrice').attr({value:values[0].substring(1)});
+                $('#maxPrice').attr({value:values[1].substring(1)});
 			});
 		} else {
 			return false;
