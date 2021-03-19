@@ -22,7 +22,7 @@
     <title>TEMP</title>
 </head>
 <body>
-    <div class="sign section--full-bg" data-bg="{{asset("img/bg2.jpg")}}">
+    <div class="sign section--full-bg authBg">
         <div class="container">
             <div class="row">
                 <div class="col-12">

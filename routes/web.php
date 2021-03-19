@@ -20,6 +20,13 @@ Route::get('logout', 'Auth\LoginController@logout', function () {
 });
 Auth::routes(['verify' => true]);
 Route::middleware('web')->group(function () {
+    Route::get('/test1', function(){
+        cache()->flush();
+        return;
+    });
+    Route::get('/test2', function(){
+        Cart::instance('shopping')->destroy();
+    });
     Route::get('/', 'HomeController@index')->name('front.home');
     Route::view('/product', "product");
     Route::get('/contact', 'HomeController@contact')->name('front.contact');
@@ -31,6 +38,9 @@ Route::middleware('web')->group(function () {
     });
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/checkout/', 'CheckoutController@index')->name('front.checkout');
+        Route::post('/pay', 'PaymentController@payWithPaypal')->name('front.pay');
+        Route::get('/cancelled', 'PaymentController@cancelled')->name('front.pay.cancelled');
+        Route::get('/success', 'PaymentController@status')->name('front.pay.status');
         Route::group(['prefix' => 'profile'], function () { // /profile/Ayman/update
             Route::group(['prefix' => 'admin','middleware'=>['admin','password.confirm']], function () {
                 Route::get('/users/', 'AdminController@viewUsers')->name('front.admin.viewUsers');

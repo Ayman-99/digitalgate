@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- page title -->
-    <section class="section section--first section--last section--head" data-bg="img/bg.jpg">
+    <section class="section section--first section--last section--head" data-bg="{{asset('img/web/bg-for-shop.jpg')}}">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -12,10 +12,12 @@
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb__item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb__item breadcrumb__item--active">Catalog</li>
-                        </ul>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb" style="background: transparent;">
+                                <li class="breadcrumb-item"><a href="{{route('front.home')}}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                            </ol>
+                        </nav>
                         <!-- end breadcrumb -->
                     </div>
                 </div>
@@ -96,7 +98,7 @@
                                 <div class="col-12 col-sm-6 col-md-4 col-xl-3">
                                     <div class="card">
                                         <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="card__cover">
-                                            <img src="{{asset("img/" . $product->image)}}" alt="img">
+                                            <img src="{{asset("img/product/" . $product->image)}}" alt="{{$product->name}}">
                                         </a>
 
                                         <div class="card__title">
@@ -109,7 +111,13 @@
                                         </div>
 
                                         <div class="card__actions">
-                                            <button class="card__buy addToCart" type="button" data-product="{{$product->id}}" data-token="{{csrf_token()}}">Buy</button>
+                                            @if(count($product->items()->get()) < 1)
+                                                <button class="card__buy" type="button" style="background-color: #dc3545;width:100%">Out of
+                                                    stock
+                                                </button>
+                                            @else
+                                                <button class="card__buy addToCart" type="button" data-product="{{$product->id}}" data-token="{{csrf_token()}}">Buy</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

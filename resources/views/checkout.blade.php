@@ -84,11 +84,11 @@
 
                 <div class="col-12 col-lg-4">
                     <!-- checkout -->
-                    <form action="#" class="form form--checkout">
-                        <input type="text" class="form__input" value="{{Auth::user()->name}}" readonly>
-                        <input type="text" class="form__input" value="{{Auth::user()->email}}" readonly>
-                        <button type="button" class="form__btn">Complete</button>
-                    </form>
+                    <input type="text" class="form__input" value="{{Auth::user()->name}}" readonly>
+                    <input type="text" class="form__input" value="{{Auth::user()->email}}" readonly>
+                    {!! Form::open(['route' => 'front.pay', 'method'=>'post', 'class'=>'form form--checkout']) !!}
+                        <button type="submit" class="form__btn">Order</button>
+                    {!! Form::close() !!}
                     <!-- end checkout -->
                 </div>
             </div>

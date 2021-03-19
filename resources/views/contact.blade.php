@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- page title -->
-    <section class="section section--first section--last section--head" data-bg="{{asset('img/bg.jpg')}}">
+    <section class="section section--first section--last section--head" data-bg="{{asset('img/web/bg-for-contact.jpg')}}">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -12,10 +12,12 @@
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb__item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb__item breadcrumb__item--active">Contacts</li>
-                        </ul>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb" style="background: transparent;">
+                                <li class="breadcrumb-item"><a href="{{route('front.home')}}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                            </ol>
+                        </nav>
                         <!-- end breadcrumb -->
                     </div>
                 </div>
@@ -65,8 +67,8 @@
                             <p class="section__text section__text--mt">It is a long fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
 
                             <ul class="contacts__list">
-                                <li><a href="tel:+18092345678">+1 (809) 234-56-78</a></li>
-                                <li><a href="mailto:support@gg.template">support@gg.template</a></li>
+                                <li><a href="tel:+18092345678">+970 (598) 2323-48</a></li>
+                                <li><a href="mailto:support@gg.template">info@digitalgate.com</a></li>
                             </ul>
                             <div class="contacts__social">
                                 <a class="fb" href="#"><svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><path d='M455.27,32H56.73A24.74,24.74,0,0,0,32,56.73V455.27A24.74,24.74,0,0,0,56.73,480H256V304H202.45V240H256V189c0-57.86,40.13-89.36,91.82-89.36,24.73,0,51.33,1.86,57.51,2.68v60.43H364.15c-28.12,0-33.48,13.3-33.48,32.9V240h67l-8.75,64H330.67V480h124.6A24.74,24.74,0,0,0,480,455.27V56.73A24.74,24.74,0,0,0,455.27,32Z'/></svg></a>

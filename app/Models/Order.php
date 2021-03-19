@@ -16,6 +16,9 @@ class Order extends Model
         'total',
         'status'
     ];
+    /**
+     * @var mixed|string
+     */
 
     public function items()
     {

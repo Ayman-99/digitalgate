@@ -38,7 +38,7 @@
             @foreach(\Illuminate\Support\Facades\Cache::get('topGames') as $product)
                 <div class="card card--big">
                     <a href="" class="card__cover">
-                        <img src="{{asset('img/' . $product->image)}}" alt="">
+                        <img src="{{asset('img/product/' . $product->image)}}" alt="{{$product->name}}">
                     </a>
 
                     <div class="card__wrap">
@@ -93,8 +93,15 @@
                         </div>
 
                         <div class="card__actions">
-                            <button class="card__buy addToCart" type="button" data-product="{{$product->id}}" data-token="{{csrf_token()}}">Buy now</button>
-
+                            @if(count($product->items()->get()) < 1)
+                                <button class="card__buy" type="button" style="background-color: #dc3545;width:100%">Out of
+                                    stock
+                                </button>
+                            @else
+                                <button class="card__buy addToCart" type="button" data-product="{{$product->id}}"
+                                        data-token="{{csrf_token()}}">Buy
+                                </button>
+                            @endif
                             <button class="card__favorite" type="button">
                                 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
                                     <path
@@ -148,8 +155,8 @@
             <!-- card -->
             @foreach(\Illuminate\Support\Facades\Cache::get('recentAdded') as $product)
                 <div class="card">
-                    <a href="details.html" class="card__cover">
-                        <img src="{{asset('img/' . $product->image)}}" alt="">
+                    <a class="card__cover">
+                        <img src="{{asset('img/product/' . $product->image)}}" alt="{{$product->name}}">
                     </a>
 
                     <!--<ul class="card__platforms">
@@ -203,8 +210,14 @@
                     </div>
 
                     <div class="card__actions">
-                        <button class="card__buy addToCart" type="button" data-product="{{$product->id}}" data-token="{{csrf_token()}}">Buy</button>
-
+                        @if(count($product->items()->get()) < 1)
+                            <button class="card__buy" type="button" style="background-color: #dc3545;width:100%">Out of stock
+                            </button>
+                        @else
+                            <button class="card__buy addToCart" type="button" data-product="{{$product->id}}"
+                                    data-token="{{csrf_token()}}">Buy
+                            </button>
+                        @endif
                         <button class="card__favorite" type="button">
                             <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
                                 <path
@@ -231,7 +244,7 @@
                         <div class="col-12">
                             <!-- title -->
                             <div class="section__title-wrap">
-                                <h2 class="section__title section__title--small">Gaming cards</h2>
+                                <h2 class="section__title section__title--small">Gaming</h2>
 
                                 <div class="section__nav-wrap">
                                     <a href="#" class="section__view">View All</a>
@@ -243,7 +256,7 @@
                             <ul class="list list--mb">
                                 <li class="list__item">
                                     <a href="#" class="list__cover">
-                                        <img src="img/cards/7.jpg" alt="">
+                                        <img src="{{asset('img/product/img-1616144505.jpg')}}" alt="">
                                     </a>
 
                                     <div class="list__wrap">
@@ -253,56 +266,6 @@
 
                                         <div class="list__price">
                                             <span>$1.99</span><s>$4.99</s><b>60% OFF</b>
-                                        </div>
-
-                                        <button class="list__buy" type="button">
-                                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
-                                                 viewBox='0 0 512 512'>
-                                                <line x1='256' y1='112' x2='256' y2='400'
-                                                      style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                <line x1='400' y1='256' x2='112' y2='256'
-                                                      style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </li>
-                                <li class="list__item">
-                                    <a href="#" class="list__cover">
-                                        <img src="img/cards/5.jpg" alt="">
-                                    </a>
-
-                                    <div class="list__wrap">
-                                        <h3 class="list__title">
-                                            <a href="#">DROD 4: Gunthro and the Epic Blunder</a>
-                                        </h3>
-
-                                        <div class="list__price">
-                                            <span>$4.99</span><s>$9.99</s><b>50% OFF</b>
-                                        </div>
-
-                                        <button class="list__buy" type="button">
-                                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
-                                                 viewBox='0 0 512 512'>
-                                                <line x1='256' y1='112' x2='256' y2='400'
-                                                      style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                <line x1='400' y1='256' x2='112' y2='256'
-                                                      style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </li>
-                                <li class="list__item">
-                                    <a href="#" class="list__cover">
-                                        <img src="img/cards/3.jpg" alt="">
-                                    </a>
-
-                                    <div class="list__wrap">
-                                        <h3 class="list__title">
-                                            <a href="#">Conquests of the Longbow: The Legend of Robin Hood</a>
-                                        </h3>
-
-                                        <div class="list__price">
-                                            <span>$3.59</span><s>$5.99</s><b>40% OFF</b>
                                         </div>
 
                                         <button class="list__buy" type="button">
@@ -339,16 +302,16 @@
                             <ul class="list list--mb">
                                 <li class="list__item">
                                     <a href="#" class="list__cover">
-                                        <img src="img/cards/1.jpg" alt="">
+                                        <img src="{{asset('img/product/img-1616144505.jpg')}}" alt="">
                                     </a>
 
                                     <div class="list__wrap">
                                         <h3 class="list__title">
-                                            <a href="#">Phantasmagoria 2: A Puzzle of Flesh</a>
+                                            <a href="#">The Evil Within: The Assignment</a>
                                         </h3>
 
                                         <div class="list__price">
-                                            <span>$3.89</span><s>$5.99</s><b>35% OFF</b>
+                                            <span>$1.99</span><s>$4.99</s><b>60% OFF</b>
                                         </div>
 
                                         <button class="list__buy" type="button">
@@ -364,16 +327,16 @@
                                 </li>
                                 <li class="list__item">
                                     <a href="#" class="list__cover">
-                                        <img src="img/cards/6.jpg" alt="">
+                                        <img src="{{asset('img/product/img-1616144505.jpg')}}" alt="">
                                     </a>
 
                                     <div class="list__wrap">
                                         <h3 class="list__title">
-                                            <a href="#">Shadowrun Hong Kong - Extended Edition Deluxe Upgrade</a>
+                                            <a href="#">The Evil Within: The Assignment</a>
                                         </h3>
 
                                         <div class="list__price">
-                                            <span>$4.99</span><s>$9.99</s><b>50% OFF</b>
+                                            <span>$1.99</span><s>$4.99</s><b>60% OFF</b>
                                         </div>
 
                                         <button class="list__buy" type="button">
@@ -389,16 +352,16 @@
                                 </li>
                                 <li class="list__item">
                                     <a href="#" class="list__cover">
-                                        <img src="img/cards/8.jpg" alt="">
+                                        <img src="{{asset('img/product/img-1616144505.jpg')}}" alt="">
                                     </a>
 
                                     <div class="list__wrap">
                                         <h3 class="list__title">
-                                            <a href="#">We are the Dwarves</a>
+                                            <a href="#">The Evil Within: The Assignment</a>
                                         </h3>
 
                                         <div class="list__price">
-                                            <span>$2.24</span><s>$24.99</s><b>91% OFF</b>
+                                            <span>$1.99</span><s>$4.99</s><b>60% OFF</b>
                                         </div>
 
                                         <button class="list__buy" type="button">
@@ -423,7 +386,7 @@
                         <div class="col-12">
                             <!-- title -->
                             <div class="section__title-wrap">
-                                <h2 class="section__title section__title--small">Subscriptions</h2>
+                                <h2 class="section__title section__title--small">Windows</h2>
 
                                 <div class="section__nav-wrap">
                                     <a href="#" class="section__view">View All</a>
@@ -435,16 +398,16 @@
                             <ul class="list">
                                 <li class="list__item">
                                     <a href="#" class="list__cover">
-                                        <img src="img/cards/9.jpg" alt="">
+                                        <img src="{{asset('img/product/img-1616144505.jpg')}}" alt="">
                                     </a>
 
                                     <div class="list__wrap">
                                         <h3 class="list__title">
-                                            <a href="#">Gabriel Knight: Sins of the Fathers</a>
+                                            <a href="#">The Evil Within: The Assignment</a>
                                         </h3>
 
                                         <div class="list__price">
-                                            <span>$3.89</span><s>$5.99</s><b>35% OFF</b>
+                                            <span>$1.99</span><s>$4.99</s><b>60% OFF</b>
                                         </div>
 
                                         <button class="list__buy" type="button">
@@ -460,41 +423,16 @@
                                 </li>
                                 <li class="list__item">
                                     <a href="#" class="list__cover">
-                                        <img src="img/cards/2.jpg" alt="">
+                                        <img src="{{asset('img/product/img-1616144505.jpg')}}" alt="">
                                     </a>
 
                                     <div class="list__wrap">
                                         <h3 class="list__title">
-                                            <a href="#">Unrest Special Edition</a>
+                                            <a href="#">The Evil Within: The Assignment</a>
                                         </h3>
 
                                         <div class="list__price">
-                                            <span>$7.49</span><s>$24.99</s><b>70% OFF</b>
-                                        </div>
-
-                                        <button class="list__buy" type="button">
-                                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
-                                                 viewBox='0 0 512 512'>
-                                                <line x1='256' y1='112' x2='256' y2='400'
-                                                      style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                <line x1='400' y1='256' x2='112' y2='256'
-                                                      style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </li>
-                                <li class="list__item">
-                                    <a href="#" class="list__cover">
-                                        <img src="img/cards/4.jpg" alt="">
-                                    </a>
-
-                                    <div class="list__wrap">
-                                        <h3 class="list__title">
-                                            <a href="#">Gabriel Knight 3: Blood of the Sacred, Blood of the Damned</a>
-                                        </h3>
-
-                                        <div class="list__price">
-                                            <span>$3.89</span><s>$5.99</s><b>35% OFF</b>
+                                            <span>$1.99</span><s>$4.99</s><b>60% OFF</b>
                                         </div>
 
                                         <button class="list__buy" type="button">
@@ -516,40 +454,5 @@
             </div>
         </div>
     </section>
-    <!-- end section -->
-    <!-- section -->
-    <div class="section section--last">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="partners owl-carousel">
-                        <a href="#" class="partners__img">
-                            <img src="img/partners/3docean-light-background.png" alt="">
-                        </a>
-
-                        <a href="#" class="partners__img">
-                            <img src="img/partners/activeden-light-background.png" alt="">
-                        </a>
-
-                        <a href="#" class="partners__img">
-                            <img src="img/partners/audiojungle-light-background.png" alt="">
-                        </a>
-
-                        <a href="#" class="partners__img">
-                            <img src="img/partners/codecanyon-light-background.png" alt="">
-                        </a>
-
-                        <a href="#" class="partners__img">
-                            <img src="img/partners/photodune-light-background.png" alt="">
-                        </a>
-
-                        <a href="#" class="partners__img">
-                            <img src="img/partners/themeforest-light-background.png" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- end section -->
 @endsection

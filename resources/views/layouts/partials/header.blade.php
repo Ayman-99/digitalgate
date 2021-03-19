@@ -10,8 +10,8 @@
                             <span></span>
                             <span></span>
                         </button>
-                        <a href="index.html" class="header__logo">
-                            <img src="img/logo.svg" alt="">
+                        <a class="header__logo">
+                            <img style="margin-top: 17px;" src="{{asset('img/web/log.png')}}" alt="LOGO">
                         </a>
                         <ul class="header__nav">
                             <li class="header__nav-item">
@@ -68,6 +68,8 @@
                                             @if(Auth::user()->role == "Admin")
                                                 <a class="dropdown-item"
                                                    href="{{route("front.admin.viewUsers")}}">Admin</a>
+                                                <a class="dropdown-item"
+                                                   href="{{route("front.admin.clearCache")}}">Clear Cache</a>
                                             @endif
                                             <a class="dropdown-item" href="{{route("logout")}}">Logout</a>
                                         </div>
@@ -91,16 +93,9 @@
                             <input type="text" class="header__input" placeholder="I'm searching for...">
                             <select class="header__select">
                                 <option value="0">All Categories</option>
-                                <option value="1">Action</option>
-                                <option value="3">Adventure</option>
-                                <option value="4">Fighting</option>
-                                <option value="5">Flight simulation</option>
-                                <option value="6">Platform</option>
-                                <option value="7">Racing</option>
-                                <option value="8">RPG</option>
-                                <option value="9">Sports</option>
-                                <option value="10">Strategy</option>
-                                <option value="11">Survival horror</option>
+                                @foreach(\Illuminate\Support\Facades\Cache::get('categories') as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
                             </select>
                             <button class="header__btn" type="button">
                                 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>

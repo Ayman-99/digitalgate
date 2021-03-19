@@ -120,5 +120,6 @@ class AdminController extends AdminActions
     public function clearCache()
     {
         Cache::flush();
+        return back();
     }
 }

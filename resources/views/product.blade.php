@@ -35,8 +35,13 @@
                         </div>
 
                         <div class="details__actions">
-                            <button class="details__buy addToCart" type="button" data-product="{{$product->id}}" data-token="{{csrf_token()}}" >Buy now</button>
-
+                            @if(count($product->items()->get()) < 1)
+                                <button class="card__buy" type="button" style="background-color: #dc3545;width:100%">Out of
+                                    stock
+                                </button>
+                            @else
+                                <button class="details__buy addToCart" type="button" data-product="{{$product->id}}" data-token="{{csrf_token()}}" >Buy now</button>
+                            @endif
                             <button class="details__favorite" type="button">
                                 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'><path d='M352.92,80C288,80,256,144,256,144s-32-64-96.92-64C106.32,80,64.54,124.14,64,176.81c-1.1,109.33,86.73,187.08,183,252.42a16,16,0,0,0,18,0c96.26-65.34,184.09-143.09,183-252.42C447.46,124.14,405.68,80,352.92,80Z' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/></svg>Add to cart
                             </button>

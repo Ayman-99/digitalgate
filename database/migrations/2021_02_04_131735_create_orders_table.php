@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer("user_id")->unsigned();
-            $table->string("transaction");
+            $table->string("transaction")->unique();
             $table->float("total",8,2, true);
             $table->timestamps();
             $table->softDeletes();

@@ -111,7 +111,7 @@ class AdminActions extends base
             'rate' => 0,
             'meta' => substr($this->validation_input($request->productName), 0, 30)
         ]);
-        request()->productImage->move(public_path('img/'), $imageMain);
+        request()->productImage->move(public_path('img/product/'), $imageMain);
         session()->flash('successMessage', "Product has been added");
         return redirect()->route('front.admin.products');
     }

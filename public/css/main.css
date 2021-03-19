@@ -66,6 +66,16 @@ body {
   -webkit-font-smoothing: antialiased;
   background-color: #1b222e;
 }
+.authBg{
+    background: url('https://cdn.wallpapersafari.com/85/60/qXOSlC.jpg');
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
 button {
   padding: 0;
   border: none;
@@ -312,7 +322,7 @@ ul {
   bottom: 0;
   left: 0;
   width: 10px;
-  background: url("../img/arrow.svg") no-repeat left center;
+  background: url("public/img/web/arrow.svg") no-repeat left center;
   background-size: 10px auto;
   opacity: 0.5;
   transition: 0.5s;
@@ -700,7 +710,7 @@ ul {
     font-size: 14px;
     color: #fff;
     padding: 0;
-    background: url("../img/arrow2.svg") no-repeat center right;
+    background: url("public/img/web/arrow2.svg") no-repeat center right;
     background-size: 12px auto;
     cursor: pointer;
   }
@@ -1156,7 +1166,7 @@ ul {
   top: 0;
   height: 22px;
   width: 25px;
-  background: url("../img/home.svg") no-repeat center left/16px auto;
+  background: url("public/img/web/home.svg") no-repeat center left/16px auto;
 }
 .breadcrumb__item:before {
   content: '';
@@ -1165,7 +1175,7 @@ ul {
   top: 0;
   height: 22px;
   width: 40px;
-  background: url("../img/breadcrumb.svg") no-repeat center/14px auto;
+  background: url("public/img/web/breadcrumb.svg") no-repeat center/14px auto;
   opacity: 0.8;
 }
 .breadcrumb__item:hover {
@@ -2539,7 +2549,7 @@ ul {
   color: #fff;
   padding: 0 20px;
   cursor: pointer;
-  background: url("../img/arrow2.svg") no-repeat center right 20px rgba(167,130,233,0.03);
+  background: url("public/img/web/arrow2.svg") no-repeat center right 20px rgba(167,130,233,0.03);
   background-size: 12px auto;
   letter-spacing: 0.4px;
 }
@@ -2625,7 +2635,7 @@ ul {
   height: 20px;
   text-align: center;
   transition: 0.5s;
-  background: url("../img/checkmark.svg") no-repeat center/16px auto;
+  background: url("public/img/web/checkmark.svg") no-repeat center/16px auto;
 }
 .filter__checkboxes input:not(:checked) + label:after {
   opacity: 0;
@@ -3643,7 +3653,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   width: 16px;
   top: 0;
   bottom: 0;
-  background: url("../img/document.svg") no-repeat center left/100% auto;
+  background: url("public/img/web/document.svg") no-repeat center left/100% auto;
 }
 .faq__list li a {
   color: #dbdada;
@@ -3959,7 +3969,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   bottom: 0;
   left: 0;
   width: 10px;
-  background: url("../img/arrow.svg") no-repeat left center;
+  background: url("public/img/web/arrow.svg") no-repeat left center;
   background-size: 10px auto;
   opacity: 0.5;
   transition: 0.5s;
@@ -4212,7 +4222,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   height: 20px;
   text-align: center;
   transition: 0.5s;
-  background: url("../img/checkmark.svg") no-repeat center/16px auto;
+  background: url("public/img/web/checkmark.svg") no-repeat center/16px auto;
 }
 .sign__group--checkbox input:not(:checked) + label:after {
   opacity: 0;

@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- page title -->
-    <section class="section section--first section--last section--head" data-bg="{{asset("img/bg.jpg")}}">
+    <section class="section section--first section--last section--head" data-bg="{{asset("img/web/bg-for-profile.jpg")}}">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -12,10 +12,12 @@
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
-                        <ul class="breadcrumb" style="background:transparent;">
-                            <li class="breadcrumb__item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb__item breadcrumb__item--active">Profile</li>
-                        </ul>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb" style="background: transparent;">
+                                <li class="breadcrumb-item"><a href="{{route('front.home')}}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Admin</li>
+                            </ol>
+                        </nav>
                         <!-- end breadcrumb -->
                     </div>
                 </div>
