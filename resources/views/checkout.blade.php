@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- page title -->
-    <section class="section section--first section--last section--head" data-bg="img/bg.jpg">
+    <section class="section section--first section--last section--head authBg">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -12,10 +12,12 @@
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb__item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb__item breadcrumb__item--active">Checkout</li>
-                        </ul>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb" style="background: transparent;">
+                                <li class="breadcrumb-item"><a href="{{route('front.home')}}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                            </ol>
+                        </nav>
                         <!-- end breadcrumb -->
                     </div>
                 </div>
@@ -29,7 +31,20 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-8">
-                    <!-- cart -->
+                    @if(session()->has('discount'))
+                        <div id="checkoutalert" class="alert alert-primary" role="alert">
+                            You added ${{session()->get('discount')}} discount for this order!
+                        </div>
+                    @elseif(Auth::user()->balance > 1.00)
+                        <div id="checkoutalert" class="alert alert-primary" role="alert">
+                            You can add ${{Auth::user()->balance}} discount for this order, <a class="addDiscount"
+                                                                                               data-token="{{csrf_token()}}"
+                                                                                               data-discount="{{Auth::user()->balance}}"
+                                                                                               style="color:green;">click
+                                here to add</a>
+                        </div>
+                    @endif
+                <!-- cart -->
                     <div class="cart">
                         <div class="table-responsive">
                             <table class="cart__table">
@@ -51,7 +66,8 @@
                                         <td><span class="cart__price">${{$row->price}}</span></td>
                                         <td>{{$row->qty}}</td>
                                         <td>
-                                            <button class="cart__delete removeFromCart" type="button" data-product="{{$row->model->id}}" data-token="{{csrf_token()}}">
+                                            <button class="cart__delete removeFromCart" type="button"
+                                                    data-product="{{$row->model->id}}" data-token="{{csrf_token()}}">
                                                 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
                                                      viewBox='0 0 512 512'>
                                                     <line x1='368' y1='368' x2='144' y2='144'
@@ -69,11 +85,6 @@
                         </div>
 
                         <div class="cart__info">
-                            <div class="cart__total">
-                                <p>Total:</p>
-                                <span>${{Cart::instance('shopping')->subtotal()}}</span>
-                            </div>
-
                             <div class="cart__systems">
                                 <i class="pf pf-paypal"></i>
                             </div>
@@ -85,11 +96,30 @@
                 <div class="col-12 col-lg-4">
                     <!-- checkout -->
                     <input type="text" class="form__input" value="{{Auth::user()->name}}" readonly>
-                    <input type="text" class="form__input" value="{{Auth::user()->email}}" readonly>
-                    {!! Form::open(['route' => 'front.pay', 'method'=>'post', 'class'=>'form form--checkout']) !!}
-                        <button type="submit" class="form__btn">Order</button>
-                    {!! Form::close() !!}
-                    <!-- end checkout -->
+                    <input type="email" class="form__input" value="{{Auth::user()->email}}" readonly>
+                    <div class="card card-cascade card-ecommerce wider shadow p-3 mb-5" style="color:#fff;">
+                        <!--Card Body-->
+                        <div class="card-body card-body-cascade">
+                            <!--Card Description-->
+                            <div class="card2decs">
+                                <p class="heading1"><strong>Details</strong></p>
+                                <p class="subtotal" id="checkoutSubtotal">Subtotal<span
+                                        class="float-right text1">${{Cart::instance('shopping')->subtotal()}}</span></p>
+                                <p class="subtotal">Discount<span class="float-right text1"
+                                                                  id="checkoutDiscount">${{session()->has('discount') ? session()->get('discount') : 0}}</span>
+                                </p>
+                                <p class="total"><strong>Total</strong><span class="float-right totalText1">$<span
+                                            class="totalText2"
+                                            id="checkoutTotal">{{(Cart::instance('shopping')->subtotal() - (session()->has('discount') ? session()->get('discount') : 0))}}</span></span>
+                                </p>
+                            </div>
+                            {!! Form::open(['route' => 'front.pay', 'method'=>'post']) !!}
+                            <button type="submit" class="form__btn"><img
+                                    src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png"
+                                    alt="Check out with PayPal"/></button>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

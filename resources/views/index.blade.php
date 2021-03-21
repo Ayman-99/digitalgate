@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- home -->
-    <section class="section section--bg section--first" data-bg="img/bg.jpg">
+    <section class="section section--bg section--first authBg">
         <div class="container">
             <div class="row">
                 <!-- title -->

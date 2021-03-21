@@ -1,9 +1,7 @@
 <?php
 
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +19,6 @@ Route::get('logout', 'Auth\LoginController@logout', function () {
 Auth::routes(['verify' => true]);
 Route::middleware('web')->group(function () {
     Route::get('/test1', function(){
-        cache()->flush();
-        return;
     });
     Route::get('/test2', function(){
         Cart::instance('shopping')->destroy();
@@ -34,6 +30,7 @@ Route::middleware('web')->group(function () {
     Route::group(['prefix' => 'shop'], function () { // localhost.com/shop/
         Route::get('/', 'ShopController@index')->name('shop.home');
         Route::match(array('post', 'delete'),'/cart/', "ShopController@cart");
+        Route::post('/cart/discount', 'CheckoutController@addDiscount');
         Route::get('/{product}', 'ShopController@product')->name('shop.product');
     });
     Route::middleware(['auth', 'verified'])->group(function () {

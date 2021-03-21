@@ -13,11 +13,7 @@ class ShopController extends Base
 
     public function __construct()
     {
-        if (!Cache::has('categories')) {
-            Cache::remember('categories', 7200, function () {
-                return Category::all();
-            });
-        }
+
     }
 
     public function index(Request $request)

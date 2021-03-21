@@ -28,4 +28,7 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+    public function discounts(){
+        return $this->hasMany("App\Models\Discount");
+    }
 }

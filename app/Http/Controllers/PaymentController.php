@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -45,6 +46,9 @@ class PaymentController extends Controller
 
     public function payWithPaypal(Request $request)
     {
+        //if user balance > order use case here
+
+        // else user balance < order
         //Set payer
         $payer = new Payer();
         $payer->setPaymentMethod("paypal");
@@ -74,13 +78,22 @@ class PaymentController extends Controller
             $total = $total + $cartItem->qty * $cartItem->price;
             array_push($items, $item);
         }
+        if(session()->has('discount')){
+            $discount = new Item();
+            $discount->setName('Discount')
+                ->setCurrency('USD')
+                ->setQuantity(1)
+                ->setPrice("-" . session()->get('discount'));
+            $total = $total - session()->get('discount');
+            array_push($items, $discount);
+        }
+
         session("wrongItems", $errorItems);
         $itemList = new ItemList();
         $itemList->setItems($items);
         $amount = new Amount();
         $amount->setCurrency("USD")
-            ->setTotal(Cart::instance('shopping')->subtotal());
-
+            ->setTotal($total);
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($itemList)
@@ -116,6 +129,9 @@ class PaymentController extends Controller
             $result = $payment->execute($execution, $this->apiContext);
             if ($result->getState() == 'approved') {
                 Cart::instance('shopping')->destroy();
+                $user = Auth::user();
+                $user->balance = $user->balance + $result->getTransactions()[0]->getAmount()->total * 0.01;
+
                 $order = Order::create([
                     'user_id' => Auth::id(),
                     'transaction' => $result->getTransactions()[0]->related_resources[0]->sale->id,
@@ -127,13 +143,27 @@ class PaymentController extends Controller
                 } else {
                     $order->status = "Completed";
                 }
-                $order->save();
+                if(session()->has('discount')){
+                    $user->balance -= session()->get('discount');
+                    Discount::create([
+                       'user_id' => Auth::id(),
+                       'order_id' => $order->id,
+                       'amount' =>  session()->get('discount')
+                    ]);
+                    session()->remove('discount');
+                }
                 foreach ($result->getTransactions()[0]->getItemList()->getItems() as $obj) {
-                    $code = Product::find($obj->sku)->first()->items->where('activated', '=', 0)->first();
+                    if($obj->name == "Discount"){
+                        continue;
+                    }
+                    $product = Product::find($obj->sku)->first();
+                    $code = $product->items->where('activated', 0)->first();
                     $code->activated = '1';
                     $code->order_id = $order->id;
                     $code->save();
                 }
+                $order->save();
+                $user->save();
                 $format = new stdClass();
                 $format->id = $order->id;
                 $format->transaction = $result->getTransactions()[0]->related_resources[0]->sale->id; //transaction id

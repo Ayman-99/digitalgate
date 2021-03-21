@@ -29,6 +29,11 @@ class HomeController extends Controller
                 return Product::orderBy('id', 'desc')->take(8)->get();
             });
         }
+        if (!Cache::has('categories')) {
+            Cache::rememberForever('categories',  function () {
+                return Category::all();
+            });
+        }
     }
 
     /**
