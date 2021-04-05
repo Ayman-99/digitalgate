@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Rate;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ShopController extends Base
 {
@@ -49,6 +52,25 @@ class ShopController extends Base
     {
         $product = Product::where('name', $product)->with('category')->firstOrFail();
         return view('product', compact('product'));
+    }
+
+    public function addRate(Request $request){
+        if(count(DB::table('rates')->whereRaw('product_id=' . $request->p_id . " and user_id=" . Auth::id())->get()) === 0){
+            Rate::create([
+               'user_id' => Auth::id(),
+               'product_id' => $request->p_id,
+               'value' => $request->value
+            ]);
+            return response(array(
+                'success' => true,
+                'message' => 'Thank you for rate!',
+            ), 200, []);
+        } else {
+            return response(array(
+                'success' => true,
+                'message' => 'You rated this product already!',
+            ), 200, []);
+        }
     }
 
     public function cart(Request $request)

@@ -70,6 +70,8 @@
                                                    href="{{route("front.admin.viewUsers")}}">Admin</a>
                                                 <a class="dropdown-item"
                                                    href="{{route("front.admin.clearCache")}}">Clear Cache</a>
+                                                <a class="dropdown-item"
+                                                   href="{{route("front.admin.updateRates")}}">Update Rates</a>
                                             @endif
                                             <a class="dropdown-item" href="{{route("logout")}}">Logout</a>
                                         </div>

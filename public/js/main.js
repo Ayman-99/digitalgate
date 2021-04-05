@@ -235,6 +235,40 @@ $(document).ready(function () {
         $('.restoreSubmitForm').removeAttr('disabled');
     }
 
+    $('.wrapper input[name="rg1"]').change(function(){
+        var value = $(this).val();
+        var p_id = $('.wrapper input[name="product"]').val();
+        var token = $('.wrapper input[name="_token"]').val();
+        $('.wrapper input[name="rg1"]').each(function(){ $(this).attr('disabled',''); });
+        $.ajax({
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: root() + "/shop/product/rate/",
+            type: "POST",
+            async: !1,
+            cache: !0,
+            data: {
+                "_token": token,
+                "p_id": p_id,
+                "value": value
+            },
+            success: function (t, e, s) {
+                $.notify({
+                    // options
+                    message: t.message,
+                }, {
+                    // settings
+                    type: "success",
+                    delay: 500,
+                    timer: 400
+                });
+            },
+            error: function (t, e, s) {
+                alert(t.responseText);
+                console.log("error " + t.status);
+            },
+        });
+    });
+
     function root() {
         var scripts = document.getElementsByTagName('script'),
             script = scripts[scripts.length - 1],

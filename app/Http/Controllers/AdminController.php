@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Rate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -120,6 +121,39 @@ class AdminController extends AdminActions
     public function clearCache()
     {
         Cache::flush();
+        return back();
+    }
+
+    public function processRate(Request $request)
+    {
+        $products = Product::all();
+        foreach ($products as $product){
+            $rates = Rate::where('product_id', $product->id)->get();
+            $star1 = $star2 = $star3 = $star4 = $star5 = 0;
+            foreach ($rates as $rate){
+                switch($rate->value){
+                    case 1:
+                        $star1++;
+                        break;
+                    case 2:
+                        $star2++;
+                        break;
+                    case 3:
+                        $star3++;
+                        break;
+                    case 4:
+                        $star4++;
+                        break;
+                    case 5:
+                        $star5++;
+                        break;
+                }
+            }
+            if(($star1+$star2+$star3+$star4+$star5) !== 0){
+                $product->rate = ceil(($star1 * 1 + $star2 * 2 + $star3 * 3 + $star4 * 4 + $star5 * 5) / ($star1+$star2+$star3+$star4+$star5));
+                $product->save();
+            }
+        }
         return back();
     }
 }

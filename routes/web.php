@@ -18,11 +18,7 @@ Route::get('logout', 'Auth\LoginController@logout', function () {
 });
 Auth::routes(['verify' => true]);
 Route::middleware('web')->group(function () {
-    Route::get('/test1', function(){
-    });
-    Route::get('/test2', function(){
-        Cart::instance('shopping')->destroy();
-    });
+    Route::get('/test1', 'Base@test');
     Route::get('/', 'HomeController@index')->name('front.home');
     Route::view('/product', "product");
     Route::get('/contact', 'HomeController@contact')->name('front.contact');
@@ -31,6 +27,7 @@ Route::middleware('web')->group(function () {
         Route::get('/', 'ShopController@index')->name('shop.home');
         Route::match(array('post', 'delete'),'/cart/', "ShopController@cart");
         Route::post('/cart/discount', 'CheckoutController@addDiscount');
+        Route::post('/product/rate', 'ShopController@addRate');
         Route::get('/{product}', 'ShopController@product')->name('shop.product');
     });
     Route::middleware(['auth', 'verified'])->group(function () {
@@ -49,6 +46,8 @@ Route::middleware('web')->group(function () {
                 Route::any('/items/restore', 'AdminController@restoreItems')->name('front.admin.restoreItems');
                 Route::any('/products/restore', 'AdminController@restoreProducts')->name('front.admin.restoreProducts');
                 Route::any('/categories/restore', 'AdminController@restoreCategories')->name('front.admin.restoreCategories');
+
+                Route::get('/updateRates', 'AdminController@processRate')->name('front.admin.updateRates');
 
                 Route::get('/cache/clear', 'AdminController@clearCache')->name('front.admin.clearCache');
             });
