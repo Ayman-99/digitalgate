@@ -56,7 +56,7 @@ class RegisterController extends Controller
                     $fail($attribute . ' is invalid.');
                 }
             }],
-            'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'],
+            'password' => ['required', 'string', 'min:12', 'max:30', 'confirmed']
         ]);
     }
 

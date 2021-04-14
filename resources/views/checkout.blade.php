@@ -110,7 +110,7 @@
                                 </p>
                                 <p class="total"><strong>Total</strong><span class="float-right totalText1">$<span
                                             class="totalText2"
-                                            id="checkoutTotal">{{(Cart::instance('shopping')->subtotal() - (session()->has('discount') ? session()->get('discount') : 0))}}</span></span>
+                                            id="checkoutTotal">{{round(Cart::instance('shopping')->subtotal() - (session()->has('discount') ? session()->get('discount') : 0), 2)}}</span></span>
                                 </p>
                             </div>
                             {!! Form::open(['route' => 'front.pay', 'method'=>'post']) !!}

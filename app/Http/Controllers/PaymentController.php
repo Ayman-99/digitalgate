@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 
+use App\Mail\OrderShipped;
 use App\Models\Discount;
 use App\Models\Order;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use PayPal\Api\Amount;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
@@ -25,6 +27,7 @@ use stdClass;
 /*
  * todo(severe): Check error cases for payment
  */
+
 class PaymentController extends Controller
 {
     private $apiContext;
@@ -78,7 +81,7 @@ class PaymentController extends Controller
             $total = $total + $cartItem->qty * $cartItem->price;
             array_push($items, $item);
         }
-        if(session()->has('discount')){
+        if (session()->has('discount')) {
             $discount = new Item();
             $discount->setName('Discount')
                 ->setCurrency('USD')
@@ -87,7 +90,6 @@ class PaymentController extends Controller
             $total = $total - session()->get('discount');
             array_push($items, $discount);
         }
-
         session("wrongItems", $errorItems);
         $itemList = new ItemList();
         $itemList->setItems($items);
@@ -121,7 +123,7 @@ class PaymentController extends Controller
     {
         if (empty($request->input('PayerID')) || empty($request->input('token'))) {
             return redirect()->route('front.home');
-        } else if(Cart::instance('shopping')->count() > 0){
+        } else if (Cart::instance('shopping')->count() > 0) {
             $paymentId = $request->get('paymentId');
             $payment = Payment::get($paymentId, $this->apiContext);
             $execution = new PaymentExecution();
@@ -131,59 +133,46 @@ class PaymentController extends Controller
                 Cart::instance('shopping')->destroy();
                 $user = Auth::user();
                 $user->balance = $user->balance + $result->getTransactions()[0]->getAmount()->total * 0.01;
-
+                $discount = 0;
                 $order = Order::create([
                     'user_id' => Auth::id(),
                     'transaction' => $result->getTransactions()[0]->related_resources[0]->sale->id,
                     'total' => $result->getTransactions()[0]->getAmount()->total,
                     'status' => 'Pending'
                 ]);
-                if(session()->get('wrongItems') > 0){
+                if (session()->get('wrongItems') > 0) {
                     $order->status = "Pending";
                 } else {
                     $order->status = "Completed";
                 }
-                if(session()->has('discount')){
+                if (session()->has('discount')) {
                     $user->balance -= session()->get('discount');
                     Discount::create([
-                       'user_id' => Auth::id(),
-                       'order_id' => $order->id,
-                       'amount' =>  session()->get('discount')
+                        'user_id' => Auth::id(),
+                        'order_id' => $order->id,
+                        'amount' => session()->get('discount')
                     ]);
+                    $discount = session()->get('discount');
                     session()->remove('discount');
                 }
+                $codesToShow = array();
                 foreach ($result->getTransactions()[0]->getItemList()->getItems() as $obj) {
-                    if($obj->name == "Discount"){
+                    if ($obj->name == "Discount") {
                         continue;
                     }
-                    $product = Product::find($obj->sku)->first();
-                    $code = $product->items->where('activated', 0)->first();
+                    $product = Product::where('id', $obj->sku)->with('items')->first();
+                    $code = $product->items->where('activated', '=', 0)->first();
                     $code->activated = '1';
                     $code->order_id = $order->id;
                     $code->save();
+                    array_push($codesToShow, $product);
                 }
                 $order->save();
                 $user->save();
-                $format = new stdClass();
-                $format->id = $order->id;
-                $format->transaction = $result->getTransactions()[0]->related_resources[0]->sale->id; //transaction id
-                $format->created_at = $result->getCreateTime();
-                $format->status = $order->status;
-                if($order->status == "Completed"){
-                    $format->items = $result->getTransactions()[0]->getItemList()->getItems();
-                } else {
-                    $format->items = null;
-                }
-                $format->subtotal = $order->total;
-                $format->discount = 0;
-                $format->name = Auth::user()->name;
-                $format->email = Auth::user()->email;
-                //$html = view('emails.mails.invoice', ['order' => $order])->render();
-                //sendEmail($user->email, $user->address->fname . " " . $user->address->lname, 'Order#' . $newOrderId, $html);
-                //sendEmail('dawoodhalawa@gmail.com', $user->address->fname . " " . $user->address->lname, 'Order#' . $newOrderId, $html);
+                Mail::to(Auth::user())->send(new OrderShipped($order, $codesToShow, $discount));
                 $flag = 1;
                 $status = $order->status;
-                return view('success', compact('flag','status'));
+                return view('success', compact('flag', 'status'));
             } else {
                 $flag = 2;
                 return view('success', compact('flag'));

@@ -18,6 +18,7 @@ class Base extends Controller
 
     function test()
     {
+        return view('emails.shipped');
         $list = array();
         $rates = \App\Models\Rate::whereRaw('1=1')->with('user')->with('product')->get();
         foreach ($rates as $rate) {

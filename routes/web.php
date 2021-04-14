@@ -19,6 +19,7 @@ Route::get('logout', 'Auth\LoginController@logout', function () {
 Auth::routes(['verify' => true]);
 Route::middleware('web')->group(function () {
     Route::get('/test1', 'Base@test');
+    Route::view('/test2', 'emails.welcome');
     Route::get('/', 'HomeController@index')->name('front.home');
     Route::view('/product', "product");
     Route::get('/contact', 'HomeController@contact')->name('front.contact');
