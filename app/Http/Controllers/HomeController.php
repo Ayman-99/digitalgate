@@ -50,6 +50,10 @@ class HomeController extends Controller
         return view('contact');
     }
 
+    public function search(Request $request){
+
+    }
+
     public function sendContactMessage(Request $request){
         $temp = "Name: " . $request->contactName . "\n";
         $temp .= "Email: " . $request->contactEmail . "\n";

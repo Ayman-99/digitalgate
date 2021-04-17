@@ -49,6 +49,25 @@ $(document).ready(function () {
         window.onscroll = function () {
         };
     }
+    function root() {
+        var scripts = document.getElementsByTagName('script'),
+            script = scripts[scripts.length - 1],
+            path = script.getAttribute('src').split('/'),
+            pathname = location.pathname.split('/'),
+            notSame = false,
+            same = 0;
+
+        for (var i in path) {
+            if (!notSame) {
+                if (path[i] == pathname[i]) {
+                    same++;
+                } else {
+                    notSame = true;
+                }
+            }
+        }
+        return location.origin + pathname.slice(0, same).join('/');
+    }
 
     $('.js-example-basic-single').select2();
     /*
@@ -66,7 +85,7 @@ $(document).ready(function () {
         var button = $(this);
         $.ajax({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: root() + "/shop/cart/",
+            url: root() + "/shop/cart",
             type: "DELETE",
             async: !1,
             cache: !0,
@@ -137,10 +156,9 @@ $(document).ready(function () {
     $('.addToCart').click(function (e) {
         var data = $(this).data('product');
         var token = $(this).data('token');
-        var button = $(this);
         $.ajax({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: root() + "/shop/cart/",
+            url: root() + "/shop/cart",
             type: "POST",
             async: !1,
             cache: !0,
@@ -242,7 +260,7 @@ $(document).ready(function () {
         $('.wrapper input[name="rg1"]').each(function(){ $(this).attr('disabled',''); });
         $.ajax({
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: root() + "/shop/product/rate/",
+            url: root() + "/shop/product/rate",
             type: "POST",
             async: !1,
             cache: !0,
@@ -263,31 +281,12 @@ $(document).ready(function () {
                 });
             },
             error: function (t, e, s) {
+                alert(root());
                 alert(t.responseText);
                 console.log("error " + t.status);
             },
         });
     });
-
-    function root() {
-        var scripts = document.getElementsByTagName('script'),
-            script = scripts[scripts.length - 1],
-            path = script.getAttribute('src').split('/'),
-            pathname = location.pathname.split('/'),
-            notSame = false,
-            same = 0;
-
-        for (var i in path) {
-            if (!notSame) {
-                if (path[i] == pathname[i]) {
-                    same++;
-                } else {
-                    notSame = true;
-                }
-            }
-        }
-        return location.origin + pathname.slice(0, same).join('/');
-    }
 
     /*==============================
     Header

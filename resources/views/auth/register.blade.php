@@ -30,8 +30,8 @@
                         <!-- authorization form -->
                         <form method="POST" action="{{ route('register') }}" class="sign__form">
                             @csrf
-                            <a class="sign__logo" style="color:#007bff">
-                                {{ __('Register') }}
+                            <a class="sign__logo" style="color:#007bff; font-size:20px;" href="{{route('front.home')}}">
+                                {{ __('Back to home') }}
                             </a>
 
                             <div class="sign__group">

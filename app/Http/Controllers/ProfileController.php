@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Category;
+use App\Models\Discount;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Product;
@@ -28,6 +29,7 @@ class ProfileController extends Base
     public function getOrder(Request $request, $name)
     {
         $order = Order::where('id', $request->order_id)->with('items')->with('user')->get();
+        $discount = Discount::where('order_id', $request->order_id)->first()->amount;
         $user = $order[0]->user;
         $items = $order[0]->items;
         $arrs = array();
@@ -54,7 +56,6 @@ class ProfileController extends Base
                 }
             }
         }
-        $discount = 0;
         $body = "";
         $totalAll = 0;
         foreach($arrs as $row){
@@ -77,6 +78,8 @@ class ProfileController extends Base
         return response(array(
             'success' => true,
             'body' => $body,
+            'userName' => $user->name,
+            'userEmail' => $user->email,
             'subTotal' => "$" . $totalAll,
             'discount' => "$" . $discount,
             'total' => "$" . ($totalAll - $discount)

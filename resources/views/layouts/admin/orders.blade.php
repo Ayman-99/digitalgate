@@ -70,9 +70,9 @@
                         <div class="col-sm-6">
                             <h6 class="mb-3">To:</h6>
                             <div>
-                                <strong>{{Auth::user()->name}}</strong>
+                                <strong id="userNameToDisplay"></strong>
                             </div>
-                            <div>Email: {{Auth::user()->email}}</div>
+                            <div id="userEmailToDisplay"></div>
                         </div>
                     </div>
                     <div class="table-responsive-sm">
@@ -145,6 +145,8 @@
                     modal.find('#invSubTotal').text(t.subTotal)
                     modal.find('#invDiscount').text(t.discount)
                     modal.find('#invTotal').text(t.total)
+                    modal.find('#userNameToDisplay').text(t.userName);
+                    modal.find('#userEmailToDisplay').text(t.userEmail);
                 },
                 error: function (t, e, s) {
                     console.log("error " + t.status);

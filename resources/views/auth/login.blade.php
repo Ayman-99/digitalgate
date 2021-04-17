@@ -30,10 +30,9 @@
                     <!-- authorization form -->
                     <form method="POST" action="{{ route('login') }}" class="sign__form">
                         @csrf
-                        <a class="sign__logo" style="color:#007bff">
-                            {{ __('Login') }}
+                        <a class="sign__logo" style="color:#007bff; font-size:20px;" href="{{route('front.home')}}">
+                            {{ __('Back to home') }}
                         </a>
-
                         <div class="sign__group">
                             <label for="email" class="col-md-4 col-form-label text-md-right"
                                    style="color:#fff">{{ __('E-mail') }}</label>

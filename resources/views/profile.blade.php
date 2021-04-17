@@ -110,7 +110,6 @@
                         <!-- details form -->
                         <div class="col-12 col-lg-6">
                             {!! Form::open(['route'=>['front.profile.update', Auth::user()->name], 'method'=>'put']) !!}
-                            =
                             <div class="row">
                                 <div class="col-12">
                                     <h4 class="form__title">Profile details</h4>
