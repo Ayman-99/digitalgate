@@ -24,22 +24,10 @@ class CreateProductsTable extends Migration
             $table->float("sale",8,2);
             $table->string("image");
             $table->integer("rate")->default(0);
+            $table->string('meta')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
-        DB::table('products')->insert(
-            array(
-                'user_id' => 0,
-                'category_id' => 0,
-                'sku' => 'empty',
-                'name' => 'Default product',
-                'description' => 'default',
-                'price' => 15,
-                'sale' => 3,
-                'image' => " ",
-                'rate' => 0
-            )
-        );
     }
 
     /**

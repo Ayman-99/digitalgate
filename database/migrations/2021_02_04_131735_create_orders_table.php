@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->integer("user_id")->unsigned();
             $table->string("transaction")->unique();
             $table->float("total",8,2, true);
+            $table->enum("status",['Completed','Pending','Cancelled'])->default('Pending');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -3,19 +3,19 @@
 @section('admincontent')
     <div class="row">
         <div class="col-12">
-            {!! Form::label('tableSearch', 'Search', ['class' => 'form__label']) !!}
-            {!! Form::text('tableSearch', ' ', ['class'=>"form__input", 'required', 'style'=>'width:20%;']) !!}
-            <br>
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddObject">Add New
             </button>
+            <button type="button" class="btn btn-danger unlockDeletingCategories">Unlock Deleting</button>
             <div class="table-responsive table-responsive--border">
-                <table id='profileTables'
-                       class="table table-dark table-striped table-bordered table-hover">
+                <table class="display DataTableToDisplay" style="width:100%">
                     <thead>
                     <tr>
                         <th>#</th>
                         <th>Name</th>
                         <th># Of products</th>
+                        <th>Visible</th>
+                        <th>Action 1</th>
+                        <th>Action 2</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -25,6 +25,7 @@
                                 <td>{{$category->id}}</td>
                                 <td>{{$category->name}}</td>
                                 <td>{{count($category->products)}}</td>
+                                <td>{{$category->visible == 0 ? "No" : "Yes"}}</td>
                                 <td style="width:10%">
                                     <button type="button" class="btn btn-info update" data-toggle="modal"
                                             data-target="#modalUpdateObject" data-id="{{$category->id}}"
@@ -34,30 +35,26 @@
                                 <td style="width:10%">
                                     {!! Form::open(['route'=>'front.admin.categories', 'method'=>'delete']) !!}
                                     <input type="hidden" name="id" value="{{$category->id}}">
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <input type="submit" class="btn btn-danger deletingCategorySubmitForm" value="Delete" disabled />
                                     {!! Form::close() !!}
                                 </td>
                             </tr>
                         @endforeach
-                    @else
-                        <tr>
-                            <td>
-                                <h3>No Data</h3>
-                            </td>
-                        </tr>
                     @endif
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th># Of products</th>
+                        <th>Visible</th>
+                        <th>Action 1</th>
+                        <th>Action 2</th>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-
-        <!-- paginator -->
-        <div class="col-12">
-            <div class="paginator">
-                {{$categories->links('vendor.pagination.custom')}}
-            </div>
-        </div>
-        <!-- end paginator -->
     </div>
 
     <div class="modal fade" id="modalAddObject" tabindex="-1" role="dialog" aria-labelledby="modalAddObjectLabel"
@@ -76,8 +73,11 @@
                         <label for="name">Category Name:</label>
                         <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name"
                                required>
-                        <input type="hidden" class="form-control" name="categoryName"
-                               required>
+                        <label for="name">Category Visbility:</label>
+                        <select class="form-control" name="categoryVisible">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                         @if(session()->get('fromMethod') === "addCategory")
                             @foreach ($errors->all() as $error)
                                 <div class="feedback" style="color:#FF0000">* {{$error}}</div>
@@ -109,6 +109,11 @@
                                required>
                         <input type="hidden" class="form-control" id="categoryId" name="category_id"
                                required>
+                        <label for="name">Category Visbility:</label>
+                        <select class="form-control" name="categoryVisible">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
                         @if(session()->get('fromMethod') === "updateCategory")
                             @foreach ($errors->all() as $error)
                                 <div class="feedback" style="color:#FF0000">* {{$error}}</div>

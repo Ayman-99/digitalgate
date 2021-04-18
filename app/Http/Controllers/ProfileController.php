@@ -28,10 +28,10 @@ class ProfileController extends Base
 
     public function getOrder(Request $request, $name)
     {
-        $order = Order::where('id', $request->order_id)->with('items')->with('user')->get();
+        $order = Order::where('id', $request->order_id)->with('items')->with('user')->first();
         $discount = Discount::where('order_id', $request->order_id)->first()->amount;
-        $user = $order[0]->user;
-        $items = $order[0]->items;
+        $user = $order->user;
+        $items = $order->items;
         $arrs = array();
         foreach ($items as $item) {
             $productName = $item->product->name;

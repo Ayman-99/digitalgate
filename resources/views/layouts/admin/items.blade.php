@@ -3,21 +3,19 @@
 @section('admincontent')
     <div class="row">
         <div class="col-12">
-            {!! Form::label('tableSearch', 'Search', ['class' => 'form__label']) !!}
-            {!! Form::text('tableSearch', ' ', ['class'=>"form__input", 'required', 'style'=>'width:20%;']) !!}
-            <br>
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddObject">Add New
             </button>
             <button type="button" class="btn btn-danger unlockDeletingItems">Unlock Deleting</button>
+
             <div class="table-responsive table-responsive--border">
-                <table id='profileTables'
-                       class="table table-dark table-striped table-bordered table-hover">
+                <table class="display DataTableToDisplay" style="width:100%">
                     <thead>
                     <tr>
                         <th>Product</th>
                         <th>Value</th>
                         <th>Activated</th>
                         <th>Order ID</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,25 +38,20 @@
                                 @endif
                             </tr>
                         @endforeach
-                    @else
-                        <tr>
-                            <td>
-                                <h3>No Data</h3>
-                            </td>
-                        </tr>
                     @endif
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Product</th>
+                        <th>Value</th>
+                        <th>Activated</th>
+                        <th>Order ID</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-
-        <!-- paginator -->
-        <div class="col-12">
-            <div class="paginator">
-                {{$items->links('vendor.pagination.custom')}}
-            </div>
-        </div>
-        <!-- end paginator -->
     </div>
 
     <div class="modal fade" id="modalAddObject" tabindex="-1" role="dialog" aria-labelledby="modalAddObjectLabel"

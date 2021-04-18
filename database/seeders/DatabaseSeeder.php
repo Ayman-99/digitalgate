@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        /*for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 30; $i++) {
             DB::table('users')->insert([
                 'name' => Str::random(10),
                 'email' => Str::random(10) . '@gmail.com',
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         }
         for ($i = 0; $i < 40; $i++) {
             DB::table('products')->insert([
-                'user_id' => rand(1,30),
+                'user_id' => 1,
                 'category_id' => 1,
                 'sku' => Str::random(10),
                 'name' => "product-" . rand(10,90),
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
                 'rate' => 0,
                 'meta' => Str::random(50)
             ]);
-        }*/
+        }
         for ($i = 0; $i < 50; $i++) {
             DB::table('rates')->insert([
                 'user_id' => rand(3,63),

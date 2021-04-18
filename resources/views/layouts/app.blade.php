@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -22,6 +21,8 @@
     <script src="{{asset('js/main.js')}}"></script>
     <!-- <script src="{{asset('js/bootstrap.js')}}"></script> -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="{{asset('icon/favicon-32x32.png')}}" sizes="32x32">
     <link rel="apple-touch-icon" href="{{asset('icon/favicon-32x32.png')}}">
@@ -95,7 +96,7 @@
 <!-- end footer -->
 
 <!-- JS -->
-
+<link rel="stylesheet" href="{{asset('css/table.css')}}">
 <script src="{{asset('js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('js/jquery.magnific-popup.min.js')}}"></script>
 <script src="{{asset('js/wNumb.js')}}"></script>

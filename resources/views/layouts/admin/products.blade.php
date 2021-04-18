@@ -3,15 +3,11 @@
 @section('admincontent')
     <div class="row">
         <div class="col-12">
-            {!! Form::label('tableSearch', 'Search', ['class' => 'form__label']) !!}
-            {!! Form::text('tableSearch', ' ', ['class'=>"form__input", 'required', 'style'=>'width:20%;']) !!}
-            <br>
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAddObject">Add New
             </button>
             <button type="button" class="btn btn-danger unlockDeletingProducts">Unlock Deleting</button>
             <div class="table-responsive table-responsive--border">
-                <table id='profileTables'
-                       class="table table-dark table-striped table-bordered table-hover">
+                <table class="display DataTableToDisplay" style="width:100%">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -22,43 +18,45 @@
                         <th>Sale Price</th>
                         <th>Rate</th>
                         <th>Stock</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @if($products !== null && count($products) > 0)
-                        @foreach($products as $product)
-                            <tr>
-                                <td>{{$product->id}}</td>
-                                <td>{{$product->category === null ? "DELETED(" . $product->category_id . ")" : $product->category->name}}</td>
-                                <td>{{$product->sku}}</td>
-                                <td>{{$product->name}}</td>
-                                <td>{{$product->price}}</td>
-                                <td>{{$product->sale}}</td>
-                                <td>{{$product->rate}}</td>
-                                <td>{{count($product->items->where('activated','=','0')) > 0 ? count($product->items) : "Out of stock"}}</td>
-                                <td style="width:10%">
-                                    {!! Form::open(['route'=>'front.admin.products', 'method'=>'delete']) !!}
-                                    <input type="hidden" name="id" value="{{$product->id}}">
-                                    <input type="submit" class="btn btn-danger deletingProductsSubmitForm" value="Delete" disabled />
-                                    {!! Form::close() !!}
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr><td><h3>No Data</h3></td></tr>
-                    @endif
+                    @foreach($products as $product)
+                        <tr>
+                            <td>{{$product->id}}</td>
+                            <td>{{$product->category === null ? "DELETED(" . $product->category_id . ")" : $product->category->name}}</td>
+                            <td>{{$product->sku}}</td>
+                            <td>{{$product->name}}</td>
+                            <td>{{$product->price}}</td>
+                            <td>{{$product->sale}}</td>
+                            <td>{{$product->rate}}</td>
+                            <td>{{count($product->items->where('activated','=','0')) > 0 ? count($product->items) : "Out of stock"}}</td>
+                            <td style="width:10%">
+                                {!! Form::open(['route'=>'front.admin.products', 'method'=>'delete']) !!}
+                                <input type="hidden" name="id" value="{{$product->id}}">
+                                <input type="submit" class="btn btn-danger deletingProductsSubmitForm" value="Delete" disabled />
+                                {!! Form::close() !!}
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Category</th>
+                        <th>Sku</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Sale Price</th>
+                        <th>Rate</th>
+                        <th>Stock</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-
-        <!-- paginator -->
-        <div class="col-12">
-            <div class="paginator">
-                {{$products->links('vendor.pagination.custom')}}
-            </div>
-        </div>
-        <!-- end paginator -->
     </div>
 
     <div class="modal fade" id="modalAddObject" tabindex="-1" role="dialog" aria-labelledby="modalAddObjectLabel"
@@ -77,8 +75,8 @@
                         <label for="productCategory">Category:</label>
                         <select class="js-example-basic-single form-control" id="productCategory" name="productCategory"
                                 required>
-                            @foreach($categories as $category)
-                                <option value="{{$category->id}}">{{$category->id . " - " . $category->name}}</option>
+                            @foreach(\Illuminate\Support\Facades\Cache::get('categories') as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                         </select>
                     </div>

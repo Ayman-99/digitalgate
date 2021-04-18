@@ -45,9 +45,8 @@ Route::middleware('web')->group(function () {
                 Route::any('/products/', 'AdminController@viewProduct')->name('front.admin.products');
                 Route::any('/categories/', 'AdminController@viewCategories')->name('front.admin.categories');
 
-                Route::any('/items/restore', 'AdminController@restoreItems')->name('front.admin.restoreItems');
-                Route::any('/products/restore', 'AdminController@restoreProducts')->name('front.admin.restoreProducts');
-                Route::any('/categories/restore', 'AdminController@restoreCategories')->name('front.admin.restoreCategories');
+                Route::match(array('post', 'get'),'/items/restore', 'AdminController@restoreItems')->name('front.admin.restoreItems');
+                Route::match(array('post', 'get'),'/products/restore', 'AdminController@restoreProducts')->name('front.admin.restoreProducts');
 
                 Route::get('/updateRates', 'AdminController@processRate')->name('front.admin.updateRates');
 

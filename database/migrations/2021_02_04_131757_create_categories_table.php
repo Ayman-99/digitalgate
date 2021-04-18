@@ -16,12 +16,11 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->softDeletes();
+            $table->smallInteger('visible')->default(1);
         });
         DB::table('categories')->insert(
             array(
-                'id' => 0,
-                'name' => 'uncategorized'
+                'name' => 'Default',
             )
         );
     }

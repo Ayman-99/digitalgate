@@ -3,11 +3,8 @@
 @section('admincontent')
     <div class="row">
         <div class="col-12">
-            {!! Form::label('tableSearch', 'Search', ['class' => 'form__label']) !!}
-            {!! Form::text('tableSearch', ' ', ['class'=>"form__input", 'required', 'style'=>'width:20%;']) !!}
             <div class="table-responsive table-responsive--border">
-                <table id='profileTables'
-                       class="table table-dark table-striped table-bordered table-hover">
+                <table class="display DataTableToDisplay" style="width:100%">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -30,17 +27,19 @@
                         </tr>
                     @endforeach
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Verified</th>
+                        <th>Balance</th>
+                        <th>Role</th>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
-
-        <!-- paginator -->
-        <div class="col-12">
-            <div class="paginator">
-                {{$users->links('vendor.pagination.custom')}}
-            </div>
-        </div>
-        <!-- end paginator -->
     </div>
 @endsection
 

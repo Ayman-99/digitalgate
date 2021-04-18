@@ -59,7 +59,6 @@
                                 </button>
                                 <div id="recyclebindrop" class="dropdown-menu" style="background-color: #1b222e;">
                                     <a class="dropdown-item" href="{{route('front.admin.restoreProducts')}}">Restore Prdoucts</a>
-                                    <a class="dropdown-item" href="{{route('front.admin.restoreCategories')}}">Restore Categories</a>
                                     <a class="dropdown-item" href="{{route('front.admin.restoreItems')}}">Restore Items</a>
                                 </div>
                             </li>

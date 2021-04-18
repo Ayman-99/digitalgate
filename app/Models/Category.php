@@ -10,9 +10,10 @@ class Category extends Model
 {
     public $timestamps = false;
 
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $fillable = [
-        'name'
+        'name',
+        'visible'
     ];
     public function products(){
         return $this->hasMany("App\Models\Product");

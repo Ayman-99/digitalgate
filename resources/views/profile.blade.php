@@ -60,11 +60,8 @@
                      role="tabpanel">
                     <div class="row">
                         <div class="col-12">
-                            {!! Form::label('tableSearch', 'Search', ['class' => 'form__label']) !!}
-                            {!! Form::text('tableSearch', ' ', ['class'=>"form__input", 'required', 'style'=>'width:20%;']) !!}
                             <div class="table-responsive table-responsive--border">
-                                <table id='profileTables'
-                                       class="table table-dark table-striped table-bordered table-hover">
+                                <table class="display DataTableToDisplay" style="width:100%">
                                     <thead>
                                     <tr>
                                         <th>#</th>
@@ -72,6 +69,7 @@
                                         <th>Total</th>
                                         <th>Status</th>
                                         <th>Created</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -90,17 +88,19 @@
                                         </tr>
                                     @endforeach
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Transaction</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
-
-                        <!-- paginator -->
-                        <div class="col-12">
-                            <div class="paginator">
-                                {{$orders->appends(['tab' => 'orders'])->links('vendor.pagination.custom')}}
-                            </div>
-                        </div>
-                        <!-- end paginator -->
                     </div>
                 </div>
 
@@ -292,6 +292,7 @@
                     modal.find('#invTotal').text(t.total)
                 },
                 error: function (t, e, s) {
+                    alert(t.responseText);
                     console.log("error " + t.status);
                 },
             });

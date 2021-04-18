@@ -19,9 +19,10 @@ class AdminActions extends base
             'name' => ['bail', 'required', 'string', 'min:4', 'max:50']
         ]);
         Category::create([
-            'name' => $this->validation_input($request->input('name'))
+            'name' => $this->validation_input($request->input('name')),
+            'visible' => $request->input('categoryVisible')
         ]);
-        session()->flash('successMessage', "Item has been added");
+        session()->flash('successMessage', "Category has been added");
         return redirect()->route('front.admin.categories');
     }
 
@@ -33,16 +34,22 @@ class AdminActions extends base
         ]);
         $category = Category::find($request->input('category_id'));
         $category->name = $this->validation_input($request->input('name'));
+        $category->visible = $this->validation_input($request->input('categoryVisible'));
         $category->save();
-        session()->flash('successMessage', "Item has been updated");
+        session()->flash('successMessage', "Category has been updated");
         return redirect()->route('front.admin.categories');
     }
 
     protected function deleteCategory(Request $request)
     {
         $category = Category::find($request->id);
+        $cont = count($category->products()->get());
+        foreach($category->products()->get() as $product){
+            $product->category_id = 0;
+            $product->save();
+        }
         $category->delete();
-        session()->flash('successMessage', "Item has been deleted");
+        session()->flash('successMessage', "Category has been deleted and " . $cont . " products have been deleted");
         return redirect()->route('front.admin.categories');
     }
 
@@ -133,28 +140,6 @@ class AdminActions extends base
                 Item::onlyTrashed()->where('id', $request->id)->restore();
                 session()->flash('successMessage', "Item has been restored");
                 return redirect()->route('front.admin.restoreItems');
-            case 3:
-                Category::onlyTrashed()->where('id', $request->id)->restore();
-                session()->flash('successMessage', "Category has been restored");
-                return redirect()->route('front.admin.restoreCategories');
-        }
-    }
-
-    protected function forceDeleteObject(Request $request, $type)
-    {
-        switch ($type) {
-            case 1:
-                Product::withTrashed()->where('id', $request->id)->forceDelete();
-                session()->flash('successMessage', "Product has been deleted completely");
-                return redirect()->route('front.admin.restoreProducts');
-            case 2:
-                Item::withTrashed()->where('id', $request->id)->forceDelete();
-                session()->flash('successMessage', "Item has been deleted completely");
-                return redirect()->route('front.admin.restoreItems');
-            case 3:
-                Category::withTrashed()->where('id', $request->id)->forceDelete();
-                session()->flash('successMessage', "Category has been deleted completely");
-                return redirect()->route('front.admin.restoreCategories');
         }
     }
 }

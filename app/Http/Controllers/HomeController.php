@@ -21,17 +21,33 @@ class HomeController extends Controller
         //cache()->flush();
         if(!Cache::has('topGames')){
             Cache::remember('topGames',7200, function () {
-                return Product::where('rate','>=','4')->with('category')->take(6)->get();
+                $products = Product::where('rate','>=','2')->with('category')->take(15)->get();
+                $counter = 0;
+                foreach ($products as $product){
+                    if($product->category->visible === 0){
+                        unset($products[$counter]);
+                    }
+                    $counter++;
+                }
+                return $products;
             });
         }
         if(!Cache::has('recentAdded')){
             Cache::remember('recentAdded',7200, function () {
-                return Product::orderBy('id', 'desc')->take(8)->get();
+                $products = Product::orderBy('id', 'desc')->take(12)->get();
+                $counter = 0;
+                foreach ($products as $product){
+                    if($product->category->visible === 0){
+                        unset($products[$counter]);
+                    }
+                    $counter++;
+                }
+                return $products;
             });
         }
         if (!Cache::has('categories')) {
             Cache::rememberForever('categories',  function () {
-                return Category::all();
+                return Category::where('visible','=','1')->get();
             });
         }
     }
