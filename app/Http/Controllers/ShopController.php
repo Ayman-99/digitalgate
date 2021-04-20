@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Classes\Recommend;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Rate;
@@ -51,7 +52,47 @@ class ShopController extends Base
     public function product(Request $request, $product)
     {
         $product = Product::where('name', $product)->with('category')->firstOrFail();
-        return view('product', compact('product'));
+        $getRecommendation = array();
+        if (Auth::check()) {
+            $list = array();
+            $rates = \App\Models\Rate::whereRaw('1=1')->with('user')->with('product')->get();
+            foreach ($rates as $rate) {
+                if (array_key_exists($rate->user->id, $list)) {
+                    $list[$rate->user->name][$rate->product->name] = $rate->product->rate;
+                    continue;
+                }
+                $list[$rate->user->name][$rate->product->name] = $rate->product->rate;
+            }
+            $re = new Recommend();
+            $result = $re->transformPreferences($list);
+            $forUser = $re->matchItems($result, $product->name);
+            if (count($forUser) < 1) {
+                $getRecommendation = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(4)->get());
+            } else {
+                $forUser = array_keys($forUser);
+                $tempCounter = 0;
+                foreach ($forUser as $productName) {
+                    if($tempCounter > 2){
+                        break;
+                    }
+                    $product = Product::where('name', '=', str_replace(' ', '-', $productName))->with('items')->first();
+                    array_push($getRecommendation, $product);
+                    $tempCounter++;
+                }
+            }
+        }
+        $getRecommendation = array_merge($getRecommendation,$this->getArray(Product::where('category_id','=',$product->category->id)->inRandomOrder()->with('items')->limit(9)->get()));
+        return view('product', compact('product', 'getRecommendation'));
+    }
+    private function getArray($products)
+    {
+        $array1 = array();
+        foreach ($products as $product) {
+            if ($product->category->visible === 1) {
+                array_push($array1, $product);
+            }
+        }
+        return $array1;
     }
 
     public function addRate(Request $request){
