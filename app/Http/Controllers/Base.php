@@ -17,6 +17,16 @@ class Base extends Controller
     function test()
     {
         return view('emails.shipped');
+    }
 
+    public function getArray($products)
+    {
+        $array1 = array();
+        foreach ($products as $product) {
+            if ($product->category->visible === 1) {
+                array_push($array1, $product);
+            }
+        }
+        return $array1;
     }
 }

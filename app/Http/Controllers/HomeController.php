@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 
-class HomeController extends Controller
+class HomeController extends Base
 {
     /**
      * Create a new controller instance.
@@ -45,16 +45,6 @@ class HomeController extends Controller
         }
     }
 
-    private function getArray($products)
-    {
-        $array1 = array();
-        foreach ($products as $product) {
-            if ($product->category->visible === 1) {
-                array_push($array1, $product);
-            }
-        }
-        return $array1;
-    }
 
     /**
      * Show the application dashboard.
@@ -65,6 +55,12 @@ class HomeController extends Controller
     {
         $topRate = Cache::get('topGames');
         $recentAdded = Cache::get('recentAdded');
+        $getRecommendation = $this->getRecomm();
+        $randomly = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(4)->get());
+        $lastUpdate = $this->getArray(Product::orderBy('updated_at', 'desc')->with('items')->limit(4)->get());
+        return view('index', compact('topRate', 'recentAdded', 'randomly', 'lastUpdate', 'getRecommendation'));
+    }
+    private function getRecomm(){
         $getRecommendation = array();
         if (Auth::check()) {
             $list = array();
@@ -95,9 +91,7 @@ class HomeController extends Controller
         } else {
             $getRecommendation = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(4)->get());
         }
-        $randomly = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(4)->get());
-        $lastUpdate = $this->getArray(Product::orderBy('updated_at', 'desc')->with('items')->limit(4)->get());
-        return view('index', compact('topRate', 'recentAdded', 'randomly', 'lastUpdate', 'getRecommendation'));
+        return $getRecommendation;
     }
 
     public function contact()

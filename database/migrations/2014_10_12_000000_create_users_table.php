@@ -25,16 +25,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-        DB::table('users')->insert(
-            array(
-                'id' => 0,
-                'name' => 'Root',
-                'email' => 'root@somewhere.com',
-                'email_verified_at' => Carbon::now(),
-                'password' => '123456',
-                'role' => 'Admin'
-            )
-        );
     }
 
     /**

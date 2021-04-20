@@ -52,8 +52,15 @@ class ShopController extends Base
     public function product(Request $request, $product)
     {
         $product = Product::where('name', $product)->with('category')->firstOrFail();
-        $getRecommendation = array();
-        if (Auth::check()) {
+        $getRecommendation = $this->getRecomm($product);
+        $getRecommendation = array_merge($getRecommendation, $this->getArray(Product::where('category_id', '=', $product->category->id)->inRandomOrder()->with('items')->limit(9)->get()));
+        return view('product', compact('product', 'getRecommendation'));
+    }
+
+    private function getRecomm($product)
+    {
+        try {
+            $getRecommendation = array();
             $list = array();
             $rates = \App\Models\Rate::whereRaw('1=1')->with('user')->with('product')->get();
             foreach ($rates as $rate) {
@@ -65,6 +72,9 @@ class ShopController extends Base
             }
             $re = new Recommend();
             $result = $re->transformPreferences($list);
+            if(!array_key_exists($product->name, $result)){
+                return array();
+            }
             $forUser = $re->matchItems($result, $product->name);
             if (count($forUser) < 1) {
                 $getRecommendation = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(4)->get());
@@ -72,7 +82,7 @@ class ShopController extends Base
                 $forUser = array_keys($forUser);
                 $tempCounter = 0;
                 foreach ($forUser as $productName) {
-                    if($tempCounter > 2){
+                    if ($tempCounter > 2) {
                         break;
                     }
                     $product = Product::where('name', '=', str_replace(' ', '-', $productName))->with('items')->first();
@@ -80,27 +90,19 @@ class ShopController extends Base
                     $tempCounter++;
                 }
             }
+            return $getRecommendation;
+        } catch (Exception $e) {
+            return array();
         }
-        $getRecommendation = array_merge($getRecommendation,$this->getArray(Product::where('category_id','=',$product->category->id)->inRandomOrder()->with('items')->limit(9)->get()));
-        return view('product', compact('product', 'getRecommendation'));
-    }
-    private function getArray($products)
-    {
-        $array1 = array();
-        foreach ($products as $product) {
-            if ($product->category->visible === 1) {
-                array_push($array1, $product);
-            }
-        }
-        return $array1;
     }
 
-    public function addRate(Request $request){
-        if(count(DB::table('rates')->whereRaw('product_id=' . $request->p_id . " and user_id=" . Auth::id())->get()) === 0){
+    public function addRate(Request $request)
+    {
+        if (count(DB::table('rates')->whereRaw('product_id=' . $request->p_id . " and user_id=" . Auth::id())->get()) === 0) {
             Rate::create([
-               'user_id' => Auth::id(),
-               'product_id' => $request->p_id,
-               'value' => $request->value
+                'user_id' => Auth::id(),
+                'product_id' => $request->p_id,
+                'value' => $request->value
             ]);
             return response(array(
                 'success' => true,

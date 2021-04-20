@@ -8,7 +8,7 @@
                 <div class="col-12">
                     <div class="section__wrap">
                         <!-- section title -->
-                        <h2 class="section__title">Catalog <span>({{count($products)}} products)</span></h2>
+                        <h2 class="section__title">Catalog <span>({{$products->total()}} products)</span></h2>
                         <!-- end section title -->
 
                         <!-- breadcrumb -->
@@ -103,11 +103,16 @@
 
                                         <div class="card__title">
                                             <h3><a>{{$product->name}}</a></h3>
-                                            @if($product->sale == 0)
-                                                <span>${{$product->price}}</span>
-                                            @else
-                                                <span>${{$product->sale}}</span><s>${{$product->price}}</s>
-                                            @endif
+                                            <div class="list__price">
+                                                @if($product->sale == 0)
+                                                    <span>${{$product->price}}</span>
+                                                @else
+                                                    <span>${{$product->sale}}</span>
+                                                    <s>${{$product->price}}</s>
+                                                    <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
+                                                        % OFF</b>
+                                                @endif
+                                            </div>
                                         </div>
 
                                         <div class="card__actions">
