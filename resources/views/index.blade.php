@@ -37,13 +37,13 @@
         <div class="owl-carousel section__carousel section__carousel--big" id="carousel0">
             @foreach($topRate as $product)
                 <div class="card card--big">
-                    <a href="" class="card__cover">
+                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="card__cover">
                         <img src="{{asset('img/product/' . $product->image)}}" alt="{{$product->name}}">
                     </a>
 
                     <div class="card__wrap">
                         <div class="card__title">
-                            <h3><a href="">{{$product->name}}</a></h3>
+                            <h3><a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a></h3>
                         </div>
 
                         <ul class="card__list">
@@ -122,11 +122,11 @@
             <!-- card -->
             @foreach($recentAdded as $product)
                 <div class="card">
-                    <a class="card__cover">
+                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="card__cover">
                         <img src="{{asset('img/product/' . $product->image)}}" alt="{{$product->name}}">
                     </a>
                     <div class="card__title">
-                        <h3><a href="">{{$product->name}}</a></h3>
+                        <h3><a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a></h3>
                         <div class="list__price">
                             @if($product->sale == 0)
                                 <span>${{$product->price}}</span>
@@ -187,14 +187,14 @@
                                 @for($i = 0; $i < 3; $i++ )
                                     @if(count($randomly[$i]->items()->get()) > 1)
                                         <li class="list__item">
-                                            <a href="#" class="list__cover">
+                                            <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="list__cover">
                                                 <img src="{{asset('img/product/' . $lastUpdate[$i]->image)}}"
                                                      alt="{{$lastUpdate[$i]->name}}">
                                             </a>
 
                                             <div class="list__wrap">
                                                 <h3 class="list__title">
-                                                    <a href="#">{{$lastUpdate[$i]->name}}</a>
+                                                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$lastUpdate[$i]->name}}</a>
                                                 </h3>
 
                                                 <div class="list__price">
@@ -245,14 +245,14 @@
                                 @foreach($getRecommendation as $product)
                                     @if(count($product->items()->get()) >= 1)
                                         <li class="list__item">
-                                            <a href="#" class="list__cover">
+                                            <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="list__cover">
                                                 <img src="{{asset('img/product/' . $product->image)}}"
                                                      alt="{{$product->name}}">
                                             </a>
 
                                             <div class="list__wrap">
                                                 <h3 class="list__title">
-                                                    <a href="#">{{$product->name}}</a>
+                                                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a>
                                                 </h3>
 
                                                 <div class="list__price">
@@ -303,14 +303,14 @@
                                 @for($i = 0; $i < 3; $i++ )
                                     @if(count($randomly[$i]->items()->get()) > 1)
                                         <li class="list__item">
-                                            <a href="#" class="list__cover">
+                                            <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="list__cover">
                                                 <img src="{{asset('img/product/' . $randomly[$i]->image)}}"
                                                      alt="{{$randomly[$i]->name}}">
                                             </a>
 
                                             <div class="list__wrap">
                                                 <h3 class="list__title">
-                                                    <a href="#">{{$randomly[$i]->name}}</a>
+                                                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$randomly[$i]->name}}</a>
                                                 </h3>
 
                                                 <div class="list__price">

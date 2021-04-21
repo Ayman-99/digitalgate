@@ -74,8 +74,11 @@ class HomeController extends Base
             }
             $re = new Recommend();
             $forUser = $re->getRecommendations($list, Auth::user()->name);
+            if($forUser == null){
+                return $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(3)->get());
+            }
             if (count($forUser) < 1) {
-                $getRecommendation = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(4)->get());
+                $getRecommendation = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(3)->get());
             } else {
                 $forUser = array_keys($forUser);
                 $tempCounter = 0;
@@ -89,7 +92,7 @@ class HomeController extends Base
                 }
             }
         } else {
-            $getRecommendation = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(4)->get());
+            $getRecommendation = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(3)->get());
         }
         return $getRecommendation;
     }

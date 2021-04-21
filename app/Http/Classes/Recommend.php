@@ -20,6 +20,9 @@ class Recommend {
         $similar = array();
         $sum = 0;
 
+        if (!array_key_exists($person1, $preferences)) {
+            return null;
+        }
         foreach($preferences[$person1] as $key=>$value)
         {
             if(array_key_exists($key, $preferences[$person2]))

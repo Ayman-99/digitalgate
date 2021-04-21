@@ -31,7 +31,7 @@ class ShopController extends Base
             }
         }
         if ($request->has('minPrice') && $request->has('maxPrice') && (int)$request->maxPrice !== 0 && (int)$request->minPrice !== 0) {
-            $sql .= " price between " . $this->validation_input($request->minPrice) . " and " . $this->validation_input($request->maxPrice) . " and ";
+            $sql .= " sale between " . $this->validation_input($request->minPrice) . " and " . $this->validation_input($request->maxPrice) . " and ";
         }
         if ($request->has('sort')) {
             $sql .= " deleted_at is null";
