@@ -101,7 +101,15 @@ class HomeController extends Base
 
     public function search(Request $request)
     {
-
+        if(!isset($reqiest->c) && !isset($request->s)){
+            return back();
+        }
+        if($request->c == 0){
+            $products = Product::where('name','LIKE','%' . $this->validation_input(str_replace(' ', '-', $request->s)) . "%")->paginate(15);
+        } else {
+            $products = Product::where('category_id', $this->validation_input($request->c))->where('name','LIKE','%' . $this->validation_input(str_replace(' ', '-', $request->s)) . "%")->paginate(15);
+        }
+        return view('search', compact('products'));
     }
 
     public function sendContactMessage(Request $request)
