@@ -139,7 +139,7 @@
                     </div>
 
                     <div class="card__actions">
-                        @if(count($product->items()->get()) < 1)
+                        @if(count($product->items()->where('activated','=','0')->get()) < 1)
                             <button class="card__buy" type="button" style="background-color: #dc3545;width:100%">Out of
                                 stock
                             </button>

@@ -19,7 +19,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if($items !== null && count($items) > 0)
+                    @if(count($items) > 0)
                         @foreach($items as $item)
                             <tr>
                                 <td>{{$item->product === null ? "DELETED(" . $item->product_id . ")" : $item->product->name}}</td>

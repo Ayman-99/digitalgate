@@ -19,7 +19,8 @@ table.dataTable {
     color:#fff;
 }
 #DataTables_Table_0_length label select{
-    color:#fff;
+    color: #fff;
+    background-color: #000;
 }
 table.dataTable thead th,
 table.dataTable tfoot th {

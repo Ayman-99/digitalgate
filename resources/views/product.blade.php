@@ -27,16 +27,16 @@
                         <div class="details__cart" style="height: auto;">
                             @if (Auth::check())
                                 <div class="wrapper">
-                                    <input type="radio" id="r1" name="rg1" value="5">
-                                    <label for="r1">&#10038;</label>
-                                    <input type="radio" id="r2" name="rg1" value="4">
-                                    <label for="r2">&#10038;</label>
-                                    <input type="radio" id="r3" name="rg1" value="3">
-                                    <label for="r3">&#10038;</label>
-                                    <input type="radio" id="r4" name="rg1" value="2">
-                                    <label for="r4">&#10038;</label>
-                                    <input type="radio" id="r5" name="rg1" value="1">
-                                    <label for="r5">&#10038;</label>
+                                    <input type="radio" id="r1" name="rg1" value="5" {{ceil($product->rate) == 5 ? "checked" : ""}}>
+                                    <label for="r1">&#9734;</label>
+                                    <input type="radio" id="r2" name="rg1" value="4" {{ceil($product->rate) == 4 ? "checked" : ""}}>
+                                    <label for="r2">&#9734;</label>
+                                    <input type="radio" id="r3" name="rg1" value="3" {{ceil($product->rate) == 3 ? "checked" : ""}}>
+                                    <label for="r3">&#9734;</label>
+                                    <input type="radio" id="r4" name="rg1" value="2" {{ceil($product->rate) == 2 ? "checked" : ""}}>
+                                    <label for="r4">&#9734;</label>
+                                    <input type="radio" id="r5" name="rg1" value="1" {{ceil($product->rate) == 1 ? "checked" : ""}}>
+                                    <label for="r5">&#9734;</label>
                                     <input type="hidden" name="product" value="{{$product->id}}">
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 </div>
@@ -52,7 +52,7 @@
                             </div>
 
                             <div class="details__actions">
-                                @if(count($product->items()->get()) < 1)
+                                @if(count($product->items()->where('activated','=','0')->get()) < 1)
                                     <button class="card__buy" type="button"
                                             style="background-color: #dc3545;width:100%">Out of
                                         stock
@@ -62,15 +62,6 @@
                                             data-token="{{csrf_token()}}">Buy now
                                     </button>
                                 @endif
-                                <button class="details__favorite" type="button">
-                                    <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
-                                         viewBox='0 0 512 512'>
-                                        <path
-                                            d='M352.92,80C288,80,256,144,256,144s-32-64-96.92-64C106.32,80,64.54,124.14,64,176.81c-1.1,109.33,86.73,187.08,183,252.42a16,16,0,0,0,18,0c96.26-65.34,184.09-143.09,183-252.42C447.46,124.14,405.68,80,352.92,80Z'
-                                            style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                    </svg>
-                                    Add to cart
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -116,12 +107,12 @@
         <div class="owl-carousel section__carousel section__carousel--catalog" id="carousel1">
             @foreach($getRecommendation as $recommended)
                 <div class="card">
-                    <a href="details.html" class="card__cover">
+                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $recommended->name)])}}" class="card__cover">
                         <img src="{{asset('img/product/' . $recommended->image)}}" alt="">
                     </a>
 
                     <div class="card__title">
-                        <h3><a href="">{{$recommended->name}}</a></h3>
+                        <h3><a href="{{route('shop.product',['product'=>str_replace(' ', '-', $recommended->name)])}}">{{$recommended->name}}</a></h3>
                         <div class="list__price">
                             @if($recommended->sale == 0)
                                 <span>${{$recommended->price}}</span>
@@ -135,15 +126,15 @@
                     </div>
 
                     <div class="card__actions">
-                        <button class="card__buy" type="button">Buy</button>
-
-                        <button class="card__favorite" type="button">
-                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
-                                <path
-                                    d='M352.92,80C288,80,256,144,256,144s-32-64-96.92-64C106.32,80,64.54,124.14,64,176.81c-1.1,109.33,86.73,187.08,183,252.42a16,16,0,0,0,18,0c96.26-65.34,184.09-143.09,183-252.42C447.46,124.14,405.68,80,352.92,80Z'
-                                    style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                            </svg>
-                        </button>
+                        @if(count($recommended->items()->where('activated','=','0')->get()) < 1)
+                            <button class="card__buy" type="button"
+                                    style="background-color: #dc3545;width:100%">Out of
+                                stock
+                            </button>
+                        @else
+                            <button class="card__buy" type="button data-product="{{$recommended->id}}"
+                            data-token="{{csrf_token()}}"">Buy</button>
+                        @endif
                     </div>
                 </div>
             @endforeach

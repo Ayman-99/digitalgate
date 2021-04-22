@@ -91,14 +91,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="header__content">
-                        <form action="{{route('front.search')}}" method="get" class="header__form">
+                        <form action="{{route('front.search')}}" method="get" class="header__form" style="width: 284px;">
                             <input type="text" name="s" class="header__input" placeholder="I'm searching for...">
-                            <select name="c" class="header__select">
-                                <option value="0">All Categories</option>
-                                @foreach(\Illuminate\Support\Facades\Cache::get('categories') as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
-                                @endforeach
-                            </select>
                             <button class="header__btn" type="submit">
                                 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
                                     <path d='M221.09,64A157.09,157.09,0,1,0,378.18,221.09,157.1,157.1,0,0,0,221.09,64Z'
