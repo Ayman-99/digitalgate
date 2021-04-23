@@ -37,13 +37,16 @@
         <div class="owl-carousel section__carousel section__carousel--big" id="carousel0">
             @foreach($topRate as $product)
                 <div class="card card--big">
-                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="card__cover">
+                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}"
+                       class="card__cover">
                         <img src="{{asset('img/product/' . $product->image)}}" alt="{{$product->name}}">
                     </a>
 
                     <div class="card__wrap">
                         <div class="card__title">
-                            <h3><a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a></h3>
+                            <h3>
+                                <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a>
+                            </h3>
                         </div>
 
                         <ul class="card__list">
@@ -69,13 +72,6 @@
                                         data-token="{{csrf_token()}}">Buy
                                 </button>
                             @endif
-                            <button class="card__favorite" type="button">
-                                <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
-                                    <path
-                                        d='M352.92,80C288,80,256,144,256,144s-32-64-96.92-64C106.32,80,64.54,124.14,64,176.81c-1.1,109.33,86.73,187.08,183,252.42a16,16,0,0,0,18,0c96.26-65.34,184.09-143.09,183-252.42C447.46,124.14,405.68,80,352.92,80Z'
-                                        style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                </svg>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -122,11 +118,14 @@
             <!-- card -->
             @foreach($recentAdded as $product)
                 <div class="card">
-                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="card__cover">
+                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}"
+                       class="card__cover">
                         <img src="{{asset('img/product/' . $product->image)}}" alt="{{$product->name}}">
                     </a>
                     <div class="card__title">
-                        <h3><a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a></h3>
+                        <h3>
+                            <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a>
+                        </h3>
                         <div class="list__price">
                             @if($product->sale == 0)
                                 <span>${{$product->price}}</span>
@@ -148,13 +147,6 @@
                                     data-token="{{csrf_token()}}">Buy
                             </button>
                         @endif
-                        <button class="card__favorite" type="button">
-                            <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
-                                <path
-                                    d='M352.92,80C288,80,256,144,256,144s-32-64-96.92-64C106.32,80,64.54,124.14,64,176.81c-1.1,109.33,86.73,187.08,183,252.42a16,16,0,0,0,18,0c96.26-65.34,184.09-143.09,183-252.42C447.46,124.14,405.68,80,352.92,80Z'
-                                    style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                            </svg>
-                        </button>
                     </div>
                 </div>
         @endforeach
@@ -184,43 +176,42 @@
 
                             <!-- cards -->
                             <ul class="list list--mb">
-                                @for($i = 0; $i < 3; $i++ )
-                                    @if(count($randomly[$i]->items()->get()) > 1)
-                                        <li class="list__item">
-                                            <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="list__cover">
-                                                <img src="{{asset('img/product/' . $lastUpdate[$i]->image)}}"
-                                                     alt="{{$lastUpdate[$i]->name}}">
-                                            </a>
+                                @foreach($lastUpdate as $product)
+                                    <li class="list__item">
+                                        <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}"
+                                           class="list__cover">
+                                            <img src="{{asset('img/product/' . $product->image)}}"
+                                                 alt="{{$product->name}}">
+                                        </a>
 
-                                            <div class="list__wrap">
-                                                <h3 class="list__title">
-                                                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$lastUpdate[$i]->name}}</a>
-                                                </h3>
+                                        <div class="list__wrap">
+                                            <h3 class="list__title">
+                                                <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a>
+                                            </h3>
 
-                                                <div class="list__price">
-                                                    @if($lastUpdate[$i]->sale == 0)
-                                                        <span>${{$lastUpdate[$i]->price}}</span>
-                                                    @else
-                                                        <span>${{$lastUpdate[$i]->sale}}</span>
-                                                        <s>${{$lastUpdate[$i]->price}}</s>
-                                                        <b>{{round(100 * ($lastUpdate[$i]->price - $lastUpdate[$i]->sale) / $lastUpdate[$i]->price)}}
-                                                            % OFF</b>
-                                                    @endif
-                                                </div>
-
-                                                <button class="list__buy" type="button">
-                                                    <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
-                                                         viewBox='0 0 512 512'>
-                                                        <line x1='256' y1='112' x2='256' y2='400'
-                                                              style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                        <line x1='400' y1='256' x2='112' y2='256'
-                                                              style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                    </svg>
-                                                </button>
+                                            <div class="list__price">
+                                                @if($product->sale == 0)
+                                                    <span>${{$product->price}}</span>
+                                                @else
+                                                    <span>${{$product->sale}}</span>
+                                                    <s>${{$product->price}}</s>
+                                                    <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
+                                                        % OFF</b>
+                                                @endif
                                             </div>
-                                        </li>
-                                    @endif
-                                @endfor
+
+                                            @if(count($product->items()->where('activated','=','0')->get()) < 1)
+                                                <button class="list__buy" type="button" style="background-color: #dc3545;width: 19%">Out of
+                                                    stock
+                                                </button>
+                                            @else
+                                                <button class="list__buy addToCart" type="button" data-product="{{$product->id}}"
+                                                        data-token="{{csrf_token()}}">Buy
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </li>
+                                @endforeach
                             </ul>
                             <!-- end cards -->
                         </div>
@@ -243,41 +234,40 @@
                             <!-- cards -->
                             <ul class="list list--mb">
                                 @foreach($getRecommendation as $product)
-                                    @if(count($product->items()->get()) >= 1)
-                                        <li class="list__item">
-                                            <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="list__cover">
-                                                <img src="{{asset('img/product/' . $product->image)}}"
-                                                     alt="{{$product->name}}">
-                                            </a>
+                                    <li class="list__item">
+                                        <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}"
+                                           class="list__cover">
+                                            <img src="{{asset('img/product/' . $product->image)}}"
+                                                 alt="{{$product->name}}">
+                                        </a>
 
-                                            <div class="list__wrap">
-                                                <h3 class="list__title">
-                                                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a>
-                                                </h3>
+                                        <div class="list__wrap">
+                                            <h3 class="list__title">
+                                                <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a>
+                                            </h3>
 
-                                                <div class="list__price">
-                                                    @if($product->sale == 0)
-                                                        <span>${{$product->price}}</span>
-                                                    @else
-                                                        <span>${{$product->sale}}</span>
-                                                        <s>${{$product->price}}</s>
-                                                        <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
-                                                            % OFF</b>
-                                                    @endif
-                                                </div>
-
-                                                <button class="list__buy" type="button">
-                                                    <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
-                                                         viewBox='0 0 512 512'>
-                                                        <line x1='256' y1='112' x2='256' y2='400'
-                                                              style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                        <line x1='400' y1='256' x2='112' y2='256'
-                                                              style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                    </svg>
-                                                </button>
+                                            <div class="list__price">
+                                                @if($product->sale == 0)
+                                                    <span>${{$product->price}}</span>
+                                                @else
+                                                    <span>${{$product->sale}}</span>
+                                                    <s>${{$product->price}}</s>
+                                                    <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
+                                                        % OFF</b>
+                                                @endif
                                             </div>
-                                        </li>
-                                    @endif
+
+                                            @if(count($product->items()->where('activated','=','0')->get()) < 1)
+                                                <button class="list__buy" type="button" style="background-color: #dc3545;width: 19%">Out of
+                                                    stock
+                                                </button>
+                                            @else
+                                                <button class="list__buy addToCart" type="button" data-product="{{$product->id}}"
+                                                        data-token="{{csrf_token()}}">Buy
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </li>
                                 @endforeach
                             </ul>
                             <!-- end cards -->
@@ -300,43 +290,41 @@
 
                             <!-- cards -->
                             <ul class="list">
-                                @for($i = 0; $i < 3; $i++ )
-                                    @if(count($randomly[$i]->items()->get()) > 1)
-                                        <li class="list__item">
-                                            <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" class="list__cover">
-                                                <img src="{{asset('img/product/' . $randomly[$i]->image)}}"
-                                                     alt="{{$randomly[$i]->name}}">
-                                            </a>
+                                @foreach($randomly as $product)
+                                    <li class="list__item">
+                                        <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}"
+                                           class="list__cover">
+                                            <img src="{{asset('img/product/' . $product->image)}}"
+                                                 alt="{{$product->name}}">
+                                        </a>
 
-                                            <div class="list__wrap">
-                                                <h3 class="list__title">
-                                                    <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$randomly[$i]->name}}</a>
-                                                </h3>
+                                        <div class="list__wrap">
+                                            <h3 class="list__title">
+                                                <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a>
+                                            </h3>
 
-                                                <div class="list__price">
-                                                    @if($randomly[$i]->sale == 0)
-                                                        <span>${{$randomly[$i]->price}}</span>
-                                                    @else
-                                                        <span>${{$randomly[$i]->sale}}</span>
-                                                        <s>${{$randomly[$i]->price}}</s>
-                                                        <b>{{round(100 * ($randomly[$i]->price - $randomly[$i]->sale) / $randomly[$i]->price)}}
-                                                            % OFF</b>
-                                                    @endif
-                                                </div>
-
-                                                <button class="list__buy" type="button">
-                                                    <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
-                                                         viewBox='0 0 512 512'>
-                                                        <line x1='256' y1='112' x2='256' y2='400'
-                                                              style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                        <line x1='400' y1='256' x2='112' y2='256'
-                                                              style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
-                                                    </svg>
-                                                </button>
+                                            <div class="list__price">
+                                                @if($product->sale == 0)
+                                                    <span>${{$product->price}}</span>
+                                                @else
+                                                    <span>${{$product->sale}}</span>
+                                                    <s>${{$product->price}}</s>
+                                                    <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
+                                                        % OFF</b>
+                                                @endif
                                             </div>
-                                        </li>
-                                    @endif
-                                @endfor
+                                            @if(count($product->items()->where('activated','=','0')->get()) < 1)
+                                                <button class="list__buy" type="button" style="background-color: #dc3545;width: 19%">Out of
+                                                    stock
+                                                </button>
+                                            @else
+                                                <button class="list__buy addToCart" type="button" data-product="{{$product->id}}"
+                                                        data-token="{{csrf_token()}}">Buy
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </li>
+                                @endforeach
                             </ul>
                             <!-- end cards -->
                         </div>

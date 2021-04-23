@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Classes\Recommend;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,8 +57,8 @@ class HomeController extends Base
         $topRate = Cache::get('topGames');
         $recentAdded = Cache::get('recentAdded');
         $getRecommendation = $this->getRecomm();
-        $randomly = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(4)->get());
-        $lastUpdate = $this->getArray(Product::orderBy('updated_at', 'desc')->with('items')->limit(4)->get());
+        $randomly = $this->getArray(Product::where('rate', '<=', '2')->inRandomOrder()->with('items')->limit(3)->get());
+        $lastUpdate = $this->getArray(Product::orderBy('updated_at', 'desc')->with('items')->limit(3)->get());
         return view('index', compact('topRate', 'recentAdded', 'randomly', 'lastUpdate', 'getRecommendation'));
     }
     private function getRecomm(){

@@ -3,6 +3,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Classes\Recommend;
+use Illuminate\Support\Facades\Auth;
+
 class Base extends Controller
 {
     function validation_input($data)
@@ -12,11 +15,6 @@ class Base extends Controller
         $data = htmlspecialchars($data);
         $data = strip_tags($data); //Remove html tags
         return $data;
-    }
-
-    function test()
-    {
-        return view('emails.shipped');
     }
 
     public function getArray($products)
