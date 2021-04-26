@@ -121,33 +121,6 @@ $(document).ready(function () {
             },
         });
     });
-    $('.addDiscount').click(function (e) {
-        var data = $(this).data('discount');
-        var token = $(this).data('token');
-        var button = $(this);
-        $.ajax({
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            url: root() + "/shop/cart/discount",
-            type: "POST",
-            async: !1,
-            cache: !0,
-            data: {
-                "_token": token,
-                "discount": data
-            },
-            success: function (t, e, s) {
-                $("#checkoutTotal").html(t.total);
-                $("#checkoutDiscount").html("$" + t.dis);
-                $('#checkoutalert').html("You added $" + t.dis + " discount for this order!");
-                $('#checkoutalert').removeClass('alert-primary');
-                $('#checkoutalert').addClass('alert-success');
-            },
-            error: function (t, e, s) {
-                alert(t.responseText);
-                console.log("error " + t.status);
-            },
-        });
-    });
     $('.addToCart').click(function (e) {
         var data = $(this).data('product');
         var token = $(this).data('token');

@@ -50,73 +50,131 @@ class PaymentController extends Controller
     public function payWithPaypal(Request $request)
     {
         //if user balance > order use case here
-
-        // else user balance < order
-        //Set payer
-        $payer = new Payer();
-        $payer->setPaymentMethod("paypal");
-
-        $items = array();
-        $total = 0;
-        $errorItems = 0;
-        foreach (Cart::instance('shopping')->content() as $cartItem) {
-            $product = Product::find($cartItem->id);
-            if ($product->sale == 0) {
-                if ($product->price != $cartItem->price) {
-                    $errorItems++;
-                    continue;
+        if(Auth::user()->balance > Cart::instance('shopping')->subtotal()){
+            $discount = 0;
+            $user = Auth::user();
+            $user->balance = $user->balance + Cart::instance('shopping')->subtotal() * 0.01;
+            $order = Order::create([
+                'user_id' => Auth::id(),
+                'transaction' => strtoupper(substr(str_shuffle(md5(time())),0,19)),
+                'total' => Cart::instance('shopping')->subtotal(),
+                'status' => 'Pending'
+            ]);
+            $errorItems = 0;
+            $items = array();
+            foreach (Cart::instance('shopping')->content() as $cartItem) {
+                $product = Product::find($cartItem->id);
+                if ($product->sale == 0) {
+                    if ($product->price != $cartItem->price) {
+                        $errorItems++;
+                        continue;
+                    }
+                } else {
+                    if ($product->sale != $cartItem->price) {
+                        $errorItems++;
+                        continue;
+                    }
                 }
-            } else {
-                if ($product->sale != $cartItem->price) {
-                    $errorItems++;
-                    continue;
-                }
+                array_push($items, $cartItem->id);
             }
-            $item = new Item();
-            $item->setName($cartItem->name)
-                ->setCurrency('USD')
-                ->setQuantity($cartItem->qty)
-                ->setSku($cartItem->id) // Similar to `item_number` in Classic API
-                ->setPrice($cartItem->price);
-            $total = $total + $cartItem->qty * $cartItem->price;
-            array_push($items, $item);
-        }
-        if (session()->has('discount')) {
-            $discount = new Item();
-            $discount->setName('Discount')
-                ->setCurrency('USD')
-                ->setQuantity(1)
-                ->setPrice("-" . session()->get('discount'));
-            $total = $total - session()->get('discount');
-            array_push($items, $discount);
-        }
-        session("wrongItems", $errorItems);
-        $itemList = new ItemList();
-        $itemList->setItems($items);
-        $amount = new Amount();
-        $amount->setCurrency("USD")
-            ->setTotal($total);
-        $transaction = new Transaction();
-        $transaction->setAmount($amount)
-            ->setItemList($itemList)
-            ->setDescription("Buying items from digitalgate");
+            if ($errorItems > 0) {
+                $order->status = "Pending";
+            } else {
+                $order->status = "Completed";
+            }
+            if (session()->has('discount')) {
+                $user->balance -= session()->get('discount');
+                Discount::create([
+                    'user_id' => Auth::id(),
+                    'order_id' => $order->id,
+                    'amount' => session()->get('discount')
+                ]);
+                $discount = session()->get('discount');
+                session()->remove('discount');
+            }
+            $codesToShow = array();
+            for($i = 0, $iMax = count($items); $i < $iMax; $i++){
+                $product = Product::where('id', $items[$i])->with('items')->first();
+                $code = $product->items->where('activated', '=', 0)->first();
+                $code->activated = '1';
+                $code->order_id = $order->id;
+                $code->save();
+                array_push($codesToShow, $product);
+            }
+            $order->save();
+            $user->save();
+            Mail::to(Auth::user())->send(new OrderShipped($order, $codesToShow, $discount));
+            $flag = 1;
+            $status = $order->status;
+            Cart::instance('shopping')->destroy();
+            return view('success', compact('flag', 'status'));
+        } else {
+            //Set payer
+            $payer = new Payer();
+            $payer->setPaymentMethod("paypal");
 
-        $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl(route('front.pay.status'))
-            ->setCancelUrl(route('front.pay.cancelled'));
+            $items = array();
+            $total = 0;
+            $errorItems = 0;
+            foreach (Cart::instance('shopping')->content() as $cartItem) {
+                $product = Product::find($cartItem->id);
+                if ($product->sale == 0) {
+                    if ($product->price != $cartItem->price) {
+                        $errorItems++;
+                        continue;
+                    }
+                } else {
+                    if ($product->sale != $cartItem->price) {
+                        $errorItems++;
+                        continue;
+                    }
+                }
+                $item = new Item();
+                $item->setName($cartItem->name)
+                    ->setCurrency('USD')
+                    ->setQuantity($cartItem->qty)
+                    ->setSku($cartItem->id) // Similar to `item_number` in Classic API
+                    ->setPrice($cartItem->price);
+                $total = $total + $cartItem->qty * $cartItem->price;
+                array_push($items, $item);
+            }
+            if (session()->has('discount')) {
+                $discount = new Item();
+                $discount->setName('Discount')
+                    ->setCurrency('USD')
+                    ->setQuantity(1)
+                    ->setPrice("-" . session()->get('discount'));
+                $total = $total - session()->get('discount');
+                array_push($items, $discount);
+            }
+            session("wrongItems", $errorItems);
+            $itemList = new ItemList();
+            $itemList->setItems($items);
+            $amount = new Amount();
+            $amount->setCurrency("USD")
+                ->setTotal($total);
+            $transaction = new Transaction();
+            $transaction->setAmount($amount)
+                ->setItemList($itemList)
+                ->setDescription("Buying items from digitalgate");
 
-        $payment = new Payment();
-        $payment->setIntent("sale")
-            ->setPayer($payer)
-            ->setRedirectUrls($redirectUrls)
-            ->setTransactions(array($transaction));
-        try {
-            $payment->create($this->apiContext);
-        } catch (\PayPal\Exception\PPCOnnectionException $ex) {
-            die($ex);
+            $redirectUrls = new RedirectUrls();
+            $redirectUrls->setReturnUrl(route('front.pay.status'))
+                ->setCancelUrl(route('front.pay.cancelled'));
+
+            $payment = new Payment();
+            $payment->setIntent("sale")
+                ->setPayer($payer)
+                ->setRedirectUrls($redirectUrls)
+                ->setTransactions(array($transaction));
+            try {
+                $payment->create($this->apiContext);
+            } catch (\PayPal\Exception\PPCOnnectionException $ex) {
+                die($ex);
+            }
+            $approvalUrl = $payment->getApprovalLink();
+            return redirect($approvalUrl);
         }
-        $approvalUrl = $payment->getApprovalLink();
-        return redirect($approvalUrl);
     }
 
     public function status(Request $request)

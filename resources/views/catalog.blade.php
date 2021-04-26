@@ -51,15 +51,28 @@
 
                                     <div class="filter__group">
                                         <label class="filter__label">Price:</label>
-
-                                        <div class="filter__range">
-                                            <div id="filter__range-start"></div>
-                                            <input id="minPrice" type="hidden" name="minPrice">
-                                            <div id="filter__range-end"></div>
-                                            <input id="maxPrice" type="hidden" name="maxPrice">
-                                        </div>
-
-                                        <div id="filter__range"></div>
+                                        <ul class="filter__checkboxes">
+                                            <li>
+                                                <input id="type5" type="radio" name="category" checked="" value="0">
+                                                <label for="type5">Less than 5$</label>
+                                            </li>
+                                            <li>
+                                                <input id="type5" type="radio" name="category" checked="" value="0">
+                                                <label for="type5">Between 5$ - 10$</label>
+                                            </li>
+                                            <li>
+                                                <input id="type5" type="radio" name="category" checked="" value="0">
+                                                <label for="type5">Between 10$ - 20$</label>
+                                            </li>
+                                            <li>
+                                                <input id="type5" type="radio" name="category" checked="" value="0">
+                                                <label for="type5">Between 20$ - 40$</label>
+                                            </li>
+                                            <li>
+                                                <input id="type5" type="radio" name="category" checked="" value="0">
+                                                <label for="type5">More than 40$</label>
+                                            </li>
+                                        </ul>
                                     </div>
 
                                     <div class="filter__group">
@@ -102,7 +115,7 @@
                                         </a>
 
                                         <div class="card__title">
-                                            <h3><a>{{$product->name}}</a></h3>
+                                            <h3><a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a></h3>
                                             <div class="list__price">
                                                 @if($product->sale == 0)
                                                     <span>${{$product->price}}</span>

@@ -26,7 +26,7 @@ Route::middleware('web')->group(function () {
     Route::group(['prefix' => 'shop'], function () { // localhost.com/shop/
         Route::get('/', 'ShopController@index')->name('shop.home');
         Route::match(array('post', 'delete'),'/cart/', "ShopController@cart");
-        Route::post('/cart/discount', 'CheckoutController@addDiscount');
+        Route::post('/cart/discount', 'CheckoutController@addDiscount')->name('front.checkout.add');
         Route::post('/product/rate', 'ShopController@addRate');
         Route::get('/{product}', 'ShopController@product')->name('shop.product');
     });

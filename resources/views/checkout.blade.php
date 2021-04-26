@@ -37,13 +37,12 @@
                         </div>
                     @elseif(Auth::user()->balance > 1.00)
                         <div id="checkoutalert" class="alert alert-primary" role="alert">
-                            You can add ${{Auth::user()->balance}} discount for this order, <a class="addDiscount"
-                                                                                               data-token="{{csrf_token()}}"
-                                                                                               data-discount="{{Auth::user()->balance}}"
-                                                                                               style="color:green;">click
-                                here to add</a>
+                            You can add ${{Auth::user()->balance}} discount for this order,
+                            {!! Form::open(['route' => 'front.checkout.add', 'method'=>'post']) !!}
+                                <button class="btn-info btn" type="submit">Pay with your balance</button>
+                            {!! Form::close() !!}
                         </div>
-                    @endif
+                @endif
                 <!-- cart -->
                     <div class="cart">
                         <div class="table-responsive">
@@ -113,11 +112,18 @@
                                             id="checkoutTotal">{{round(Cart::instance('shopping')->subtotal() - (session()->has('discount') ? session()->get('discount') : 0), 2)}}</span></span>
                                 </p>
                             </div>
-                            {!! Form::open(['route' => 'front.pay', 'method'=>'post']) !!}
-                            <button type="submit" class="form__btn"><img
-                                    src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png"
-                                    alt="Check out with PayPal"/></button>
-                            {!! Form::close() !!}
+                            @if(Auth::user()->balance > Cart::instance('shopping')->subtotal() && session()->has('discount'))
+                                {!! Form::open(['route' => 'front.pay', 'method'=>'post', 'id'=>'balanceForm']) !!}
+                                <button class="btn btn-primary" type="submit">Pay with your balance</button>
+                                {!! Form::close() !!}
+                            @else
+                                {!! Form::open(['route' => 'front.pay', 'method'=>'post', 'id'=>'paypalForm']) !!}
+                                <button type="submit" class="form__btn"><img
+                                        src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png"
+                                        alt="Check out with PayPal"/></button>
+                                {!! Form::close() !!}
+                            @endif
+
                         </div>
                     </div>
                 </div>
