@@ -52,7 +52,7 @@
         <div class="modal-dialog modal-lg" role="OrderInvoice">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Order invoice</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -73,6 +73,9 @@
                                 <strong id="userNameToDisplay"></strong>
                             </div>
                             <div id="userEmailToDisplay"></div>
+                            <div id="countryToDisplay"></div>
+                            <div id="codeToDisplay"></div>
+                            <div id="streetToDisplay"></div>
                         </div>
                     </div>
                     <div class="table-responsive-sm">
@@ -147,6 +150,9 @@
                     modal.find('#invTotal').text(t.total)
                     modal.find('#userNameToDisplay').text(t.userName);
                     modal.find('#userEmailToDisplay').text(t.userEmail);
+                    modal.find('#countryToDisplay').text(t.userCountry);
+                    modal.find('#codeToDisplay').text(t.userCode);
+                    modal.find('#streetToDisplay').text(t.userStreet);
                 },
                 error: function (t, e, s) {
                     console.log("error " + t.status);

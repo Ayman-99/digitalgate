@@ -54,6 +54,7 @@ Route::middleware('web')->group(function () {
                 Route::get('/', 'ProfileController@index')->name('front.profile.home');
                 Route::post('/', 'ProfileController@getOrder')->name('front.profile.order');
                 Route::put('/update', 'ProfileController@update')->name('front.profile.update');
+                Route::put('/update/address', 'ProfileController@updateAddress')->name('front.profile.update.address');
                 Route::put('/updatePassword', 'ProfileController@updatePassword')->name('front.profile.updatePassword');
             });
         });

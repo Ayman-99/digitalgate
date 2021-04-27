@@ -39,7 +39,7 @@
                         <div id="checkoutalert" class="alert alert-primary" role="alert">
                             You can add ${{Auth::user()->balance}} discount for this order,
                             {!! Form::open(['route' => 'front.checkout.add', 'method'=>'post']) !!}
-                                <button class="btn-info btn" type="submit">Pay with your balance</button>
+                            <button class="btn-info btn" type="submit">Pay with your balance</button>
                             {!! Form::close() !!}
                         </div>
                 @endif
@@ -96,6 +96,11 @@
                     <!-- checkout -->
                     <input type="text" class="form__input" value="{{Auth::user()->name}}" readonly>
                     <input type="email" class="form__input" value="{{Auth::user()->email}}" readonly>
+                    @if(Auth::user()->address)
+                        <input type="text" class="form__input" value="{{Auth::user()->address->country}}" readonly>
+                        <input type="text" class="form__input" value="{{Auth::user()->address->code}}" readonly>
+                        <input type="text" class="form__input" value="{{Auth::user()->address->street}}" readonly>
+                    @endif
                     <div class="card card-cascade card-ecommerce wider shadow p-3 mb-5" style="color:#fff;">
                         <!--Card Body-->
                         <div class="card-body card-body-cascade">

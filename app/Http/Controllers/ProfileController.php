@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Address;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Item;
@@ -29,7 +30,10 @@ class ProfileController extends Base
     public function getOrder(Request $request, $name)
     {
         $order = Order::where('id', $request->order_id)->with('items')->with('user')->first();
-        $discount = Discount::where('order_id', $request->order_id)->first()->amount;
+        $discount = 0;
+        if(Discount::where('order_id','=', $request->order_id)->exists()){
+            $discount = Discount::where('order_id','=', $request->order_id)->first()->amount;
+        }
         $user = $order->user;
         $items = $order->items;
         $arrs = array();
@@ -75,15 +79,30 @@ class ProfileController extends Base
             $body .= "</tr>";
             $totalAll += $total;
         }
-        return response(array(
-            'success' => true,
-            'body' => $body,
-            'userName' => $user->name,
-            'userEmail' => $user->email,
-            'subTotal' => "$" . $totalAll,
-            'discount' => "$" . $discount,
-            'total' => "$" . ($totalAll - $discount)
-        ), 200, []);
+        if(Address::where('user_id', '=', $user->id)->exists()){
+            return response(array(
+                'success' => true,
+                'body' => $body,
+                'userName' => "Name: " . $user->name,
+                'userEmail' => "Email: " . $user->email,
+                'userCountry' => "Country: " . $user->address->country,
+                'userCode' => "Code: " . $user->address->code,
+                'userStreet' => "Street: " . $user->address->street,
+                'subTotal' => "$" . $totalAll,
+                'discount' => "$" . $discount,
+                'total' => "$" . ($totalAll - $discount)
+            ), 200, []);
+        } else {
+            return response(array(
+                'success' => true,
+                'body' => $body,
+                'userName' => $user->name,
+                'userEmail' => $user->email,
+                'subTotal' => "$" . $totalAll,
+                'discount' => "$" . $discount,
+                'total' => "$" . ($totalAll - $discount)
+            ), 200, []);
+        }
     }
 
     public function update(Request $request, $name)
@@ -108,6 +127,31 @@ class ProfileController extends Base
         $user->email = $this->validation_input($request->input('email'));
         $user->save();
         return redirect()->route('front.profile.home', ['name' => $user->name, 'tab' => 'settings']);
+    }
+
+    public function updateAddress(Request $request, $name){
+        $validated = $request->validate([
+            'country' => ['bail', 'required', 'string', 'min:3', 'max:15'],
+            'street' => ['required','string', 'min:3','max:25'],
+            'code' => ['required','string', 'min:3','max:25']
+        ]);
+        session()->flash('messageUpdateData', "Data has been updated");
+        session()->flash('updateAddressFlag', "1");
+        if(Address::where('user_id', '=', Auth::id())->exists()){
+            $address = Address::where('user_id', '=', Auth::id())->first();
+            $address->country = $this->validation_input($request->input('country'));
+            $address->code = $this->validation_input($request->input('code'));
+            $address->street = $this->validation_input($request->input('street'));
+            $address->save();
+        } else {
+            Address::create([
+                'user_id' => Auth::id(),
+                'country' => $this->validation_input($request->input('country')),
+                'code' => $this->validation_input($request->input('code')),
+                'street' => $this->validation_input($request->input('street')),
+            ]);
+        }
+        return redirect()->route('front.profile.home', ['name' => Auth::user()->name, 'tab' => 'settings']);
     }
 
     public function updatePassword(Request $request, $name)

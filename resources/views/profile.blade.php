@@ -2,7 +2,8 @@
 
 @section('content')
     <!-- page title -->
-    <section class="section section--first section--last section--head" data-bg="{{asset("img/web/bg-for-profile.jpg")}}">
+    <section class="section section--first section--last section--head"
+             data-bg="{{asset("img/web/bg-for-profile.jpg")}}">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -112,7 +113,7 @@
                             {!! Form::open(['route'=>['front.profile.update', Auth::user()->name], 'method'=>'put']) !!}
                             <div class="row">
                                 <div class="col-12">
-                                    <h4 class="form__title">Profile details</h4>
+                                    <h2 class="form__title">Profile details</h2>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                     {!! Form::label('name', 'Username', ['class' => 'form__label']) !!}
@@ -154,7 +155,7 @@
                             {!! Form::open(['route'=> ['front.profile.updatePassword', 'name'=>Auth::user()->name], 'method'=>'PUT']) !!}
                             <div class="row">
                                 <div class="col-12">
-                                    <h4 class="form__title">Change password</h4>
+                                    <h2 class="form__title">Change password</h2>
                                 </div>
                                 <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                     {!! Form::label('oldpass','Old Password', ['class'=>'form__label']) !!}
@@ -186,6 +187,48 @@
                         </div>
                         <!-- end password form -->
                     </div>
+                    <div class="row">
+                        <!-- details form -->
+                        <div class="col-12 col-lg-6">
+                            {!! Form::open(['route'=>['front.profile.update.address', Auth::user()->name], 'method'=>'put']) !!}
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="form__title">Update address</h2>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    {!! Form::label('country', 'Country', ['class' => 'form__label']) !!}
+                                    {!! Form::text('country', '',['class'=>"form__input", 'required']) !!}
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    {!! Form::label('code', 'Code', ['class' => 'form__label']) !!}
+                                    {!! Form::text('code',  '',['class'=>"form__input", 'required']) !!}
+                                </div>
+
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    {!! Form::label('street', 'Street', ['class' => 'form__label']) !!}
+                                    {!! Form::text('street', '',['class'=>"form__input", 'required']) !!}
+                                </div>
+                                <div class="col-12">
+                                    <button class="form__btn" type="submit">Update</button>
+                                </div>
+                            </div>
+                            <br>
+                            {!! Form::close() !!}
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    @foreach ($errors->all() as $error)
+                                        <strong>* </strong> {{ $error }}.<br>
+                                    @endforeach
+                                </div>
+                            @elseif(Session::has('messageUpdateData') && Session::has('updateAddressFlag'))
+                                <div class="alert alert-success alert-dismissible">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong></strong> {{ Session::get('messageUpdateData') }}.<br>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- end content tabs -->
@@ -215,9 +258,14 @@
                         <div class="col-sm-6">
                             <h6 class="mb-3">To:</h6>
                             <div>
-                                <strong>{{Auth::user()->name}}</strong>
+                                <strong>Name: {{Auth::user()->name}}</strong>
                             </div>
                             <div>Email: {{Auth::user()->email}}</div>
+                            @if(Auth::user()->address->exists())
+                                <div>Country: {{Auth::user()->address->country}}</div>
+                                <div>Code: {{Auth::user()->address->code}}</div>
+                                <div>Street: {{Auth::user()->address->street}}</div>
+                            @endif
                         </div>
                     </div>
                     <div class="table-responsive-sm">
@@ -276,7 +324,7 @@
             var recipient = button.data('whatever')
             var modal = $(this)
             $.ajax({
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 url: "{{Auth::check() ? route("front.profile.order",['name'=>Auth::user()->name]) : ""}}",
                 type: "POST",
                 async: !1,
