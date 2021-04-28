@@ -104,6 +104,7 @@ $(document).ready(function () {
                     var total = parseFloat($('#userBalance').text());
                     total = total - parseFloat(t.p_price);
                     $('#userBalance').text(total.toFixed(2));
+                    $('#cartNotification').text(t.cartCount);
                     $.notify({
                         // options
                         message: t.message,
@@ -149,6 +150,7 @@ $(document).ready(function () {
                     var total = parseFloat($('#userBalance').text());
                     total = total + parseFloat(t.p_price);
                     $('#userBalance').text(total.toFixed(2));
+                    $('#cartNotification').text(t.cartCount);
                     $.notify({
                         // options
                         message: t.message,

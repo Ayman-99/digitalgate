@@ -72,7 +72,7 @@ class ShopController extends Base
             }
             $re = new Recommend();
             $result = $re->transformPreferences($list);
-            if(!array_key_exists($product->name, $result)){
+            if (!array_key_exists($product->name, $result)) {
                 return array();
             }
             $forUser = $re->matchItems($result, $product->name);
@@ -126,10 +126,10 @@ class ShopController extends Base
                 'message' => 'Error!'
             ), 417, []);
         }
-        if ($product->sale === 0) {
+        if ($product->category->sale == 0) {
             $price = $product->price;
         } else {
-            $price = $product->sale;
+            $price = ($product->category->sale_value/100) * $product->price;
         }
         switch (strtolower($request->method())) {
             case "post":
@@ -145,6 +145,7 @@ class ShopController extends Base
                     return response(array(
                         'success' => true,
                         'message' => 'Added to cart!',
+                        'cartCount' => $cart->count(),
                         'p_price' => $price
                     ), 200, []);
                 }
@@ -156,6 +157,7 @@ class ShopController extends Base
                             return response(array(
                                 'success' => true,
                                 'message' => 'Product has been removed from cart!',
+                                'cartCount' => $cart->count(),
                                 'p_price' => $price
                             ), 200, []);
                         }

@@ -43,11 +43,13 @@
                             @endif
                             <span class="details__cart-title">PRICE</span>
                             <div class="details__price">
-                                @if($product->sale == 0)
+                                @if($product->category->sale == 0)
                                     <span>${{$product->price}}</span>
                                 @else
-                                    <span>${{$product->sale}}</span><s>${{$product->price}}</s>
-                                    <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}% OFF</b>
+                                    <span>${{($product->category->sale_value/100) * $product->price}}</span>
+                                    <s>${{$product->price}}</s>
+                                    <b>{{$product->category->sale_value}}
+                                        % OFF</b>
                                 @endif
                             </div>
 
@@ -114,12 +116,12 @@
                     <div class="card__title">
                         <h3><a href="{{route('shop.product',['product'=>str_replace(' ', '-', $recommended->name)])}}">{{$recommended->name}}</a></h3>
                         <div class="list__price">
-                            @if($recommended->sale == 0)
+                            @if($recommended->category->sale == 0)
                                 <span>${{$recommended->price}}</span>
                             @else
-                                <span>${{$recommended->sale}}</span>
+                                <span>${{($recommended->category->sale_value/100) * $recommended->price}}</span>
                                 <s>${{$recommended->price}}</s>
-                                <b>{{round(100 * ($recommended->price - $recommended->sale) / $recommended->price)}}
+                                <b>{{$recommended->category->sale_value}}
                                     % OFF</b>
                             @endif
                         </div>

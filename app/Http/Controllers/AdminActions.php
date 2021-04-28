@@ -102,7 +102,6 @@ class AdminActions extends base
             'productCategory' => 'required|numeric',
             'productName' => 'required|min:8|max:255',
             'productPrice' => 'required|numeric',
-            'productSale' => 'required|numeric',
             'productImage' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         $imageMain = 'img-' . time() . '.' . request()->productImage->getClientOriginalExtension();
@@ -113,7 +112,6 @@ class AdminActions extends base
             'name' => $this->validation_input($request->productName),
             'description' => $this->validation_input($request->productDesc),
             'price' => $request->productPrice,
-            'sale' => $request->productSale,
             'image' => $imageMain,
             'rate' => 0,
             'meta' => substr($this->validation_input($request->productName), 0, 30)

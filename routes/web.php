@@ -42,6 +42,8 @@ Route::middleware('web')->group(function () {
                 Route::any('/items/', 'AdminController@viewItem')->name('front.admin.items');
                 Route::any('/products/', 'AdminController@viewProduct')->name('front.admin.products');
                 Route::any('/categories/', 'AdminController@viewCategories')->name('front.admin.categories');
+                Route::get('/categories/disableSale', 'AdminController@disableSale')->name('front.admin.categories.disable');
+                Route::get('/categories/enableSale', 'AdminController@enableSale')->name('front.admin.categories.enable');
 
                 Route::match(array('post', 'get'),'/items/restore', 'AdminController@restoreItems')->name('front.admin.restoreItems');
                 Route::match(array('post', 'get'),'/products/restore', 'AdminController@restoreProducts')->name('front.admin.restoreProducts');

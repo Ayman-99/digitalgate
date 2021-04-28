@@ -53,11 +53,13 @@
                             <li><span>Category:</span> {{$product->category->name}}</li>
                         </ul>
                         <div class="card__price">
-                            @if($product->sale == 0)
+                            @if($product->category->sale == 0)
                                 <span>${{$product->price}}</span>
                             @else
-                                <span>${{$product->sale}}</span><s>${{$product->price}}</s>
-                                <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}% OFF</b>
+                                <span>${{($product->category->sale_value/100) * $product->price}}</span>
+                                <s>${{$product->price}}</s>
+                                <b>{{$product->category->sale_value}}
+                                    % OFF</b>
                             @endif
                         </div>
 
@@ -127,11 +129,12 @@
                             <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}">{{$product->name}}</a>
                         </h3>
                         <div class="list__price">
-                            @if($product->sale == 0)
+                            @if($product->category->sale == 0)
                                 <span>${{$product->price}}</span>
                             @else
-                                <span>${{$product->sale}}</span><s>${{$product->price}}</s>
-                                <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
+                                <span>${{($product->category->sale_value/100) * $product->price}}</span>
+                                <s>${{$product->price}}</s>
+                                <b>{{$product->category->sale_value}}
                                     % OFF</b>
                             @endif
                         </div>
@@ -190,12 +193,12 @@
                                             </h3>
 
                                             <div class="list__price">
-                                                @if($product->sale == 0)
+                                                @if($product->category->sale == 0)
                                                     <span>${{$product->price}}</span>
                                                 @else
-                                                    <span>${{$product->sale}}</span>
+                                                    <span>${{($product->category->sale_value/100) * $product->price}}</span>
                                                     <s>${{$product->price}}</s>
-                                                    <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
+                                                    <b>{{$product->category->sale_value}}
                                                         % OFF</b>
                                                 @endif
                                             </div>
@@ -247,12 +250,12 @@
                                             </h3>
 
                                             <div class="list__price">
-                                                @if($product->sale == 0)
+                                                @if($product->category->sale == 0)
                                                     <span>${{$product->price}}</span>
                                                 @else
-                                                    <span>${{$product->sale}}</span>
+                                                    <span>${{($product->category->sale_value/100) * $product->price}}</span>
                                                     <s>${{$product->price}}</s>
-                                                    <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
+                                                    <b>{{$product->category->sale_value}}
                                                         % OFF</b>
                                                 @endif
                                             </div>
@@ -304,12 +307,12 @@
                                             </h3>
 
                                             <div class="list__price">
-                                                @if($product->sale == 0)
+                                                @if($product->category->sale == 0)
                                                     <span>${{$product->price}}</span>
                                                 @else
-                                                    <span>${{$product->sale}}</span>
+                                                    <span>${{($product->category->sale_value/100) * $product->price}}</span>
                                                     <s>${{$product->price}}</s>
-                                                    <b>{{round(100 * ($product->price - $product->sale) / $product->price)}}
+                                                    <b>{{$product->category->sale_value}}
                                                         % OFF</b>
                                                 @endif
                                             </div>

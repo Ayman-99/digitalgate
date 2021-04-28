@@ -75,6 +75,24 @@ class AdminController extends AdminActions
         }
     }
 
+    public function disableSale(Request $request){
+        $category = Category::where('id','=',$request->id)->first();
+        $category->sale = 0;
+        $category->sale_value = 1;
+        $category->save();
+        session()->flash('successMessage', "Category has been updated");
+        return back();
+    }
+
+    public function enableSale(Request $request){
+        $category = Category::where('id','=',$request->id)->first();
+        $category->sale = 1;
+        $category->sale_value = $request->val;
+        $category->save();
+        session()->flash('successMessage', "Category has been updated");
+        return back();
+    }
+
     public function restoreItems(Request $request)
     {
         switch (strtolower($request->method())) {    //1- Product 2- Item 3- Category

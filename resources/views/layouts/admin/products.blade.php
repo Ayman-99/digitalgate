@@ -15,7 +15,6 @@
                         <th>Sku</th>
                         <th>Name</th>
                         <th>Price</th>
-                        <th>Sale Price</th>
                         <th>Rate</th>
                         <th>Stock</th>
                         <th>Action</th>
@@ -29,7 +28,6 @@
                             <td>{{$product->sku}}</td>
                             <td>{{$product->name}}</td>
                             <td>{{$product->price}}</td>
-                            <td>{{$product->sale}}</td>
                             <td>{{$product->rate}}</td>
                             <td>{{count($product->items->where('activated','=','0')) > 0 ? count($product->items) : "Out of stock"}}</td>
                             <td style="width:10%">
@@ -48,7 +46,6 @@
                         <th>Sku</th>
                         <th>Name</th>
                         <th>Price</th>
-                        <th>Sale Price</th>
                         <th>Rate</th>
                         <th>Stock</th>
                         <th>Action</th>
@@ -95,12 +92,6 @@
                         <label for="productPrice">Product Price:</label>
                         <input type="text" class="form-control" id="productPrice" placeholder="Enter product price"
                                name="productPrice"
-                               required>
-                    </div>
-                    <div class="form-group">
-                        <label for="productSale">Product Sale:</label>
-                        <input type="text" class="form-control" id="productSale" placeholder="Enter product sale"
-                               name="productSale"
                                required>
                     </div>
                     <div class="form-group">

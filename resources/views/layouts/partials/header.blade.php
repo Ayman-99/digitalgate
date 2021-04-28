@@ -105,6 +105,7 @@
 
                         <div class="header__actions header__actions--2">
                             <a href="{{route('front.checkout')}}" class="header__link">
+                                <span id="cartNotification" class="badge badge-danger">{{Cart::instance('shopping')->count()}}</span>
                                 <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512' viewBox='0 0 512 512'>
                                     <circle cx='176' cy='416' r='16'
                                             style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>

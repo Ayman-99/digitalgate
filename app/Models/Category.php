@@ -13,7 +13,9 @@ class Category extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'visible'
+        'visible',
+        'sale',
+        'sale_value'
     ];
     public function products(){
         return $this->hasMany("App\Models\Product");

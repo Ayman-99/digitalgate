@@ -14,8 +14,10 @@
                         <th>Name</th>
                         <th># Of products</th>
                         <th>Visible</th>
+                        <th>On Sale</th>
                         <th>Action 1</th>
                         <th>Action 2</th>
+                        <th>Set sale</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -26,6 +28,7 @@
                                 <td>{{$category->name}}</td>
                                 <td>{{count($category->products)}}</td>
                                 <td>{{$category->visible == 0 ? "No" : "Yes"}}</td>
+                                <td>{{$category->sale == 0 ? "No" : "Yes(" . $category->sale_value . "%)"}}</td>
                                 <td style="width:10%">
                                     <button type="button" class="btn btn-info update" data-toggle="modal"
                                             data-target="#modalUpdateObject" data-id="{{$category->id}}"
@@ -35,8 +38,14 @@
                                 <td style="width:10%">
                                     {!! Form::open(['route'=>'front.admin.categories', 'method'=>'delete']) !!}
                                     <input type="hidden" name="id" value="{{$category->id}}">
-                                    <input type="submit" class="btn btn-danger deletingCategorySubmitForm" value="Delete" disabled />
+                                    <input type="submit" class="btn btn-danger deletingCategorySubmitForm"
+                                           value="Delete" disabled/>
                                     {!! Form::close() !!}
+                                </td>
+                                <td style="width:10%">
+                                    <a onclick="addSale({{$category->id}})" class="btn btn-success">+</a>
+                                    <a href="{{route('front.admin.categories.disable',['id' => $category->id])}}"
+                                       class="btn btn-danger">-</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -48,8 +57,10 @@
                         <th>Name</th>
                         <th># Of products</th>
                         <th>Visible</th>
+                        <th>On Sale</th>
                         <th>Action 1</th>
                         <th>Action 2</th>
+                        <th>Set sale</th>
                     </tr>
                     </tfoot>
                 </table>
@@ -127,6 +138,12 @@
         </div>
     </div>
     <script>
+        function addSale(category) {
+            val = prompt("Please enter sale value between (1 to 99)", "");
+            url = "{{route('front.admin.categories.enable',['id' => $category->id])}}";
+            window.location.href = url + "&val=" + val;
+        }
+
         $('#modalUpdateObject').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var recipient = button.data('whatever')

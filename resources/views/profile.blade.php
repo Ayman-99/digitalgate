@@ -261,7 +261,7 @@
                                 <strong>Name: {{Auth::user()->name}}</strong>
                             </div>
                             <div>Email: {{Auth::user()->email}}</div>
-                            @if(Auth::user()->address->exists())
+                            @if(Auth::user()->address !== null)
                                 <div>Country: {{Auth::user()->address->country}}</div>
                                 <div>Code: {{Auth::user()->address->code}}</div>
                                 <div>Street: {{Auth::user()->address->street}}</div>
