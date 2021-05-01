@@ -39,15 +39,11 @@ class ProfileController extends Base
         $arrs = array();
         foreach ($items as $item) {
             $productName = $item->product->name;
-            $productCost = $item->product->sale;
             $row = new class() {
                 public $productName;
                 public $productItems = array();
-                public $productCost;
-                public $productTotal = 0;
             };
             $row->productName = $productName;
-            $row->productCost = $productCost;
             array_push($arrs, $row);
         }
         $arrs = array_unique($arrs, SORT_REGULAR);
@@ -56,28 +52,22 @@ class ProfileController extends Base
             foreach ($arrs as $row) {
                 if ($row->productName === $productName) {
                     array_push($row->productItems, $item->value);
-                    $row->productTotal += $row->productCost;
                 }
             }
         }
         $body = "";
-        $totalAll = 0;
+        $totalAll = $order->total;
         foreach($arrs as $row){
             $temp = "";
-            $total = 0;
             $temp .= "<ul>";
             foreach($row->productItems as $item){
-                $total += $row->productCost;
                 $temp .= "<li>" . $item . "</li>";
             }
             $temp .= "</ul>";
             $body .= "<tr>";
             $body .= "<td class='left strong'>$row->productName</td>";
             $body .= "<td class='left'>$temp</td>";
-            $body .= "<td class='right'>$$row->productCost</td>";
-            $body .= "<td class='right'>$$total</td>";
             $body .= "</tr>";
-            $totalAll += $total;
         }
         if(Address::where('user_id', '=', $user->id)->exists()){
             return response(array(

@@ -84,8 +84,6 @@
                             <tr>
                                 <th>Product</th>
                                 <th>Items</th>
-                                <th class="right">Unit Cost</th>
-                                <th class="right">Total</th>
                             </tr>
                             </thead>
                             <tbody>

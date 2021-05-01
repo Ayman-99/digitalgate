@@ -129,7 +129,7 @@ class ShopController extends Base
         if ($product->category->sale == 0) {
             $price = $product->price;
         } else {
-            $price = ($product->category->sale_value/100) * $product->price;
+            $price = $product->price - ($product->category->sale_value/100) * $product->price;
         }
         switch (strtolower($request->method())) {
             case "post":

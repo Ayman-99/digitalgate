@@ -1,6 +1,6 @@
 <!-- header -->
 <header class="header">
-    <div class="header__wrap">
+    <div class="header__wrap" style="background: linear-gradient(180deg,#f37b25,#ef4f23);font-family: Roboto,sans-serif">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -15,16 +15,13 @@
                         </a>
                         <ul class="header__nav">
                             <li class="header__nav-item">
-                                <a class="header__nav-link" href="{{route('front.home')}}">Home</a>
+                                <a class="header__nav-link" href="{{route('front.home')}}"><b style="font-size: 15px">Home</b></a>
                             </li>
                             <li class="header__nav-item">
-                                <a class="header__nav-link" href="{{route('shop.home')}}">Shop</a>
+                                <a class="header__nav-link" href="{{route('shop.home')}}"><b style="font-size: 15px">Shop</b></a>
                             </li>
                             <li class="header__nav-item">
-                                <a class="header__nav-link" href="{{route('front.contact')}}">Contact us</a>
-                            </li>
-                            <li class="header__nav-item">
-                                <a class="header__nav-link" href="">Privacy Policy</a>
+                                <a class="header__nav-link" href="{{route('front.contact')}}"><b style="font-size: 15px">Contact us</b></a>
                             </li>
                         </ul>
 
@@ -41,7 +38,7 @@
                                         <line x1='80' y1='256' x2='352' y2='256'
                                               style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
                                     </svg>
-                                    <span>Login</span>
+                                    <span><b>Login</b></span>
                                 </a>
                                 <a href="{{ route('register') }}" class="header__login">
                                     <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
@@ -54,14 +51,14 @@
                                         <line x1='80' y1='256' x2='352' y2='256'
                                               style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
                                     </svg>
-                                    <span>Register</span>
+                                    <span><b>Register</b></span>
                                 </a>
                             @else
                                 <ul class="navbar-nav">
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="dropdown"
                                            data-toggle="dropdown" aria-haspopup="true"
-                                           aria-expanded="false">{{\Illuminate\Support\Facades\Auth::user()->name}}</a>
+                                           aria-expanded="false" style="color:#FFF"><b>{{\Illuminate\Support\Facades\Auth::user()->name}}</b></a>
                                         <div class="dropdown-menu" aria-labelledby="dropdown">
                                             <a class="dropdown-item"
                                                href="{{route("front.profile.home",['name'=>Auth::user()->name,'tab'=>"settings"])}}">Profile</a>
@@ -86,7 +83,7 @@
         </div>
     </div>
 
-    <div class="header__wrap">
+    <div class="header__wrap" style="background: #333366;">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -116,7 +113,7 @@
                                     <path d='M160,288H409.44a8,8,0,0,0,7.85-6.43l28.8-144a8,8,0,0,0-7.85-9.57H128'
                                           style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
                                 </svg>
-                                <span>$<span id="userBalance" style="display:inline;">{{Cart::instance('shopping')->subtotal()}}</span></span>
+                                <span><span id="userBalance" style="display:inline;">${{Cart::instance('shopping')->subtotal()}}</span></span>
                             </a>
                         </div>
                     </div>

@@ -119,9 +119,9 @@
                             @if($recommended->category->sale == 0)
                                 <span>${{$recommended->price}}</span>
                             @else
-                                <span>${{($recommended->category->sale_value/100) * $recommended->price}}</span>
-                                <s>${{$recommended->price}}</s>
-                                <b>{{$recommended->category->sale_value}}
+                                <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
+                                <s>${{$product->price}}</s>
+                                <b>{{$product->category->sale_value}}
                                     % OFF</b>
                             @endif
                         </div>

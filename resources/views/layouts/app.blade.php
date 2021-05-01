@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{{asset('css/jquery.mCustomScrollbar.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/paymentfont.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="{{asset('js/jquery-3.5.0.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>

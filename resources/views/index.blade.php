@@ -56,7 +56,7 @@
                             @if($product->category->sale == 0)
                                 <span>${{$product->price}}</span>
                             @else
-                                <span>${{($product->category->sale_value/100) * $product->price}}</span>
+                                <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
                                 <s>${{$product->price}}</s>
                                 <b>{{$product->category->sale_value}}
                                     % OFF</b>
@@ -132,7 +132,7 @@
                             @if($product->category->sale == 0)
                                 <span>${{$product->price}}</span>
                             @else
-                                <span>${{($product->category->sale_value/100) * $product->price}}</span>
+                                <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
                                 <s>${{$product->price}}</s>
                                 <b>{{$product->category->sale_value}}
                                     % OFF</b>
@@ -196,7 +196,7 @@
                                                 @if($product->category->sale == 0)
                                                     <span>${{$product->price}}</span>
                                                 @else
-                                                    <span>${{($product->category->sale_value/100) * $product->price}}</span>
+                                                    <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
                                                     <s>${{$product->price}}</s>
                                                     <b>{{$product->category->sale_value}}
                                                         % OFF</b>
@@ -253,7 +253,7 @@
                                                 @if($product->category->sale == 0)
                                                     <span>${{$product->price}}</span>
                                                 @else
-                                                    <span>${{($product->category->sale_value/100) * $product->price}}</span>
+                                                    <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
                                                     <s>${{$product->price}}</s>
                                                     <b>{{$product->category->sale_value}}
                                                         % OFF</b>
@@ -310,7 +310,7 @@
                                                 @if($product->category->sale == 0)
                                                     <span>${{$product->price}}</span>
                                                 @else
-                                                    <span>${{($product->category->sale_value/100) * $product->price}}</span>
+                                                    <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
                                                     <s>${{$product->price}}</s>
                                                     <b>{{$product->category->sale_value}}
                                                         % OFF</b>

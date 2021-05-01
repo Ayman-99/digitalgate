@@ -101,9 +101,9 @@ $(document).ready(function () {
                     });
                 } else {
                     button.closest('tr').remove();
-                    var total = parseFloat($('#userBalance').text());
-                    total = total - parseFloat(t.p_price);
-                    $('#userBalance').text(total.toFixed(2));
+                    var total = parseFloat($('#userBalance').text().substring(1));
+                    total = total + parseFloat(t.p_price);
+                    $('#userBalance').text("$" + total.toFixed(2));
                     $('#cartNotification').text(t.cartCount);
                     $.notify({
                         // options
@@ -147,9 +147,9 @@ $(document).ready(function () {
                         timer: 400
                     });
                 } else {
-                    var total = parseFloat($('#userBalance').text());
+                    var total = parseFloat($('#userBalance').text().substring(1));
                     total = total + parseFloat(t.p_price);
-                    $('#userBalance').text(total.toFixed(2));
+                    $('#userBalance').text("$" + total.toFixed(2));
                     $('#cartNotification').text(t.cartCount);
                     $.notify({
                         // options
