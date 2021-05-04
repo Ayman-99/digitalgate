@@ -2,13 +2,13 @@
 
 @section('content')
     <!-- home -->
-    <section class="section section--bg section--first authBg">
+    <section class="section section--bg section--first authBg" style="padding-top:191px;">
         <div class="container">
             <div class="row">
                 <!-- title -->
                 <div class="col-12">
                     <div class="section__title-wrap">
-                        <h2 class="section__title section__title--title"><b>Best games</b> of this month</h2>
+                        <h2 class="section__title section__title--title"><b>Best products</b> of this month</h2>
 
                         <div class="section__nav-wrap">
                             <button class="section__nav section__nav--bg section__nav--prev" type="button"
@@ -36,7 +36,7 @@
         <!-- carousel -->
         <div class="owl-carousel section__carousel section__carousel--big" id="carousel0">
             @foreach($topRate as $product)
-                <div class="card card--big">
+                <div class="card card--big" style="background:linear-gradient(180deg,#f37b25,#ef4f23);">
                     <a href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}"
                        class="card__cover">
                         <img src="{{asset('img/product/' . $product->image)}}" alt="{{$product->name}}">
@@ -52,14 +52,18 @@
                         <ul class="card__list">
                             <li><span>Category:</span> {{$product->category->name}}</li>
                         </ul>
+                        <ul class="card__list">
+                            <li><span>Description:</span> {{substr($product->description,0,229) . "..." }} <a
+                                    href="route('shop.product',['product'=>str_replace(' ', '-', $product->name)])" style="color:#000">Read More</a></li>
+                        </ul>
                         <div class="card__price">
                             @if($product->category->sale == 0)
                                 <span>${{$product->price}}</span>
                             @else
                                 <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
-                                <s>${{$product->price}}</s>
-                                <b>{{$product->category->sale_value}}
-                                    % OFF</b>
+                                <s>${{$product->price - 0.01}}</s>
+                                <b style="color:green;border: 2px solid black;background:#000;"><span style="font-size:12px; padding:5px;">{{$product->category->sale_value}}
+                                    % OFF</span></b>
                             @endif
                         </div>
 
@@ -133,7 +137,7 @@
                                 <span>${{$product->price}}</span>
                             @else
                                 <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
-                                <s>${{$product->price}}</s>
+                                <s>${{$product->price - 0.01}}</s>
                                 <b>{{$product->category->sale_value}}
                                     % OFF</b>
                             @endif
@@ -197,7 +201,7 @@
                                                     <span>${{$product->price}}</span>
                                                 @else
                                                     <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
-                                                    <s>${{$product->price}}</s>
+                                                    <s>${{$product->price - 0.01}}</s>
                                                     <b>{{$product->category->sale_value}}
                                                         % OFF</b>
                                                 @endif
@@ -254,7 +258,7 @@
                                                     <span>${{$product->price}}</span>
                                                 @else
                                                     <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
-                                                    <s>${{$product->price}}</s>
+                                                    <s>${{$product->price - 0.01}}</s>
                                                     <b>{{$product->category->sale_value}}
                                                         % OFF</b>
                                                 @endif
@@ -311,7 +315,7 @@
                                                     <span>${{$product->price}}</span>
                                                 @else
                                                     <span>${{$product->price - ($product->category->sale_value/100) * $product->price}}</span>
-                                                    <s>${{$product->price}}</s>
+                                                    <s>${{$product->price - 0.01}}</s>
                                                     <b>{{$product->category->sale_value}}
                                                         % OFF</b>
                                                 @endif

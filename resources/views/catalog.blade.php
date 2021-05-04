@@ -51,36 +51,27 @@
 
                                     <div class="filter__group">
                                         <label class="filter__label">Price:</label>
-                                        <ul class="filter__checkboxes">
-                                            <li>
-                                                <input id="type5" type="radio" name="category" checked="" value="0">
-                                                <label for="type5">Less than 5$</label>
-                                            </li>
-                                            <li>
-                                                <input id="type5" type="radio" name="category" checked="" value="0">
-                                                <label for="type5">Between 5$ - 10$</label>
-                                            </li>
-                                            <li>
-                                                <input id="type5" type="radio" name="category" checked="" value="0">
-                                                <label for="type5">Between 10$ - 20$</label>
-                                            </li>
-                                            <li>
-                                                <input id="type5" type="radio" name="category" checked="" value="0">
-                                                <label for="type5">Between 20$ - 40$</label>
-                                            </li>
-                                            <li>
-                                                <input id="type5" type="radio" name="category" checked="" value="0">
-                                                <label for="type5">More than 40$</label>
-                                            </li>
-                                        </ul>
+                                        <div class="filter__select-wrap">
+                                            <select name="sortByPrice" id="sortByPrice" class="filter__select">
+                                                <option value="0" style="color:#000;">Less than 5$</option>
+                                                <option value="1" style="color:#000;">Between 5$ - 10$</option>
+                                                <option value="2" style="color:#000;">Between 10$ - 20$</option>
+                                                <option value="3" style="color:#000;">Between 20$ - 40$</option>
+                                                <option value="4" style="color:#000;">More than 40$</option>
+                                            </select>
+                                        </div>
                                     </div>
-
+                                    <style>
+                                        .filter__checkboxes input:checked + label:before, .filter__checkboxes input:checked + label:before{
+                                            background-color:yellow;
+                                        }
+                                    </style>
                                     <div class="filter__group">
                                         <label class="filter__label">Genres:</label>
                                         <ul class="filter__checkboxes">
                                             <li>
-                                                <input id="type5" type="radio" name="category" checked="" value="0">
-                                                <label for="type5">All</label>
+                                                <input id="typex" type="radio" name="category" checked="" value="0">
+                                                <label for="typex">All</label>
                                             </li>
                                             @foreach(\Illuminate\Support\Facades\Cache::get('categories') as $category)
                                                 <li>

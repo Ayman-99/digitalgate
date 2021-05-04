@@ -27,7 +27,7 @@
 
                         <div class="header__actions">
                             @if (Auth::guest())
-                                <a href="{{ route('login') }}" class="header__login">
+                                <a style="background: #74609c" href="{{ route('login') }}" class="header__login">
                                     <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
                                          viewBox='0 0 512 512'>
                                         <path
@@ -40,7 +40,7 @@
                                     </svg>
                                     <span><b>Login</b></span>
                                 </a>
-                                <a href="{{ route('register') }}" class="header__login">
+                                <a style="background: #74609c" href="{{ route('register') }}" class="header__login">
                                     <svg xmlns='http://www.w3.org/2000/svg' width='512' height='512'
                                          viewBox='0 0 512 512'>
                                         <path

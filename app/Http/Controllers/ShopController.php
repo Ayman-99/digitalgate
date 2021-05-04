@@ -30,8 +30,28 @@ class ShopController extends Base
                 $sql .= "category_id=" . $cat . " and ";
             }
         }
-        if ($request->has('minPrice') && $request->has('maxPrice') && (int)$request->maxPrice !== 0 && (int)$request->minPrice !== 0) {
-            $sql .= " sale between " . $this->validation_input($request->minPrice) . " and " . $this->validation_input($request->maxPrice) . " and ";
+        if ($request->has('sortByPrice')) {
+            $price = $this->validation_input($request->sortByPrice);
+            if (is_numeric($price)) {
+                switch ($price) {
+                    case 0:
+                        $sql .= " price < 5";
+                        break;
+                    case 1:
+                        $sql .= " price > 5 and price < 10";
+                        break;
+                    case 2:
+                        $sql .= " price > 10 and price < 20";
+                        break;
+                    case 3:
+                        $sql .= " price > 20 and price < 40";
+                        break;
+                    case 4:
+                        $sql .= " price > 40";
+                        break;
+                }
+                $sql .= " and ";
+            }
         }
         if ($request->has('sort')) {
             $sql .= " deleted_at is null";
@@ -40,10 +60,7 @@ class ShopController extends Base
             } else if ($request->sort == 1) {
                 $products = Product::whereRaw($sql)->orderBy('id', 'asc')->paginate(15);
             }
-        } else if ($request->has('minPrice') || $request->has('maxPrice') || $request->has('category')) {
-            $sql .= " deleted_at is null";
-            $products = Product::whereRaw($sql)->paginate(15);
-        } else {
+        }  else {
             $products = Product::inRandomOrder()->paginate(15);
         }
         return view('catalog', compact(['products']));
@@ -129,7 +146,7 @@ class ShopController extends Base
         if ($product->category->sale == 0) {
             $price = $product->price;
         } else {
-            $price = $product->price - ($product->category->sale_value/100) * $product->price;
+            $price = $product->price - ($product->category->sale_value / 100) * $product->price;
         }
         switch (strtolower($request->method())) {
             case "post":
