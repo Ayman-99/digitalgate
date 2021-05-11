@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
                     'name' => "product-" . $product,
                     'description' => "description",
                     'price' => rand(10, 90),
-                    'sale' => rand(0, 9),
                     'image' => 'img-1616144505.jpg',
                     'rate' => 0,
                     'meta' => Str::random(50)
