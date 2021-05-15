@@ -120,6 +120,20 @@ class AdminActions extends base
         session()->flash('successMessage', "Product has been added");
         return redirect()->route('front.admin.products');
     }
+    protected function updateProduct(Request $request)
+    {
+        session()->flash('fromMethod', "updateProduct");
+        $validated = $request->validate([
+            'productName' => 'required|min:8|max:255',
+            'productPrice' => 'required|numeric',
+        ]);
+        $product = Product::find($request->input('product_id'));
+        $product->name = $this->validation_input($request->input('productName'));
+        $product->price = $this->validation_input($request->input('productPrice'));
+        $product->save();
+        session()->flash('successMessage', "Product has been updated");
+        return redirect()->route('front.admin.products');
+    }
 
     protected function restoreObject(Request $request, $type)
     {

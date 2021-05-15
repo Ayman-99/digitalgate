@@ -54,6 +54,8 @@ class AdminController extends AdminActions
                 return view('layouts.admin.products', compact('products'));
             case "post":
                 return $this->addProduct($request);
+            case "put":
+                return $this->updateProduct($request);
             case "delete":
                 return $this->deleteProduct($request);
         }
