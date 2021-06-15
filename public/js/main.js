@@ -102,8 +102,10 @@ $(document).ready(function () {
                 } else {
                     button.closest('tr').remove();
                     var total = parseFloat($('#userBalance').text().substring(1));
-                    total = total + parseFloat(t.p_price);
+                    total = total - parseFloat(t.p_price);
                     $('#userBalance').text("$" + total.toFixed(2));
+                    $('#subtotalFromCheckoutForJs').text("$" + total.toFixed(2));
+                    $('#checkoutTotal').text(total.toFixed(2));
                     $('#cartNotification').text(t.cartCount);
                     $.notify({
                         // options

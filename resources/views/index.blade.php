@@ -54,7 +54,7 @@
                         </ul>
                         <ul class="card__list">
                             <li><span>Description:</span> {{substr($product->description,0,229) . "..." }} <a
-                                    href="route('shop.product',['product'=>str_replace(' ', '-', $product->name)])" style="color:#000">Read More</a></li>
+                                    href="{{route('shop.product',['product'=>str_replace(' ', '-', $product->name)])}}" style="color:#000">Read More</a></li>
                         </ul>
                         <div class="card__price">
                             @if($product->category->sale == 0)

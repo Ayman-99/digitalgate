@@ -108,7 +108,7 @@
                             <div class="card2decs">
                                 <p class="heading1"><strong>Details</strong></p>
                                 <p class="subtotal" id="checkoutSubtotal">Subtotal<span
-                                        class="float-right text1">${{Cart::instance('shopping')->subtotal()}}</span></p>
+                                        class="float-right text1" id="subtotalFromCheckoutForJs">${{Cart::instance('shopping')->subtotal()}}</span></p>
                                 <p class="subtotal">Discount<span class="float-right text1"
                                                                   id="checkoutDiscount">${{session()->has('discount') ? session()->get('discount') : 0}}</span>
                                 </p>
